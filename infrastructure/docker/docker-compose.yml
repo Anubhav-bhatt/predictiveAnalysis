@@ -1,0 +1,103 @@
+# Local Phase 1C stack: TimescaleDB, the API, and the operations UI.
+#
+# TimescaleDB is used rather than plain PostgreSQL because the Silver telemetry
+# tables of a later phase will need hypertables. No Phase 1C table is a
+# hypertable - these are ingestion-control and metadata tables whose access
+# patterns are relational.
+#
+# Run from the repository root:
+#   docker compose -f infrastructure/docker/docker-compose.yml up --build
+
+name: cpi
+
+services:
+  postgres:
+    image: timescale/timescaledb:2.17.2-pg16
+    environment:
+      POSTGRES_USER: cpi
+      POSTGRES_PASSWORD: cpi
+      POSTGRES_DB: cpi
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cpi -d cpi']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # Migrations run as a one-shot job so the API never races them on startup.
+  migrate:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.backend
+    environment:
+      CPI_DATABASE_URL: postgresql+asyncpg://cpi:cpi@postgres:5432/cpi
+    command: ['alembic', 'upgrade', 'head']
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: 'no'
+
+  backend:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.backend
+    environment:
+      CPI_ENVIRONMENT: development
+      CPI_LOG_FORMAT: json
+      CPI_DATABASE_URL: postgresql+asyncpg://cpi:cpi@postgres:5432/cpi
+      CPI_API_CORS_ORIGINS: '["http://localhost:5173","http://localhost:8080"]'
+      CPI_STORAGE_RAW_ROOT: /data/raw
+      CPI_STORAGE_QUARANTINE_ROOT: /data/quarantine
+      CPI_STORAGE_PROCESSED_ROOT: /data/processed
+      CPI_SOURCE_FILESYSTEM_INBOX: /data/inbox
+      CPI_FLEET_DEFAULT_SOURCE_TIMEZONE: Asia/Kolkata
+    ports:
+      - '8000:8000'
+    volumes:
+      - telemetry-data:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  frontend:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.frontend
+    ports:
+      - '8080:80'
+    depends_on:
+      - backend
+
+  # The scheduled daily cycle. Not started by default: run it on demand with
+  #   docker compose run --rm ingest run-daily
+  # or point a host scheduler at it. No in-container cron is installed.
+  ingest:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.backend
+    environment:
+      CPI_LOG_FORMAT: json
+      CPI_DATABASE_URL: postgresql+asyncpg://cpi:cpi@postgres:5432/cpi
+      CPI_STORAGE_RAW_ROOT: /data/raw
+      CPI_STORAGE_QUARANTINE_ROOT: /data/quarantine
+      CPI_SOURCE_FILESYSTEM_INBOX: /data/inbox
+      CPI_FLEET_DEFAULT_SOURCE_TIMEZONE: Asia/Kolkata
+    entrypoint: ['python', '-m', 'pipelines.ingestion']
+    command: ['run-daily']
+    volumes:
+      - telemetry-data:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    profiles: ['tools']
+
+volumes:
+  postgres-data:
+  telemetry-data:

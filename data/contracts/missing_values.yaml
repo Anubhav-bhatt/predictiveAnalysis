@@ -1,0 +1,55 @@
+# Missing-value registry (Phase 1B section 14).
+#
+# The central rule: a value is "missing" only if it is listed here.  Nothing is
+# inferred from a value merely looking negative, empty-ish or unfamiliar.
+#
+# The motivating example is `Not alarm`.  It reads like an absence but is an
+# explicit, meaningful device state: the charger affirmatively reported that the
+# alarm is not active.  Treating it as null would erase real information and
+# make every alarm field look 100% empty.
+
+version: 1
+
+# Tokens that genuinely represent absence of a value, compared case-sensitively
+# unless `case_insensitive` is set.
+missing_tokens:
+  - token: ""
+    meaning: empty_field
+    note: An unquoted empty CSV field. Read as NULL at load time.
+  - token: "N/A"
+    meaning: not_applicable
+    case_insensitive: true
+  - token: "NA"
+    meaning: not_applicable
+    case_insensitive: true
+  - token: "-"
+    meaning: not_reported
+  - token: "--"
+    meaning: not_reported
+  - token: "null"
+    meaning: explicit_null
+    case_insensitive: true
+  - token: "Unknown"
+    meaning: unknown
+    case_insensitive: true
+  - token: "Not Available"
+    meaning: not_available
+    case_insensitive: true
+
+# Tokens that LOOK like absence but are explicit valid states.  Listing them
+# here is what stops a future contributor "helpfully" adding them above.
+explicit_states:
+  - token: "Not alarm"
+    meaning: alarm_inactive
+    note: >-
+      Affirmative "no alarm present" state emitted by every alarm field in the
+      known charger schema. This is a KNOWN_STATE, never a missing value.
+  - token: "No Fault"
+    meaning: fault_inactive
+  - token: "Idle"
+    meaning: idle_state
+  - token: "Standby"
+    meaning: standby_state
+  - token: "0"
+    meaning: numeric_zero
+    note: Zero is a measurement, not an absence.

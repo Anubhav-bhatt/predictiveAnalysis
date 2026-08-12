@@ -1,0 +1,26 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+.env
+.env.local
+
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Bronze landing zone and derived artifacts are runtime state, never source.
+data/raw/*
+data/quarantine/*
+data/processed/*
+data/inbox/*
+data/inbox_archive/*
+!data/**/.gitkeep
+
+.DS_Store

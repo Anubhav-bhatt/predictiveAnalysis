@@ -1,0 +1,132 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "charger-predictive-intelligence"
+version = "0.1.0"
+description = "EV Charger Predictive Intelligence Platform - Phase 1A ingestion foundation"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Proprietary" }
+
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "asyncpg>=0.30",
+    "alembic>=1.14",
+    "polars>=1.17",
+    "pyarrow>=18.0",
+    "structlog>=24.4",
+    "greenlet>=3.1",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.28",
+    "aiosqlite>=0.20",
+    "ruff>=0.8",
+    "mypy>=1.13",
+]
+
+[project.scripts]
+# Both entry points resolve to the same scheduler-friendly CLI; there is no
+# separate long-running worker in Phase 1C.
+cpi-ingest = "pipelines.ingestion.__main__:main"
+
+[tool.setuptools]
+packages = [
+    "backend",
+    "backend.app",
+    "backend.app.api",
+    "backend.app.api.v1",
+    "backend.app.core",
+    "backend.app.db",
+    "backend.app.models",
+    "backend.app.repositories",
+    "backend.app.schemas",
+    "backend.app.services",
+    "pipelines",
+    "pipelines.sources",
+    "pipelines.ingestion",
+    "pipelines.profiling",
+    "pipelines.validation",
+    "pipelines.quality",
+    "pipelines.frame_reconstruction",
+    "pipelines.normalization",
+    "pipelines.persistence",
+]
+
+# ---------------------------------------------------------------------------
+# Lint / format
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = [".venv", "backend/alembic/versions", "frontend"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # comprehensions
+    "UP",   # pyupgrade
+    "ASYNC",# flake8-async
+    "S",    # bandit (security)
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    "PTH",  # flake8-use-pathlib
+    "TID",  # tidy imports
+]
+ignore = [
+    "S101",  # assert is fine in tests and internal invariants
+    "B008",  # FastAPI Depends() in defaults is idiomatic
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "S311"]
+"scripts/*" = ["S101"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["backend", "pipelines"]
+
+# ---------------------------------------------------------------------------
+# Type checking
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+warn_return_any = true
+no_implicit_reexport = true
+plugins = []
+exclude = ["^\\.venv/", "^backend/alembic/versions/", "^frontend/"]
+
+[[tool.mypy.overrides]]
+module = ["polars.*", "pyarrow.*", "alembic.*", "yaml.*"]
+ignore_missing_imports = true
+
+# ---------------------------------------------------------------------------
+# Tests
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "-ra --strict-markers"
+markers = [
+    "integration: tests that touch the database or the full ingestion pipeline",
+    "real_sample: tests that require the real production-like charger CSV",
+]

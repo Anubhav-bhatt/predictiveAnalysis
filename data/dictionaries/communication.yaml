@@ -1,0 +1,122 @@
+# Communication-stack telemetry: OCPP, CCS, PLC, CAN and cellular link.
+
+version: 1
+
+fields:
+  - source_name: CCS Communication Status
+    canonical_name: ccs_communication_status
+    display_name: CCS Communication Status
+    description: State of the CCS high-level communication link to the vehicle.
+    entity: CONNECTOR
+    field_class: STATE
+    category: CCS
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: PER_CONNECTOR
+    storage_strategy: CONNECTOR_TELEMETRY
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - communication_failure
+      - session_failure
+    leakage_risk: MEDIUM
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: PLC Link Status
+    canonical_name: plc_link_status
+    display_name: PLC Link Status
+    description: HomePlug Green PHY power-line communication link state.
+    entity: CONNECTOR
+    field_class: STATE
+    category: PLC
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: PER_CONNECTOR
+    storage_strategy: CONNECTOR_TELEMETRY
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - communication_failure
+    leakage_risk: MEDIUM
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: CAN Bus Status
+    canonical_name: can_bus_status
+    display_name: CAN Bus Status
+    description: Internal CAN bus health between charger subsystems.
+    entity: CHARGER
+    field_class: STATE
+    category: CAN
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - communication_failure
+      - charger_health
+    leakage_risk: MEDIUM
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: OCPP Connection Status
+    canonical_name: ocpp_connection_status
+    display_name: OCPP Connection Status
+    description: Connectivity state of the OCPP session to the central system.
+    entity: CHARGER
+    field_class: STATE
+    category: OCPP
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - communication_failure
+    leakage_risk: MEDIUM
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      Directly relevant to telemetry-gap interpretation: a disconnected OCPP link
+      is a plausible cause of a delivery gap rather than a charger fault.
+
+  - source_name: Signal Strength
+    canonical_name: signal_strength
+    display_name: Signal Strength
+    description: Cellular/network received signal strength.
+    entity: CHARGER
+    field_class: CONTINUOUS_TELEMETRY
+    category: COMMUNICATION
+    data_type: INTEGER
+    unit: dBm
+    nullable: true
+    required: false
+    range_status: UNVERIFIED
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - communication_failure
+    leakage_risk: NONE
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      Unit dBm inferred from the negative value range observed. No valid range
+      asserted; modem families differ.

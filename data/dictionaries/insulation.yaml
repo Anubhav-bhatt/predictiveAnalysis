@@ -1,0 +1,63 @@
+# Insulation monitoring.
+#
+# Insulation resistance is one of the strongest early indicators of DC-side
+# degradation, so these fields are high-value ML candidates - but the pass/fail
+# threshold is a device-safety parameter we have not been given, so no range is
+# asserted here.
+
+version: 1
+
+fields:
+  - source_name: Insulation Resistance Positive
+    canonical_name: insulation_resistance_positive
+    display_name: Insulation Resistance (Positive Rail)
+    description: Measured insulation resistance on the positive DC rail.
+    entity: CHARGER
+    field_class: CONTINUOUS_TELEMETRY
+    category: INSULATION
+    data_type: FLOAT
+    unit: kOhm
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: MIN
+    ml_candidate: "YES"
+    prediction_domains:
+      - insulation_failure
+      - charger_health
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      Unit kOhm requires vendor confirmation - the raw field carries no unit and
+      Ohm/kOhm/MOhm are all plausible for the observed magnitudes. Aggregated
+      with MIN because the worst reading in an interval is the safety-relevant
+      one. No pass/fail threshold asserted.
+
+  - source_name: Insulation Resistance Negative
+    canonical_name: insulation_resistance_negative
+    display_name: Insulation Resistance (Negative Rail)
+    description: Measured insulation resistance on the negative DC rail.
+    entity: CHARGER
+    field_class: CONTINUOUS_TELEMETRY
+    category: INSULATION
+    data_type: FLOAT
+    unit: kOhm
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: MIN
+    ml_candidate: "YES"
+    prediction_domains:
+      - insulation_failure
+      - charger_health
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: Unit kOhm requires vendor confirmation. See positive-rail note.

@@ -1,0 +1,131 @@
+# SMR (switched-mode rectifier) module telemetry.
+#
+# The known charger carries 4 SMRs, so these fields repeat per (timestamp, SMR)
+# and must normalise to SMR_TELEMETRY rather than charger-level scalars.
+
+version: 1
+
+fields:
+  - source_name: SMR RectifierinternalTemp
+    canonical_name: smr_internal_temperature
+    display_name: SMR Internal Temperature
+    description: >-
+      Internal rectifier module temperature. The device emits -150 when the
+      probe reading is unavailable; that value is a sentinel, not a measurement.
+    entity: SMR
+    field_class: CONTINUOUS_TELEMETRY
+    category: THERMAL
+    data_type: FLOAT
+    unit: "°C"
+    nullable: true
+    required: false
+    sentinel_values:
+      - value: "-150"
+        meaning: sensor_unavailable
+    range_status: UNVERIFIED
+    normalization_strategy: PER_SMR
+    storage_strategy: SMR_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - smr_health
+      - thermal_failure
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      Canonical name is curated: the raw name "RectifierinternalTemp" mechanically
+      canonicalises to smr_rectifierinternal_temp, which is accurate but not
+      readable. The sentinel rule is field-specific - -150 is NOT globally
+      invalid across the schema.
+
+  - source_name: SMR Output Voltage
+    canonical_name: smr_output_voltage
+    display_name: SMR Output Voltage
+    description: DC output voltage of the rectifier module.
+    entity: SMR
+    field_class: CONTINUOUS_TELEMETRY
+    category: ELECTRICAL_OUTPUT
+    data_type: FLOAT
+    unit: V
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: PER_SMR
+    storage_strategy: SMR_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - smr_health
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: SMR Output Current
+    canonical_name: smr_output_current
+    display_name: SMR Output Current
+    description: DC output current of the rectifier module.
+    entity: SMR
+    field_class: CONTINUOUS_TELEMETRY
+    category: ELECTRICAL_OUTPUT
+    data_type: FLOAT
+    unit: A
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: PER_SMR
+    storage_strategy: SMR_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - smr_health
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: SMR Input Voltage
+    canonical_name: smr_input_voltage
+    display_name: SMR Input Voltage
+    description: AC input voltage presented to the rectifier module.
+    entity: SMR
+    field_class: CONTINUOUS_TELEMETRY
+    category: ELECTRICAL_INPUT
+    data_type: FLOAT
+    unit: V
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: PER_SMR
+    storage_strategy: SMR_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - smr_health
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: SMR Status
+    canonical_name: smr_status
+    display_name: SMR Status
+    description: Operating state of the rectifier module.
+    entity: SMR
+    field_class: STATE
+    category: SMR
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: PER_SMR
+    storage_strategy: SMR_TELEMETRY
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - smr_health
+    leakage_risk: MEDIUM
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED

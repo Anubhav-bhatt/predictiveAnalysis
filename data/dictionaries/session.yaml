@@ -1,0 +1,251 @@
+# Charging-session attributes.
+#
+# This file contains the duplicate-header case that Phase 1B section 10 calls
+# out explicitly: "Last Charge Session Stop Reason" appears TWICE in the raw
+# header.  Both occurrences are defined here, keyed by source_occurrence.  The
+# raw identity is never rewritten to ".1".
+
+version: 1
+
+fields:
+  - source_name: Session Demand Voltage
+    canonical_name: session_demand_voltage
+    display_name: Session Demand Voltage
+    description: Voltage requested by the vehicle during the active session.
+    entity: SESSION
+    field_class: CONTINUOUS_TELEMETRY
+    category: SESSION
+    data_type: FLOAT
+    unit: V
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: PER_SESSION
+    storage_strategy: SESSION_OBSERVATION
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - session_failure
+    leakage_risk: LOW
+    availability_semantics: SESSION_DURING
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Session Demand Current
+    canonical_name: session_demand_current
+    display_name: Session Demand Current
+    description: Current requested by the vehicle during the active session.
+    entity: SESSION
+    field_class: CONTINUOUS_TELEMETRY
+    category: SESSION
+    data_type: FLOAT
+    unit: A
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: PER_SESSION
+    storage_strategy: SESSION_OBSERVATION
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - session_failure
+    leakage_risk: LOW
+    availability_semantics: SESSION_DURING
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Session Energy Delivered
+    canonical_name: session_energy_delivered
+    display_name: Session Energy Delivered
+    description: Energy delivered so far in the active session.
+    entity: SESSION
+    field_class: COUNTER
+    category: SESSION
+    data_type: FLOAT
+    unit: kWh
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: PER_SESSION
+    storage_strategy: SESSION_OBSERVATION
+    aggregation_strategy: MAX
+    ml_candidate: "YES"
+    prediction_domains:
+      - session_failure
+    leakage_risk: MEDIUM
+    availability_semantics: SESSION_DURING
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Session Duration
+    canonical_name: session_duration
+    display_name: Session Duration
+    description: Elapsed time since session start.
+    entity: SESSION
+    field_class: COUNTER
+    category: SESSION
+    data_type: DURATION
+    unit: seconds
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: PER_SESSION
+    storage_strategy: SESSION_OBSERVATION
+    aggregation_strategy: MAX
+    ml_candidate: "YES"
+    prediction_domains:
+      - session_failure
+    leakage_risk: MEDIUM
+    availability_semantics: SESSION_DURING
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Session Start Time
+    canonical_name: session_start_time
+    display_name: Session Start Time
+    description: Timestamp at which the active session began.
+    entity: SESSION
+    field_class: TIMESTAMP
+    category: SESSION
+    data_type: DATETIME
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: PER_SESSION
+    storage_strategy: SESSION_OBSERVATION
+    aggregation_strategy: FIRST
+    ml_candidate: "NO"
+    leakage_risk: LOW
+    availability_semantics: SESSION_START
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Session Stop Time
+    canonical_name: session_stop_time
+    display_name: Session Stop Time
+    description: Timestamp at which the session ended.
+    entity: SESSION
+    field_class: TIMESTAMP
+    category: SESSION
+    data_type: DATETIME
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: PER_SESSION
+    storage_strategy: SESSION_OBSERVATION
+    aggregation_strategy: LAST
+    ml_candidate: "NO"
+    leakage_risk: HIGH
+    availability_semantics: SESSION_END
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      HIGH leakage risk: only known once the session has finished. Must not be
+      used as a feature for any model predicting session outcome.
+
+  - source_name: Battery SOC
+    canonical_name: battery_soc
+    display_name: Battery State of Charge
+    description: Vehicle battery state of charge reported over the charging link.
+    entity: SESSION
+    field_class: CONTINUOUS_TELEMETRY
+    category: BATTERY
+    data_type: FLOAT
+    unit: percent
+    nullable: true
+    required: false
+    valid_min: 0
+    valid_max: 100
+    range_status: VERIFIED
+    normalization_strategy: PER_SESSION
+    storage_strategy: SESSION_OBSERVATION
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - session_failure
+    leakage_risk: LOW
+    availability_semantics: SESSION_DURING
+    review_status: VERIFIED
+    notes: >-
+      Range 0..100 is VERIFIED because it is definitional for a percentage state
+      of charge, not an assumed device envelope.
+
+  - source_name: Battery Voltage
+    canonical_name: battery_voltage
+    display_name: Battery Voltage
+    description: Vehicle battery pack voltage reported over the charging link.
+    entity: SESSION
+    field_class: CONTINUOUS_TELEMETRY
+    category: BATTERY
+    data_type: FLOAT
+    unit: V
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: PER_SESSION
+    storage_strategy: SESSION_OBSERVATION
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    leakage_risk: LOW
+    availability_semantics: SESSION_DURING
+    review_status: ENGINEER_REVIEWED
+
+  # -- the duplicate raw header (section 10) -----------------------------
+  - source_name: Last Charge Session Stop Reason
+    source_occurrence: 1
+    canonical_name: last_charge_session_stop_reason
+    display_name: Last Charge Session Stop Reason (occurrence 1)
+    description: >-
+      Reason the most recent charging session terminated, first occurrence in the
+      raw header.
+    entity: SESSION
+    field_class: SESSION_ATTRIBUTE
+    category: SESSION
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: PER_SESSION
+    storage_strategy: SESSION_OBSERVATION
+    aggregation_strategy: LAST
+    ml_candidate: "NO"
+    leakage_risk: HIGH
+    availability_semantics: POST_EVENT
+    review_status: DOMAIN_REVIEW_REQUIRED
+    notes: >-
+      REQUIRES_DOMAIN_REVIEW. This raw header appears twice and the two
+      occurrences carry different value populations in the sample, so they are
+      almost certainly different concepts (plausibly an OCPP-level reason and a
+      device-level reason). Until the vendor confirms which is which, both are
+      retained with distinct source_occurrence values and neither is given an
+      invented meaning. HIGH leakage risk - it is a completed-session outcome.
+
+  - source_name: Last Charge Session Stop Reason
+    source_occurrence: 2
+    canonical_name: last_charge_session_stop_reason_secondary
+    display_name: Last Charge Session Stop Reason (occurrence 2)
+    description: >-
+      Second occurrence of the same raw header. Distinct value population from
+      occurrence 1; semantics not yet confirmed.
+    entity: SESSION
+    field_class: SESSION_ATTRIBUTE
+    category: SESSION
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: PER_SESSION
+    storage_strategy: SESSION_OBSERVATION
+    aggregation_strategy: LAST
+    ml_candidate: "NO"
+    leakage_risk: HIGH
+    availability_semantics: POST_EVENT
+    review_status: DOMAIN_REVIEW_REQUIRED
+    notes: >-
+      REQUIRES_DOMAIN_REVIEW. Canonical name uses the neutral "_secondary"
+      suffix rather than the mechanical "_occurrence_2", so that the curated name
+      stays readable while the raw identity remains
+      (Last Charge Session Stop Reason, occurrence 2).

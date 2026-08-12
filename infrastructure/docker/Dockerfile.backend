@@ -1,0 +1,55 @@
+# Backend image: FastAPI + the ingestion CLI.
+#
+# One image serves both runtimes. The API and the scheduled worker must never
+# disagree about which code processed a file, and shipping a single artefact is
+# what guarantees that.
+
+FROM python:3.13-slim AS base
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+WORKDIR /app
+
+# Build tooling only where it is needed, then discarded with the layer.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends build-essential curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# The whole source tree is copied before installing because pyproject declares an
+# explicit `packages` list - an install against only the metadata fails with
+# "package directory 'backend/app' does not exist". Correctness over a marginal
+# layer-cache win.
+COPY pyproject.toml README.md alembic.ini ./
+COPY backend/ backend/
+COPY pipelines/ pipelines/
+COPY data/ data/
+COPY tests/ tests/
+
+RUN pip install --upgrade pip setuptools wheel && pip install -e ".[dev]"
+
+# Run as a non-root user. The Bronze zone holds immutable customer telemetry, so
+# the process that writes it should not be able to rewrite the application.
+RUN useradd --create-home --uid 10001 cpi
+
+# Storage roots, created in the image *before* the user switch and owned by cpi.
+# Both paths matter:
+#   ./data/*  - the default relative roots, for a bare `docker run`
+#   /data/*   - where compose mounts the named volume
+# A named volume inherits ownership from the image directory it covers, so /data
+# must exist and be owned by cpi here; otherwise Docker creates it as root and the
+# non-root process cannot write telemetry into it.
+RUN mkdir -p data/raw data/quarantine data/processed data/inbox \
+    && mkdir -p /data/raw /data/quarantine /data/processed /data/inbox \
+    && chown -R cpi:cpi /app /data
+
+USER cpi
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl -fsS http://localhost:8000/health || exit 1
+
+CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]

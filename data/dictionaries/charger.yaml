@@ -1,0 +1,303 @@
+# Charger-level telemetry and configuration.
+
+version: 1
+
+fields:
+  - source_name: Charger Status
+    canonical_name: charger_status
+    display_name: Charger Status
+    description: Operating state of the charger as reported by its state machine.
+    entity: CHARGER
+    field_class: STATE
+    category: STATE_MACHINE
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - charger_health
+    leakage_risk: MEDIUM
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      Observed values in the analysed sample are recorded as observed_values on
+      the field profile. No authoritative allowed-value set is declared, so
+      UNKNOWN_ENUM_VALUE does not fire for this field yet - the OCPP state set is
+      vendor-extended in practice.
+
+  - source_name: Cabinet Temperature
+    canonical_name: cabinet_temperature
+    display_name: Cabinet Temperature
+    description: Internal cabinet air temperature.
+    entity: CHARGER
+    field_class: CONTINUOUS_TELEMETRY
+    category: THERMAL
+    data_type: FLOAT
+    unit: "°C"
+    nullable: true
+    required: false
+    range_status: UNVERIFIED
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - thermal_failure
+      - charger_health
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      No valid range asserted. The device operating envelope has not been
+      supplied, and inventing -40..100 would create false OUT_OF_RANGE findings.
+
+  - source_name: Ambient Temperature
+    canonical_name: ambient_temperature
+    display_name: Ambient Temperature
+    description: Outside air temperature measured at the charger.
+    entity: CHARGER
+    field_class: CONTINUOUS_TELEMETRY
+    category: THERMAL
+    data_type: FLOAT
+    unit: "°C"
+    nullable: true
+    required: false
+    range_status: UNVERIFIED
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - thermal_failure
+    leakage_risk: NONE
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Grid Voltage R Phase
+    canonical_name: grid_voltage_r_phase
+    display_name: Grid Voltage R Phase
+    description: AC input line voltage, R phase.
+    entity: CHARGER
+    field_class: CONTINUOUS_TELEMETRY
+    category: ELECTRICAL_INPUT
+    data_type: FLOAT
+    unit: V
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - charger_health
+    leakage_risk: NONE
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Grid Voltage Y Phase
+    canonical_name: grid_voltage_y_phase
+    display_name: Grid Voltage Y Phase
+    description: AC input line voltage, Y phase.
+    entity: CHARGER
+    field_class: CONTINUOUS_TELEMETRY
+    category: ELECTRICAL_INPUT
+    data_type: FLOAT
+    unit: V
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    leakage_risk: NONE
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Grid Voltage B Phase
+    canonical_name: grid_voltage_b_phase
+    display_name: Grid Voltage B Phase
+    description: AC input line voltage, B phase.
+    entity: CHARGER
+    field_class: CONTINUOUS_TELEMETRY
+    category: ELECTRICAL_INPUT
+    data_type: FLOAT
+    unit: V
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    leakage_risk: NONE
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Grid Frequency
+    canonical_name: grid_frequency
+    display_name: Grid Frequency
+    description: AC supply frequency.
+    entity: CHARGER
+    field_class: CONTINUOUS_TELEMETRY
+    category: ELECTRICAL_INPUT
+    data_type: FLOAT
+    unit: Hz
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    leakage_risk: NONE
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Meter Reading
+    canonical_name: meter_reading
+    display_name: Meter Reading
+    description: Cumulative energy meter register.
+    entity: CHARGER
+    field_class: COUNTER
+    category: METER
+    data_type: INTEGER
+    unit: Wh
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: COUNTER_SNAPSHOT
+    storage_strategy: COUNTER_TELEMETRY
+    aggregation_strategy: MAX
+    ml_candidate: "YES"
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      Semantic type is INTEGER even though nulls can make a DataFrame infer
+      float. Monotonic register; a decrease indicates a meter reset or rollover.
+
+  - source_name: Contactor Status
+    canonical_name: contactor_status
+    display_name: Contactor Status
+    description: Main output contactor position.
+    entity: CHARGER
+    field_class: STATE
+    category: CONTACTOR
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - contactor_failure
+    leakage_risk: MEDIUM
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Cooling Fan Speed
+    canonical_name: cooling_fan_speed
+    display_name: Cooling Fan Speed
+    description: Cabinet cooling fan rotational speed.
+    entity: CHARGER
+    field_class: CONTINUOUS_TELEMETRY
+    category: COOLING
+    data_type: INTEGER
+    unit: rpm
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: MEAN
+    ml_candidate: "YES"
+    prediction_domains:
+      - thermal_failure
+      - charger_health
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: Unit assumed rpm from the field name; requires vendor confirmation.
+
+  - source_name: Cooling Fan Status
+    canonical_name: cooling_fan_status
+    display_name: Cooling Fan Status
+    description: Cooling fan operating state.
+    entity: CHARGER
+    field_class: STATE
+    category: FAN
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: CHARGER_SCALAR
+    storage_strategy: CHARGER_TELEMETRY
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - thermal_failure
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Firmware Version
+    canonical_name: firmware_version
+    display_name: Firmware Version
+    description: Charger firmware build identifier.
+    entity: CONFIGURATION
+    field_class: CONFIGURATION
+    category: FIRMWARE
+    data_type: STRING
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: CONFIG_SNAPSHOT
+    storage_strategy: CONFIGURATION_SNAPSHOT
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - charger_health
+    leakage_risk: NONE
+    availability_semantics: STATIC
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      Constant within a day but essential for fleet comparison - firmware is a
+      prime explanatory variable when a defect appears across a subset of units.
+
+  - source_name: Hardware Version
+    canonical_name: hardware_version
+    display_name: Hardware Version
+    description: Charger hardware revision identifier.
+    entity: CONFIGURATION
+    field_class: CONFIGURATION
+    category: HARDWARE
+    data_type: STRING
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: CONFIG_SNAPSHOT
+    storage_strategy: CONFIGURATION_SNAPSHOT
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    leakage_risk: NONE
+    availability_semantics: STATIC
+    review_status: ENGINEER_REVIEWED

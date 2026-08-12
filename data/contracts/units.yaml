@@ -1,0 +1,81 @@
+# Unit registry (Phase 1B section 12).
+#
+# A unit is assigned to a field ONLY when the field's semantics genuinely
+# support it.  Status, state and identifier fields carry `unit: null` and that
+# is a correct answer, not a gap.
+#
+# Adding a unit here is the only way to make it assignable; the loader rejects
+# any dictionary entry referencing an unknown unit, which prevents "degC",
+# "DegC" and "°C" drifting apart across 449 fields.
+
+version: 1
+
+units:
+  # --- electrical -------------------------------------------------------
+  - symbol: V
+    name: volt
+    dimension: voltage
+  - symbol: A
+    name: ampere
+    dimension: current
+  - symbol: W
+    name: watt
+    dimension: power
+  - symbol: kW
+    name: kilowatt
+    dimension: power
+  - symbol: Wh
+    name: watt_hour
+    dimension: energy
+  - symbol: kWh
+    name: kilowatt_hour
+    dimension: energy
+  - symbol: Hz
+    name: hertz
+    dimension: frequency
+
+  # --- thermal ----------------------------------------------------------
+  - symbol: "°C"
+    name: degree_celsius
+    dimension: temperature
+
+  # --- resistance / insulation -----------------------------------------
+  - symbol: Ohm
+    name: ohm
+    dimension: resistance
+  - symbol: kOhm
+    name: kilo_ohm
+    dimension: resistance
+  - symbol: MOhm
+    name: mega_ohm
+    dimension: resistance
+
+  # --- dimensionless ----------------------------------------------------
+  - symbol: percent
+    name: percent
+    dimension: ratio
+  - symbol: count
+    name: count
+    dimension: cardinality
+  - symbol: rpm
+    name: revolutions_per_minute
+    dimension: rotational_speed
+
+  # --- time -------------------------------------------------------------
+  - symbol: seconds
+    name: second
+    dimension: time
+  - symbol: minutes
+    name: minute
+    dimension: time
+  - symbol: hours
+    name: hour
+    dimension: time
+
+  # --- signal -----------------------------------------------------------
+  - symbol: dBm
+    name: decibel_milliwatt
+    dimension: signal_power
+  - symbol: dB
+    name: decibel
+    dimension: signal_ratio

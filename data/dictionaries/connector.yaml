@@ -1,0 +1,74 @@
+# Connector / gun level telemetry.
+
+version: 1
+
+fields:
+  - source_name: Connector Status
+    canonical_name: connector_status
+    display_name: Connector Status
+    description: Availability/occupancy state of the connector.
+    entity: CONNECTOR
+    field_class: STATE
+    category: CONNECTOR
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: PER_CONNECTOR
+    storage_strategy: CONNECTOR_TELEMETRY
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - connector_failure
+    leakage_risk: MEDIUM
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Gun Temperature
+    canonical_name: gun_temperature
+    display_name: Gun Temperature
+    description: Connector/gun body temperature.
+    entity: CONNECTOR
+    field_class: CONTINUOUS_TELEMETRY
+    category: GUN
+    data_type: FLOAT
+    unit: "°C"
+    nullable: true
+    required: false
+    range_status: UNVERIFIED
+    normalization_strategy: PER_CONNECTOR
+    storage_strategy: CONNECTOR_TELEMETRY
+    aggregation_strategy: MAX
+    ml_candidate: "YES"
+    prediction_domains:
+      - thermal_failure
+      - connector_failure
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      Aggregated with MAX rather than MEAN - for a thermal safety signal the peak
+      within an interval is the operationally meaningful value.
+
+  - source_name: Gun Lock Status
+    canonical_name: gun_lock_status
+    display_name: Gun Lock Status
+    description: Connector locking actuator state.
+    entity: CONNECTOR
+    field_class: STATE
+    category: GUN
+    data_type: ENUM
+    unit: null
+    nullable: true
+    required: false
+    range_status: NOT_APPLICABLE
+    normalization_strategy: PER_CONNECTOR
+    storage_strategy: CONNECTOR_TELEMETRY
+    aggregation_strategy: LAST
+    ml_candidate: "YES"
+    prediction_domains:
+      - connector_failure
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED

@@ -1,0 +1,504 @@
+/*
+ * Operational, not decorative (section 36).
+ *
+ * Dense tables, unambiguous status colour, no animation. The palette is chosen so
+ * status is still readable when the page is printed or screenshotted into an
+ * incident report, and every status also carries a text label - colour is never
+ * the only carrier of meaning.
+ */
+
+:root {
+  --bg: #0f1419;
+  --surface: #171d24;
+  --surface-2: #1e262f;
+  --border: #2a343f;
+  --text: #e6edf3;
+  --text-dim: #8b98a5;
+  --text-faint: #5c6773;
+
+  --ok: #2ea043;
+  --ok-bg: #10281a;
+  --warn: #d29922;
+  --warn-bg: #2b2213;
+  --bad: #da3633;
+  --bad-bg: #2d1516;
+  --info: #3b82c4;
+  --info-bg: #12222f;
+  --neutral: #6e7681;
+
+  --mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --bg: #f6f8fa;
+    --surface: #ffffff;
+    --surface-2: #f0f3f6;
+    --border: #d0d7de;
+    --text: #1f2328;
+    --text-dim: #59636e;
+    --text-faint: #818b98;
+    --ok-bg: #dafbe1;
+    --warn-bg: #fff8c5;
+    --bad-bg: #ffebe9;
+    --info-bg: #ddf4ff;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--info);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.app {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* --- header ------------------------------------------------------------- */
+
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.masthead .sub {
+  color: var(--text-dim);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+input[type='date'],
+select,
+input[type='text'] {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+button {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) {
+  border-color: var(--text-faint);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+button.active {
+  background: var(--info-bg);
+  border-color: var(--info);
+}
+
+/* --- summary tiles ------------------------------------------------------ */
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.tile .label {
+  color: var(--text-dim);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tile .value {
+  font-family: var(--mono);
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tile .note {
+  color: var(--text-faint);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.tile.wide {
+  grid-column: span 2;
+}
+.tile.ok .value {
+  color: var(--ok);
+}
+.tile.warn .value {
+  color: var(--warn);
+}
+.tile.bad .value {
+  color: var(--bad);
+}
+
+/* --- panels and tables -------------------------------------------------- */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.panel > header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel > header h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.panel > header .hint {
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+th {
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--surface-2);
+  position: sticky;
+  top: 0;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+tbody tr:hover {
+  background: var(--surface-2);
+}
+
+td.num {
+  font-family: var(--mono);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+td.dim {
+  color: var(--text-faint);
+}
+
+/* --- status pills ------------------------------------------------------- */
+
+.pill {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.pill.ok {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.pill.warn {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.pill.bad {
+  background: var(--bad-bg);
+  color: var(--bad);
+}
+.pill.info {
+  background: var(--info-bg);
+  color: var(--info);
+}
+.pill.neutral {
+  background: var(--surface-2);
+  color: var(--text-dim);
+}
+
+/* --- coverage bar ------------------------------------------------------- */
+
+.bar {
+  position: relative;
+  width: 90px;
+  height: 6px;
+  background: var(--surface-2);
+  border-radius: 3px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.coverage-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* --- fleet distribution ------------------------------------------------- */
+
+.distribution {
+  display: flex;
+  height: 26px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.distribution > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.legend .swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+/* --- stages ------------------------------------------------------------- */
+
+.stages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  padding: 14px;
+}
+
+.stage {
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: 6px;
+  padding: 8px 10px;
+  background: var(--surface-2);
+}
+
+.stage .name {
+  font-size: 12px;
+  font-weight: 600;
+}
+.stage .meta {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+.stage.done {
+  border-left-color: var(--ok);
+}
+.stage.warn {
+  border-left-color: var(--warn);
+}
+.stage.pending {
+  border-left-color: var(--neutral);
+}
+
+/* --- gap timeline ------------------------------------------------------- */
+
+.timeline {
+  padding: 14px;
+}
+
+.timeline-track {
+  position: relative;
+  height: 34px;
+  background: var(--ok);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.timeline-gap {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: var(--bad);
+  border-left: 1px solid var(--bg);
+  border-right: 1px solid var(--bg);
+}
+
+.timeline-absent {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: var(--surface-2);
+}
+
+.timeline-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
+/* --- misc --------------------------------------------------------------- */
+
+.empty,
+.loading,
+.error {
+  padding: 28px 14px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.error {
+  color: var(--bad);
+}
+
+.pager {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  padding: 8px 14px;
+  color: var(--text-dim);
+}
+
+.tabs button.active {
+  color: var(--text);
+  border-bottom-color: var(--info);
+  background: none;
+}
+
+.callout {
+  margin: 0 14px 14px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: var(--info-bg);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--surface-2);
+  padding: 1px 5px;
+  border-radius: 4px;
+}

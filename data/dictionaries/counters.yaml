@@ -1,0 +1,82 @@
+# Cumulative counters.
+#
+# Counters are monotonic registers, not instantaneous measurements.  Their
+# semantic type is INTEGER even where nulls make a DataFrame infer float
+# (Phase 1B section 11), and a decrease indicates a reset or rollover rather
+# than a negative reading.
+
+version: 1
+
+fields:
+  - source_name: Total Session Counter
+    canonical_name: total_session_counter
+    display_name: Total Session Counter
+    description: Lifetime count of charging sessions delivered by the charger.
+    entity: CHARGER
+    field_class: COUNTER
+    category: COUNTER
+    data_type: INTEGER
+    unit: count
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: COUNTER_SNAPSHOT
+    storage_strategy: COUNTER_TELEMETRY
+    aggregation_strategy: MAX
+    ml_candidate: "YES"
+    prediction_domains:
+      - charger_health
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+
+  - source_name: Total Energy Counter
+    canonical_name: total_energy_counter
+    display_name: Total Energy Counter
+    description: Lifetime cumulative energy delivered by the charger.
+    entity: CHARGER
+    field_class: COUNTER
+    category: COUNTER
+    data_type: INTEGER
+    unit: Wh
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: COUNTER_SNAPSHOT
+    storage_strategy: COUNTER_TELEMETRY
+    aggregation_strategy: MAX
+    ml_candidate: "YES"
+    prediction_domains:
+      - charger_health
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: Unit Wh assumed from magnitude; kWh is possible. Requires confirmation.
+
+  - source_name: Uptime Seconds
+    canonical_name: uptime_seconds
+    display_name: Uptime
+    description: Seconds since the charger controller last restarted.
+    entity: CHARGER
+    field_class: COUNTER
+    category: SYSTEM
+    data_type: DURATION
+    unit: seconds
+    nullable: true
+    required: false
+    valid_min: 0
+    range_status: UNVERIFIED
+    normalization_strategy: COUNTER_SNAPSHOT
+    storage_strategy: COUNTER_TELEMETRY
+    aggregation_strategy: MAX
+    ml_candidate: "YES"
+    prediction_domains:
+      - charger_health
+    leakage_risk: LOW
+    availability_semantics: REAL_TIME
+    review_status: ENGINEER_REVIEWED
+    notes: >-
+      A drop in this value marks an unplanned restart, which is a meaningful
+      reliability signal for Phase 3.
