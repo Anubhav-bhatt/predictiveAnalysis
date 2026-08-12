@@ -25,6 +25,11 @@ from backend.app.models.telemetry_file import (
     TelemetryFileIdentifier,
 )
 from backend.app.models.telemetry_file_day import TelemetryFileDay
+from backend.app.models.telemetry_frame import (
+    TelemetryFrameRow,
+    TelemetryFrameSource,
+    TelemetrySourceFrame,
+)
 from backend.app.models.telemetry_gap import TelemetryGap
 
 __all__ = [
@@ -43,5 +48,8 @@ __all__ = [
     "TelemetryFile",
     "TelemetryFileDay",
     "TelemetryFileIdentifier",
+    "TelemetryFrameRow",
+    "TelemetryFrameSource",
     "TelemetryGap",
+    "TelemetrySourceFrame",
 ]

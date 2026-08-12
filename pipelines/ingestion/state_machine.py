@@ -54,8 +54,21 @@ ALLOWED_TRANSITIONS: Mapping[FileStatus, frozenset[FileStatus]] = {
     FileStatus.QUALITY_VALIDATION: (
         frozenset({FileStatus.READY_FOR_NORMALIZATION, FileStatus.PARTIAL}) | _FAILURE_EXITS
     ),
-    # Normalization is Phase 1C/1D work; COMPLETED is declared but not driven here.
-    FileStatus.READY_FOR_NORMALIZATION: frozenset({FileStatus.COMPLETED, FileStatus.FAILED}),
+    # Phase 1D inserts reconstruction between readiness and completion. Phase 1E
+    # consumes reconstructed frames, not raw rows, so a file reaches COMPLETED only
+    # by way of FRAMES_RECONSTRUCTED. COMPLETED stays reachable directly as well so
+    # that files registered before Phase 1D existed are not stranded mid-lifecycle.
+    FileStatus.READY_FOR_NORMALIZATION: frozenset(
+        {FileStatus.FRAME_RECONSTRUCTION, FileStatus.COMPLETED, FileStatus.FAILED}
+    ),
+    FileStatus.FRAME_RECONSTRUCTION: (
+        frozenset({FileStatus.FRAMES_RECONSTRUCTED}) | _FAILURE_EXITS
+    ),
+    # Re-running reconstruction (a new algorithm version) re-enters the stage; it
+    # is idempotent, so this is safe rather than a way to duplicate frames.
+    FileStatus.FRAMES_RECONSTRUCTED: frozenset(
+        {FileStatus.FRAME_RECONSTRUCTION, FileStatus.COMPLETED, FileStatus.FAILED}
+    ),
     FileStatus.PARTIAL: frozenset({FileStatus.READY_FOR_NORMALIZATION}) | _FAILURE_EXITS,
     # Re-driving a failed file restarts it from the registered record; the raw
     # object is immutable so nothing needs to be re-landed.

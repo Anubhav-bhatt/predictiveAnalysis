@@ -98,6 +98,31 @@ services:
         condition: service_completed_successfully
     profiles: ['tools']
 
+  # Phase 1D frame reconstruction. Like `ingest`, run on demand:
+  #   docker compose --profile tools run --rm reconstruct reconstruct-day \
+  #     --charger <charger-id> --date 2026-07-27
+  # A separate service rather than an entrypoint override, so the command is
+  # discoverable and the image is built by `--profile tools build`.
+  reconstruct:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.backend
+    environment:
+      CPI_LOG_FORMAT: json
+      CPI_DATABASE_URL: postgresql+asyncpg://cpi:cpi@postgres:5432/cpi
+      CPI_STORAGE_RAW_ROOT: /data/raw
+      CPI_STORAGE_QUARANTINE_ROOT: /data/quarantine
+      CPI_FLEET_DEFAULT_SOURCE_TIMEZONE: Asia/Kolkata
+    entrypoint: ['python', '-m', 'pipelines.frame_reconstruction']
+    volumes:
+      - telemetry-data:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    profiles: ['tools']
+
 volumes:
   postgres-data:
   telemetry-data:

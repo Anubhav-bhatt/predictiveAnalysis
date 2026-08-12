@@ -42,6 +42,11 @@ class FileStatus(StrEnum):
     SCHEMA_VALIDATION = "SCHEMA_VALIDATION"
     QUALITY_VALIDATION = "QUALITY_VALIDATION"
     READY_FOR_NORMALIZATION = "READY_FOR_NORMALIZATION"
+    # Phase 1D. READY_FOR_NORMALIZATION no longer implies the raw rows are
+    # directly consumable: Phase 1E consumes reconstructed frames, so a file must
+    # pass through reconstruction first.
+    FRAME_RECONSTRUCTION = "FRAME_RECONSTRUCTION"
+    FRAMES_RECONSTRUCTED = "FRAMES_RECONSTRUCTED"
     COMPLETED = "COMPLETED"
     PARTIAL = "PARTIAL"
     DUPLICATE = "DUPLICATE"
@@ -155,6 +160,18 @@ class QualityIssueType(StrEnum):
     MULTIPLE_FILES_SAME_CHARGER_DAY = "MULTIPLE_FILES_SAME_CHARGER_DAY"
     OVERLAPPING_FILE_COVERAGE = "OVERLAPPING_FILE_COVERAGE"
     EVENT_DATE_FILENAME_MISMATCH = "EVENT_DATE_FILENAME_MISMATCH"
+    # Phase 1D additions - frame scope rather than file or charger-day scope
+    FRAME_INCOMPLETE = "FRAME_INCOMPLETE"
+    FRAME_OVERCOMPLETE = "FRAME_OVERCOMPLETE"
+    FRAME_MISSING_POSITION = "FRAME_MISSING_POSITION"
+    FRAME_UNEXPECTED_POSITION = "FRAME_UNEXPECTED_POSITION"
+    AMBIGUOUS_FRAME_BOUNDARY = "AMBIGUOUS_FRAME_BOUNDARY"
+    FULL_FRAME_REPLAY = "FULL_FRAME_REPLAY"
+    PARTIAL_FRAME_REPLAY = "PARTIAL_FRAME_REPLAY"
+    SAME_TIMESTAMP_DISTINCT_FRAME = "SAME_TIMESTAMP_DISTINCT_FRAME"
+    INCONSISTENT_TOPOLOGY = "INCONSISTENT_TOPOLOGY"
+    ENTITY_ID_MISSING = "ENTITY_ID_MISSING"
+    UNASSIGNED_RAW_ROW = "UNASSIGNED_RAW_ROW"
 
 
 class QualityRuleScope(StrEnum):
@@ -165,6 +182,7 @@ class QualityRuleScope(StrEnum):
     ROW = "ROW"
     CHARGER_DAY = "CHARGER_DAY"
     TIMESTAMP = "TIMESTAMP"
+    FRAME = "FRAME"
     ENTITY = "ENTITY"
 
 
@@ -444,6 +462,41 @@ class FileDateSpan(StrEnum):
     UNKNOWN = "UNKNOWN"
 
 
+# ---------------------------------------------------------------------------
+# Phase 1D - source frame reconstruction
+# ---------------------------------------------------------------------------
+
+
+class FrameStatus(StrEnum):
+    """Structural verdict on a reconstructed frame.
+
+    Structure only. Whether a frame duplicates another is a separate dimension -
+    a frame can be both COMPLETE and a replay.
+    """
+
+    COMPLETE = "COMPLETE"
+    PARTIAL = "PARTIAL"
+    SEVERELY_INCOMPLETE = "SEVERELY_INCOMPLETE"
+    MALFORMED = "MALFORMED"
+    AMBIGUOUS = "AMBIGUOUS"
+
+
+class DuplicateClassification(StrEnum):
+    """How a frame relates to others sharing its event timestamp.
+
+    ``SAME_TIMESTAMP_DISTINCT_FRAME`` is the case that makes naive
+    de-duplication on (timestamp, connector, SMR) unsafe: the rows share that key
+    but carry genuinely different telemetry.
+    """
+
+    UNIQUE = "UNIQUE"
+    EXACT_ROW_DUPLICATE = "EXACT_ROW_DUPLICATE"
+    FULL_FRAME_REPLAY = "FULL_FRAME_REPLAY"
+    PARTIAL_FRAME_REPLAY = "PARTIAL_FRAME_REPLAY"
+    SAME_TIMESTAMP_DISTINCT_FRAME = "SAME_TIMESTAMP_DISTINCT_FRAME"
+    AMBIGUOUS = "AMBIGUOUS"
+
+
 __all__ = [
     "AggregationStrategy",
     "ArrivalStatus",
@@ -451,11 +504,13 @@ __all__ = [
     "CanonicalDataType",
     "ChargerLifecycleStatus",
     "CompletenessStatus",
+    "DuplicateClassification",
     "FieldCategory",
     "FieldClass",
     "FieldEntity",
     "FileDateSpan",
     "FileStatus",
+    "FrameStatus",
     "GapSeverity",
     "IngestionRunStatus",
     "IngestionTrigger",

@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 
 import { GapTimeline } from '../components/GapTimeline';
+import { FramesTab } from './FramesTab';
 import { CompletenessPill, ArrivalPill, CoverageBar, SeverityPill } from '../components/status';
 import { GapsTable } from '../components/tables';
 import { api } from '../lib/api';
@@ -26,6 +27,13 @@ export function ChargerDetail() {
   const [params, setParams] = useSearchParams();
   const selectedDate = params.get('date') ?? today();
   const [rangeDays, setRangeDays] = useState(30);
+  // Tab lives in the URL so a view is refreshable, bookmarkable and shareable.
+  const tab = params.get('tab') === 'frames' ? 'frames' : 'coverage';
+  const setTab = (value: 'coverage' | 'frames') => {
+    const next = new URLSearchParams(params);
+    next.set('tab', value);
+    setParams(next, { replace: true });
+  };
 
   const history = useAsync(
     () => api.coverageHistory(chargerId, daysAgo(rangeDays), today()),
@@ -69,7 +77,27 @@ export function ChargerDetail() {
         </div>
       </div>
 
+      <div className="tabs">
+        <button
+          className={tab === 'coverage' ? 'active' : ''}
+          onClick={() => setTab('coverage')}
+        >
+          Coverage
+        </button>
+        <button
+          className={tab === 'frames' ? 'active' : ''}
+          onClick={() => setTab('frames')}
+        >
+          Reconstruction
+        </button>
+      </div>
+
+      {tab === 'frames' ? (
+        <FramesTab chargerId={chargerId} businessDate={selectedDate} />
+      ) : null}
+
       {/* ---- Coverage history (section 37) ---- */}
+      {tab === 'coverage' ? (
       <section className="panel">
         <header>
           <h2>Coverage</h2>
@@ -136,8 +164,10 @@ export function ChargerDetail() {
           </div>
         )}
       </section>
+      ) : null}
 
       {/* ---- Selected charger-day ---- */}
+      {tab === 'coverage' ? (
       <section className="panel">
         <header>
           <h2>{isoDate(selectedDate)} · gap timeline</h2>
@@ -163,9 +193,10 @@ export function ChargerDetail() {
           </>
         ) : null}
       </section>
+      ) : null}
 
       {/* ---- Contributing files (section 19) ---- */}
-      {detail && detail.files.length > 0 ? (
+      {tab === 'coverage' && detail && detail.files.length > 0 ? (
         <section className="panel">
           <header>
             <h2>Contributing files</h2>
@@ -224,7 +255,7 @@ export function ChargerDetail() {
       ) : null}
 
       {/* ---- Charger-day findings ---- */}
-      {detail && detail.findings.length > 0 ? (
+      {tab === 'coverage' && detail && detail.findings.length > 0 ? (
         <section className="panel">
           <header>
             <h2>Charger-day findings</h2>

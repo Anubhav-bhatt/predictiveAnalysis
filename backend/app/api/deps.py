@@ -17,6 +17,7 @@ from backend.app.core.config import Settings, get_settings
 from backend.app.db.session import get_session_factory
 from backend.app.repositories.base import PageRequest
 from backend.app.repositories.fleet import FleetRepository
+from backend.app.repositories.frames import FrameRepository
 from backend.app.repositories.ingestion import IngestionRunRepository, TelemetryFileRepository
 from backend.app.repositories.quality import QualityRepository
 from backend.app.services.coverage_service import CoverageService
@@ -26,6 +27,7 @@ from backend.app.services.metrics_service import MetricsService
 __all__ = [
     "CoverageServiceDep",
     "FleetRepoDep",
+    "FrameRepoDep",
     "MetricsServiceDep",
     "PageDep",
     "RunRepoDep",
@@ -83,6 +85,10 @@ def get_quality_repo(session: SessionDep) -> QualityRepository:
     return QualityRepository(session)
 
 
+def get_frame_repo(session: SessionDep) -> FrameRepository:
+    return FrameRepository(session)
+
+
 def get_metrics_service(session: SessionDep, settings: SettingsDep) -> MetricsService:
     return build_metrics_service(session, settings=settings)
 
@@ -95,5 +101,6 @@ FleetRepoDep = Annotated[FleetRepository, Depends(get_fleet_repo)]
 FileRepoDep = Annotated[TelemetryFileRepository, Depends(get_file_repo)]
 RunRepoDep = Annotated[IngestionRunRepository, Depends(get_run_repo)]
 QualityRepoDep = Annotated[QualityRepository, Depends(get_quality_repo)]
+FrameRepoDep = Annotated[FrameRepository, Depends(get_frame_repo)]
 MetricsServiceDep = Annotated[MetricsService, Depends(get_metrics_service)]
 CoverageServiceDep = Annotated[CoverageService, Depends(get_coverage_service)]

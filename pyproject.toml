@@ -39,6 +39,7 @@ dev = [
 # Both entry points resolve to the same scheduler-friendly CLI; there is no
 # separate long-running worker in Phase 1C.
 cpi-ingest = "pipelines.ingestion.__main__:main"
+cpi-reconstruct = "pipelines.frame_reconstruction.__main__:main"
 
 [tool.setuptools]
 packages = [

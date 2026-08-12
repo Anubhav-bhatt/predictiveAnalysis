@@ -26,7 +26,12 @@ from backend.app.repositories.fleet import FleetRepository
 from backend.app.repositories.ingestion import IngestionRunRepository, TelemetryFileRepository
 from backend.app.repositories.quality import QualityRepository
 from backend.app.services.coverage_service import CoverageService
-from backend.app.services.factory import build_ingestion_service, get_dictionary
+from backend.app.services.factory import (
+    build_frame_service,
+    build_ingestion_service,
+    get_dictionary,
+)
+from backend.app.services.frame_service import FrameReconstructionService
 from backend.app.services.metrics_service import MetricsService
 from pipelines.persistence.storage import LocalFilesystemRawStorage
 
@@ -128,6 +133,13 @@ def ingestion_service(
     session: AsyncSession, settings: Settings, storage: LocalFilesystemRawStorage
 ) -> object:
     return build_ingestion_service(session, settings=settings, storage=storage)
+
+
+@pytest.fixture
+def frame_service(
+    session: AsyncSession, settings: Settings, storage: LocalFilesystemRawStorage
+) -> FrameReconstructionService:
+    return build_frame_service(session, settings=settings, storage=storage)
 
 
 @pytest_asyncio.fixture

@@ -15,10 +15,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.app.core.config import Settings, get_settings
 from backend.app.repositories.fleet import FleetRepository
+from backend.app.repositories.frames import FrameRepository
 from backend.app.repositories.ingestion import IngestionRunRepository, TelemetryFileRepository
 from backend.app.repositories.quality import QualityRepository
 from backend.app.repositories.schema import SchemaRepository
 from backend.app.services.coverage_service import CoverageService
+from backend.app.services.frame_service import FrameReconstructionService
 from backend.app.services.ingestion_service import IngestionService
 from backend.app.services.metrics_service import MetricsService
 from pipelines.persistence.storage import LocalFilesystemRawStorage, RawObjectStorage
@@ -29,6 +31,7 @@ from pipelines.validation.dictionary import DictionaryRegistry
 __all__ = [
     "build_coverage_service",
     "build_filesystem_source",
+    "build_frame_service",
     "build_ingestion_service",
     "build_metrics_service",
     "build_storage",
@@ -100,6 +103,24 @@ def build_coverage_service(
         fleet_repo=FleetRepository(session),
         file_repo=TelemetryFileRepository(session),
         quality_repo=QualityRepository(session),
+        settings=config,
+    )
+
+
+def build_frame_service(
+    session: AsyncSession,
+    *,
+    settings: Settings | None = None,
+    storage: RawObjectStorage | None = None,
+) -> FrameReconstructionService:
+    config = settings or get_settings()
+    return FrameReconstructionService(
+        frame_repo=FrameRepository(session),
+        file_repo=TelemetryFileRepository(session),
+        fleet_repo=FleetRepository(session),
+        quality_repo=QualityRepository(session),
+        storage=storage or build_storage(config),
+        dictionary=get_dictionary(),
         settings=config,
     )
 

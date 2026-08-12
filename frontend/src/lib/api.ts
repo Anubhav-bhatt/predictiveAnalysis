@@ -8,14 +8,19 @@
 
 import type {
   ChargerDayDetail,
+  CollisionGroup,
   CoverageRow,
   DailySummary,
   Envelope,
+  FrameDetail,
+  FrameDiff,
+  FrameSummaryRow,
   GapRow,
   IngestionRun,
   LateFileRow,
   MissingChargerRow,
   PaginatedEnvelope,
+  ReconstructionSummary,
 } from './types';
 
 const BASE = '/api/v1';
@@ -117,5 +122,43 @@ export const api = {
     request<PaginatedEnvelope<GapRow>>(
       `/chargers/${encodeURIComponent(chargerId)}/gaps`,
       { from, to },
+    ),
+
+  // --- Phase 1D: frame reconstruction diagnostics -------------------------
+
+  fileReconstruction: (fileId: string) =>
+    request<Envelope<ReconstructionSummary>>(
+      `/ingestion/files/${encodeURIComponent(fileId)}/reconstruction`,
+    ),
+
+  chargerFrames: (
+    chargerId: string,
+    options: {
+      from?: string;
+      to?: string;
+      frame_status?: string;
+      duplicate_classification?: string;
+      canonical_only?: string;
+      page?: number;
+      page_size?: number;
+    } = {},
+  ) =>
+    request<PaginatedEnvelope<FrameSummaryRow>>(
+      `/chargers/${encodeURIComponent(chargerId)}/frames`,
+      options,
+    ),
+
+  chargerCollisions: (chargerId: string, date: string) =>
+    request<Envelope<CollisionGroup[]>>(
+      `/chargers/${encodeURIComponent(chargerId)}/frames/collisions`,
+      { date },
+    ),
+
+  frame: (frameId: string) =>
+    request<Envelope<FrameDetail>>(`/frames/${encodeURIComponent(frameId)}`),
+
+  frameDiff: (frameId: string, otherFrameId: string) =>
+    request<Envelope<FrameDiff>>(
+      `/frames/${encodeURIComponent(frameId)}/diff/${encodeURIComponent(otherFrameId)}`,
     ),
 };

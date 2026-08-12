@@ -16,7 +16,12 @@ from uuid import UUID, uuid4
 import sqlalchemy as sa
 
 from backend.app.models.data_quality_issue import DataQualityIssue
-from backend.app.models.enums import FieldEntity, QualityIssueType, QualitySeverity
+from backend.app.models.enums import (
+    FieldEntity,
+    QualityIssueType,
+    QualityRuleScope,
+    QualitySeverity,
+)
 from backend.app.models.field_profile import FieldProfile
 from backend.app.repositories.base import Page, PageRequest, Repository, paginate
 
@@ -30,6 +35,31 @@ class QualityRepository(Repository):
         await self.session.execute(
             sa.delete(DataQualityIssue).where(
                 DataQualityIssue.telemetry_file_id == telemetry_file_id
+            )
+        )
+        if rows:
+            await self.session.execute(
+                sa.insert(DataQualityIssue),
+                [{**row, "id": uuid4(), "telemetry_file_id": telemetry_file_id} for row in rows],
+            )
+
+    async def replace_scoped_issues(
+        self,
+        telemetry_file_id: UUID,
+        scope: QualityRuleScope,
+        rows: Sequence[dict[str, Any]],
+    ) -> None:
+        """Replace only one scope's findings for a file.
+
+        Phase 1D writes FRAME-scope findings for a file that already carries
+        FILE/FIELD-scope findings from Phase 1A/1B. Deleting by file alone would
+        wipe those, so the delete is narrowed to the scope being rewritten - which
+        is also what keeps re-running reconstruction idempotent.
+        """
+        await self.session.execute(
+            sa.delete(DataQualityIssue).where(
+                DataQualityIssue.telemetry_file_id == telemetry_file_id,
+                DataQualityIssue.scope == scope,
             )
         )
         if rows:

@@ -63,6 +63,11 @@ class TimestampAnalysis:
 
     #: Sorted unique UTC timestamps; the input to gap detection.
     unique_timestamps: tuple[dt.datetime, ...] = ()
+    #: Per-row UTC timestamps, positionally aligned with the source rows, with
+    #: None where the value could not be parsed. Phase 1D needs this to group raw
+    #: rows into frames: the unique set above cannot say which row belongs to
+    #: which timestamp.
+    row_event_times: tuple[dt.datetime | None, ...] = ()
     source_timezone: str = "UTC"
 
     @property
@@ -204,6 +209,12 @@ def analyse_event_time(
     aware = valid.dt.replace_time_zone(source_timezone).dt.convert_time_zone("UTC")
     unique_sorted = aware.unique().sort()
 
+    # The same localisation applied to *every* row, nulls preserved, so the result
+    # stays positionally aligned with the input rows.
+    row_aware = (
+        best_parsed.dt.replace_time_zone(source_timezone).dt.convert_time_zone("UTC")
+    )
+
     median_s, p95_s, min_s, max_s = _interval_stats(unique_sorted)
 
     return TimestampAnalysis(
@@ -224,6 +235,7 @@ def analyse_event_time(
         dominant_business_date=dominant,
         date_span=_classify_span(list(business_dates)),
         unique_timestamps=tuple(unique_sorted.to_list()),
+        row_event_times=tuple(row_aware.to_list()),
         source_timezone=str(tzinfo),
     )
 

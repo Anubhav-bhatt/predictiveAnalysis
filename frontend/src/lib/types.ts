@@ -219,3 +219,139 @@ export interface IngestionRun {
   late_charger_count: number | null;
   fleet_coverage_percentage: string | null;
 }
+
+// --- Phase 1D: source frame reconstruction ---------------------------------
+
+export type FrameStatus =
+  | 'COMPLETE'
+  | 'PARTIAL'
+  | 'SEVERELY_INCOMPLETE'
+  | 'MALFORMED'
+  | 'AMBIGUOUS';
+
+export type DuplicateClassification =
+  | 'UNIQUE'
+  | 'EXACT_ROW_DUPLICATE'
+  | 'FULL_FRAME_REPLAY'
+  | 'PARTIAL_FRAME_REPLAY'
+  | 'SAME_TIMESTAMP_DISTINCT_FRAME'
+  | 'AMBIGUOUS';
+
+export interface ReconstructionSummary {
+  telemetry_file_id: string;
+  original_filename: string;
+  reconstruction_version: string | null;
+
+  raw_rows: number | null;
+  unique_timestamps: number;
+  expected_positions_per_frame: number;
+
+  frames_reconstructed: number;
+  canonical_frames: number;
+  complete_frames: number;
+  partial_frames: number;
+  severely_incomplete_frames: number;
+  malformed_frames: number;
+  ambiguous_frames: number;
+
+  full_replays: number;
+  partial_replays: number;
+  same_timestamp_distinct_frames: number;
+  collision_timestamps: number;
+  unassigned_rows: number;
+
+  frame_completeness_percentage: number;
+  replay_rate: number;
+  rows_per_unique_timestamp: number | null;
+}
+
+export interface FrameSummaryRow {
+  id: string;
+  charger_id: string;
+  event_time: string;
+  business_date: string;
+  frame_sequence: number;
+
+  frame_status: FrameStatus;
+  duplicate_classification: DuplicateClassification;
+  frame_fingerprint: string;
+  fingerprint_short: string;
+  replay_of_frame_id: string | null;
+
+  expected_position_count: number;
+  observed_position_count: number;
+  missing_position_count: number;
+  unexpected_position_count: number;
+  completeness_percentage: string | null;
+
+  source_order_min: number | null;
+  source_order_max: number | null;
+  reconstruction_version: string;
+  is_canonical: boolean;
+}
+
+export interface FrameSourceRef {
+  telemetry_file_id: string;
+  original_filename: string | null;
+  status: string | null;
+  received_at: string | null;
+  first_source_row: number;
+  last_source_row: number;
+  row_count: number;
+  source_occurrence: number;
+  is_primary_source: boolean;
+}
+
+export interface FrameRowRef {
+  telemetry_file_id: string;
+  source_row_number: number;
+  connector_id: string | null;
+  smr_id: string | null;
+  logical_position: string | null;
+  occurrence_index: number;
+  row_fingerprint: string;
+  unassigned: boolean;
+}
+
+export interface FrameDetail {
+  frame: FrameSummaryRow;
+  missing_positions: string[];
+  unexpected_positions: string[];
+  observed_positions: string[];
+  issues: string[];
+  sources: FrameSourceRef[];
+  rows: FrameRowRef[];
+  replays: FrameSummaryRow[];
+  siblings: FrameSummaryRow[];
+  detail: Record<string, unknown>;
+  replay_count: number;
+}
+
+export interface CollisionGroup {
+  charger_id: string;
+  event_time: string;
+  business_date: string;
+  frame_count: number;
+  canonical_count: number;
+  frames: FrameSummaryRow[];
+}
+
+export interface FramePositionDifference {
+  logical_position: string;
+  left_row_fingerprint: string | null;
+  right_row_fingerprint: string | null;
+  differs: boolean;
+}
+
+export interface FrameDiff {
+  left: FrameSummaryRow;
+  right: FrameSummaryRow;
+  same_event_time: boolean;
+  identical_payload: boolean;
+  differing_positions: string[];
+  matching_positions: string[];
+  only_in_left: string[];
+  only_in_right: string[];
+  positions: FramePositionDifference[];
+  differing_position_count: number;
+}
