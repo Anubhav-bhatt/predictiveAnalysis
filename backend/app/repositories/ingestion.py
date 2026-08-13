@@ -20,8 +20,21 @@ __all__ = ["IngestionRunRepository", "TelemetryFileRepository"]
 
 #: File states whose telemetry is trustworthy enough to count toward a
 #: charger-day. QUARANTINED and FAILED files contribute nothing (section 43).
+#:
+#: Usability is a statement about whether the file's *profile* can be trusted, not
+#: about how far down the pipeline it has travelled. The two Phase 1D states are
+#: therefore included: a file being reconstructed, or already reconstructed, has
+#: passed schema and quality validation and its per-date contributions are still the
+#: measured truth.
+#:
+#: Omitting them was a real defect. Reconciliation is idempotent by design and runs
+#: again whenever late data arrives - and on the second run, every fully processed
+#: charger-day silently became MISSING / NO_DATA / 0% coverage, because the file that
+#: delivered it had since advanced to FRAMES_RECONSTRUCTED.
 USABLE_FILE_STATES = (
     FileStatus.READY_FOR_NORMALIZATION,
+    FileStatus.FRAME_RECONSTRUCTION,
+    FileStatus.FRAMES_RECONSTRUCTED,
     FileStatus.COMPLETED,
     FileStatus.PARTIAL,
 )

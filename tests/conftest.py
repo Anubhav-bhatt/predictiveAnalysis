@@ -16,7 +16,12 @@ from pathlib import Path
 
 import pytest
 import pytest_asyncio
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from backend.app.core.config import Settings, get_settings
 from backend.app.db.base import Base
@@ -29,10 +34,13 @@ from backend.app.services.coverage_service import CoverageService
 from backend.app.services.factory import (
     build_frame_service,
     build_ingestion_service,
+    build_upload_service,
     get_dictionary,
 )
 from backend.app.services.frame_service import FrameReconstructionService
+from backend.app.services.ingestion_service import IngestionService
 from backend.app.services.metrics_service import MetricsService
+from backend.app.services.upload_service import UploadService
 from pipelines.persistence.storage import LocalFilesystemRawStorage
 
 #: The fixture builder's default telemetry date. Deliberately *not* the date in
@@ -67,20 +75,34 @@ def settings(tmp_path: Path, project_root: Path) -> Settings:
             "processed_root": tmp_path / "processed",
         },
         filesystem_source={"inbox": tmp_path / "inbox"},  # type: ignore[arg-type]
+        # Without this the upload staging root defaults to ./data/uploads, so the
+        # suite would write into the repository working tree and leak state
+        # between runs.
+        upload={"staging_root": tmp_path / "uploads"},  # type: ignore[arg-type]
     )
 
 
 @pytest_asyncio.fixture
-async def session(settings: Settings) -> AsyncIterator[AsyncSession]:
-    """A session against a freshly created schema."""
-    engine = create_async_engine(settings.database.async_url)
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+async def engine(settings: Settings) -> AsyncIterator[AsyncEngine]:
+    """A freshly created schema, shared by every session in one test.
 
+    Exposed separately from ``session`` so a test can open a *second*,
+    independent session - which is the only way to prove that data survived a
+    commit rather than merely being visible inside one transaction.
+    """
+    created = create_async_engine(settings.database.async_url)
+    async with created.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield created
+    await created.dispose()
+
+
+@pytest_asyncio.fixture
+async def session(engine: AsyncEngine) -> AsyncIterator[AsyncSession]:
+    """A session against a freshly created schema."""
     factory = async_sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)
     async with factory() as db:
         yield db
-    await engine.dispose()
 
 
 @pytest.fixture
@@ -131,7 +153,7 @@ def metrics_service(session: AsyncSession, settings: Settings) -> MetricsService
 @pytest.fixture
 def ingestion_service(
     session: AsyncSession, settings: Settings, storage: LocalFilesystemRawStorage
-) -> object:
+) -> IngestionService:
     return build_ingestion_service(session, settings=settings, storage=storage)
 
 
@@ -140,6 +162,11 @@ def frame_service(
     session: AsyncSession, settings: Settings, storage: LocalFilesystemRawStorage
 ) -> FrameReconstructionService:
     return build_frame_service(session, settings=settings, storage=storage)
+
+
+@pytest.fixture
+def upload_service(session: AsyncSession, settings: Settings) -> UploadService:
+    return build_upload_service(session, settings=settings)
 
 
 @pytest_asyncio.fixture

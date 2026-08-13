@@ -310,6 +310,75 @@ async def test_quarantined_file_does_not_contribute(
     assert row.arrival_status is ArrivalStatus.MISSING
 
 
+@pytest.mark.parametrize(
+    "status",
+    [
+        FileStatus.READY_FOR_NORMALIZATION,
+        FileStatus.FRAME_RECONSTRUCTION,
+        FileStatus.FRAMES_RECONSTRUCTED,
+        FileStatus.COMPLETED,
+        FileStatus.PARTIAL,
+    ],
+)
+async def test_a_processed_file_keeps_contributing_at_every_usable_state(
+    session: AsyncSession,
+    fleet_repo: FleetRepository,
+    coverage_service: CoverageService,
+    status: FileStatus,
+) -> None:
+    """Progress through the pipeline must not erase a charger-day (regression).
+
+    Reconciliation is idempotent and runs again whenever late data arrives. When
+    Phase 1D added FRAMES_RECONSTRUCTED without adding it here, the *second*
+    reconciliation of an already-reconstructed day reported the charger MISSING with
+    0% coverage - the file was intact, the file-days were intact, and the fleet view
+    said nothing had arrived.
+
+    Usability is about whether the profile can be trusted, not about how far the file
+    has travelled.
+    """
+    await register(fleet_repo, CHARGER)
+    await add_file(session, count=720, status=status)
+
+    summary = await coverage_service.reconcile(BUSINESS_DATE)
+
+    assert summary.received_charger_count == 1, f"{status} stopped contributing"
+    assert summary.missing_charger_count == 0
+    row = await coverage_for(session, CHARGER)
+    assert row.arrival_status is ArrivalStatus.RECEIVED
+    assert row.coverage_percentage is not None
+    assert float(row.coverage_percentage) > 99.0
+
+
+async def test_reconciling_after_frame_reconstruction_preserves_coverage(
+    session: AsyncSession, fleet_repo: FleetRepository, coverage_service: CoverageService
+) -> None:
+    """The exact production sequence that surfaced the defect.
+
+    Ingest, reconcile, let Phase 1D advance the file, then reconcile again - which is
+    what any later run does, whether triggered by a late file, another upload batch,
+    or an operator recomputing a date.
+    """
+    await register(fleet_repo, CHARGER)
+    telemetry_file = await add_file(session, count=720)
+
+    before = await coverage_service.reconcile(BUSINESS_DATE)
+    assert before.received_charger_count == 1
+
+    # Phase 1D advances the file once its frames exist.
+    telemetry_file.status = FileStatus.FRAMES_RECONSTRUCTED
+    await session.flush()
+
+    after = await coverage_service.reconcile(BUSINESS_DATE)
+
+    assert after.received_charger_count == 1
+    assert after.missing_charger_count == 0
+    assert after.fleet_coverage_percentage == before.fleet_coverage_percentage
+    row = await coverage_for(session, CHARGER)
+    assert row.arrival_status is ArrivalStatus.RECEIVED
+    assert row.completeness_status is not CompletenessStatus.NO_DATA
+
+
 # ---------------------------------------------------------------------------
 # Late arrival (section 17)
 # ---------------------------------------------------------------------------

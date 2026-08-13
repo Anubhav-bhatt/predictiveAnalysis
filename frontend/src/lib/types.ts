@@ -355,3 +355,95 @@ export interface FrameDiff {
   positions: FramePositionDifference[];
   differing_position_count: number;
 }
+
+// --- Phase 1C.5: bulk manual upload ----------------------------------------
+
+export type UploadBatchStatus =
+  | 'CREATED'
+  | 'UPLOADING'
+  | 'REGISTERED'
+  | 'PROCESSING'
+  | 'COMPLETED'
+  | 'COMPLETED_WITH_WARNINGS'
+  | 'FAILED';
+
+export type UploadFileStatus =
+  | 'PENDING'
+  | 'REGISTERED'
+  | 'DUPLICATE'
+  | 'REJECTED'
+  | 'FAILED';
+
+export interface UploadCounts {
+  total_files: number;
+  pending: number;
+  processing: number;
+  completed: number;
+  duplicate: number;
+  failed: number;
+  quarantined: number;
+  rejected: number;
+  progress_percentage: number;
+}
+
+export interface UploadLimits {
+  max_files_per_batch: number;
+  max_file_size_bytes: number;
+  max_batch_size_bytes: number;
+  allowed_extensions: string[];
+}
+
+export interface StagedFileResult {
+  original_filename: string;
+  size_bytes: number;
+  status: UploadFileStatus;
+  reason: string | null;
+}
+
+export interface UploadCreated {
+  upload_batch_id: string;
+  status: UploadBatchStatus;
+  file_count: number;
+  total_bytes: number;
+  staged: StagedFileResult[];
+  accepted_count: number;
+  rejected_count: number;
+}
+
+export interface UploadBatchRow {
+  id: string;
+  source_type: string;
+  status: UploadBatchStatus;
+  created_at: string;
+  file_count: number;
+  total_bytes: number;
+  upload_completed_at: string | null;
+  processing_started_at: string | null;
+  processing_completed_at: string | null;
+  uploaded_by: string | null;
+  counts: UploadCounts | null;
+  processing_duration_seconds: number | null;
+}
+
+export interface BatchFileRow {
+  original_filename: string;
+  size_bytes: number;
+  status: UploadFileStatus;
+  telemetry_file_id: string | null;
+  duplicate_of_file_id: string | null;
+  failure_reason: string | null;
+  staged_at: string;
+  registered_at: string | null;
+  telemetry_status: string | null;
+  charger_id: string | null;
+  business_date: string | null;
+  row_count: number | null;
+  unique_event_timestamp_count: number | null;
+  quality_score: number | null;
+  is_duplicate: boolean;
+}
+
+export interface UploadBatchDetail {
+  batch: UploadBatchRow;
+  counts: UploadCounts;
+}

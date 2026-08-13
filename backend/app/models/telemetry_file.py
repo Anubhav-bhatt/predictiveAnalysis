@@ -44,6 +44,12 @@ class TelemetryFile(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     ingestion_run_id: Mapped[uuid.UUID | None] = mapped_column(
         sa.ForeignKey("ingestion_run.id", ondelete="SET NULL"), nullable=True, index=True
     )
+    #: Set when this file arrived through a bulk manual upload. NULL for files
+    #: discovered from a filesystem or, later, pulled from RMS. Metadata only -
+    #: no downstream stage branches on it.
+    upload_batch_id: Mapped[uuid.UUID | None] = mapped_column(
+        sa.ForeignKey("upload_batch.id", ondelete="SET NULL"), nullable=True, index=True
+    )
 
     # --- provenance -------------------------------------------------------
     source_type: Mapped[SourceType] = mapped_column(enum_column(SourceType), nullable=False)

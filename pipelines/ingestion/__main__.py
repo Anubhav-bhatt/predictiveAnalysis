@@ -31,18 +31,27 @@ import asyncio
 import datetime as dt
 import sys
 from collections.abc import Sequence
+from uuid import UUID
 
 from backend.app.core.config import get_settings
 from backend.app.core.logging import configure_logging, get_logger, log_context
 from backend.app.db.session import dispose_engine, session_scope
-from backend.app.models.enums import IngestionRunStatus, IngestionTrigger
+from backend.app.models.enums import (
+    IngestionRunStatus,
+    IngestionTrigger,
+    UploadBatchStatus,
+)
+from backend.app.repositories.uploads import UploadRepository
 from backend.app.services.coverage_service import ReconciliationSummary
 from backend.app.services.factory import (
     build_coverage_service,
     build_filesystem_source,
+    build_frame_service,
     build_ingestion_service,
+    build_upload_service,
 )
 from backend.app.services.ingestion_service import RunSummary
+from backend.app.services.upload_service import BatchProcessingResult, UploadRejected
 
 logger = get_logger(__name__)
 
@@ -85,6 +94,25 @@ def build_parser() -> argparse.ArgumentParser:
         "--no-reconcile",
         action="store_true",
         help="Ingest only; skip charger-day reconciliation.",
+    )
+
+    batch = sub.add_parser(
+        "process-uploads",
+        help=(
+            "Process staged manual-upload batches through the common pipeline "
+            "(ingest, coverage, frame reconstruction)."
+        ),
+    )
+    batch.add_argument(
+        "--batch",
+        dest="batch_id",
+        default=None,
+        help="A specific upload_batch id. Omit to process every queued batch.",
+    )
+    batch.add_argument(
+        "--no-reconstruct",
+        action="store_true",
+        help="Skip Phase 1D frame reconstruction (ingest and coverage only).",
     )
 
     reconcile = sub.add_parser(
@@ -139,6 +167,84 @@ async def run_daily(business_date: dt.date | None, *, reconcile: bool = True) ->
 
     _print_run_report(summary, reconciliations)
     return _exit_code(summary.status)
+
+
+async def process_uploads(batch_id: str | None, *, reconstruct: bool = True) -> int:
+    """Run staged upload batches through the standard pipeline.
+
+    This is the worker half of manual upload. It deliberately calls the same
+    ingestion service the filesystem source uses - manual upload is an acquisition
+    path, not a second pipeline.
+    """
+    settings = get_settings()
+    results: list[BatchProcessingResult] = []
+
+    async with session_scope() as session:
+        uploads = build_upload_service(session, settings=settings)
+        repo = UploadRepository(session)
+
+        if batch_id is not None:
+            try:
+                targets = [UUID(batch_id)]
+            except ValueError:
+                print(f"{batch_id!r} is not a valid UUID.", file=sys.stderr)
+                return EXIT_USAGE
+        else:
+            queued = await repo.queued_batches()
+            targets = [item.id for item in queued]
+
+        if not targets:
+            print("\nNo upload batches are queued for processing.")
+            return EXIT_OK
+
+        ingestion = build_ingestion_service(session, settings=settings)
+        coverage = build_coverage_service(session, settings=settings)
+        frames = build_frame_service(session, settings=settings) if reconstruct else None
+
+        for target in targets:
+            try:
+                results.append(
+                    await uploads.process_batch(
+                        target, ingestion=ingestion, coverage=coverage, frames=frames
+                    )
+                )
+            except UploadRejected as exc:
+                print(f"\nBatch {target}: {exc}", file=sys.stderr)
+                return EXIT_USAGE
+
+    for result in results:
+        _print_batch_result(result)
+
+    if any(r.status is UploadBatchStatus.FAILED for r in results):
+        return EXIT_FAILED
+    if any(r.status is UploadBatchStatus.COMPLETED_WITH_WARNINGS for r in results):
+        return EXIT_WARNINGS
+    return EXIT_OK
+
+
+def _print_batch_result(result: BatchProcessingResult) -> None:
+    print(
+        "\n".join(
+            [
+                "",
+                f"UPLOAD BATCH {result.batch_id}",
+                "---------------------------------------------",
+                f"Status:                {result.status.value}",
+                f"Files registered:      {result.files_registered:>8}",
+                f"Files ready:           {result.files_ready:>8}",
+                # Without this line a batch of nothing but already-held telemetry
+                # printed zeros across the board and looked like it had lost the
+                # files, when in fact it had correctly recognised them.
+                f"Files already present: {result.files_already_present:>8}",
+                f"Files duplicate:       {result.files_duplicate:>8}",
+                f"Files failed:          {result.files_failed:>8}",
+                f"Files quarantined:     {result.files_quarantined:>8}",
+                f"Frames reconstructed:  {result.frames_reconstructed:>8}",
+                f"Dates reconciled:      "
+                f"{', '.join(d.isoformat() for d in result.dates_reconciled) or '-'}",
+            ]
+        )
+    )
 
 
 async def reconcile_only(business_date: dt.date) -> int:
@@ -235,6 +341,10 @@ async def _dispatch(args: argparse.Namespace) -> int:
             return await run_daily(args.date, reconcile=not args.no_reconcile)
         if args.command == "reconcile":
             return await reconcile_only(args.date)
+        if args.command == "process-uploads":
+            return await process_uploads(
+                args.batch_id, reconstruct=not args.no_reconstruct
+            )
     finally:
         await dispose_engine()
     return EXIT_USAGE

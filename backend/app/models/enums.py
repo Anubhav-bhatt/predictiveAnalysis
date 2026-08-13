@@ -22,6 +22,12 @@ class SourceType(StrEnum):
     """
 
     FILESYSTEM = "FILESYSTEM"
+    #: Operator-supplied files, the initial POC acquisition path. A source
+    #: mechanism only - everything downstream treats it identically to any other.
+    MANUAL_UPLOAD = "MANUAL_UPLOAD"
+    #: Reserved. The company's RMS platform will become an adapter once access
+    #: exists; its transport is currently unknown, so nothing is assumed here.
+    RMS = "RMS"
     SFTP = "SFTP"
     S3 = "S3"
     AZURE_BLOB = "AZURE_BLOB"
@@ -463,6 +469,56 @@ class FileDateSpan(StrEnum):
 
 
 # ---------------------------------------------------------------------------
+# Phase 1C.5 - bulk manual upload
+# ---------------------------------------------------------------------------
+
+
+class UploadBatchStatus(StrEnum):
+    """Lifecycle of one bulk upload.
+
+    A batch is a *delivery*, not an analytical unit: it groups files that arrived
+    together so an operator can watch them, and nothing downstream reasons about
+    it. Batch success deliberately does not require every file to succeed.
+    """
+
+    CREATED = "CREATED"
+    UPLOADING = "UPLOADING"
+    #: Bytes are staged and the batch is queued for the worker.
+    REGISTERED = "REGISTERED"
+    PROCESSING = "PROCESSING"
+    COMPLETED = "COMPLETED"
+    COMPLETED_WITH_WARNINGS = "COMPLETED_WITH_WARNINGS"
+    FAILED = "FAILED"
+
+    @property
+    def is_terminal(self) -> bool:
+        return self in {
+            UploadBatchStatus.COMPLETED,
+            UploadBatchStatus.COMPLETED_WITH_WARNINGS,
+            UploadBatchStatus.FAILED,
+        }
+
+
+class UploadFileStatus(StrEnum):
+    """Status of one staged file *within a batch*.
+
+    Deliberately distinct from :class:`FileStatus`: this tracks the acquisition
+    attempt, while FileStatus tracks the telemetry file's own lifecycle. Once a
+    staged file becomes a telemetry file, its real state is read from there -
+    duplicating that lifecycle here would create two sources of truth.
+    """
+
+    PENDING = "PENDING"
+    #: Handed to the common ingestion pipeline.
+    REGISTERED = "REGISTERED"
+    #: Byte-identical content was already registered; not processed again.
+    DUPLICATE = "DUPLICATE"
+    #: Rejected before reaching the pipeline (extension, size, empty file).
+    REJECTED = "REJECTED"
+    FAILED = "FAILED"
+
+
+# ---------------------------------------------------------------------------
 # Phase 1D - source frame reconstruction
 # ---------------------------------------------------------------------------
 
@@ -529,5 +585,7 @@ __all__ = [
     "SchemaVersionStatus",
     "SourceType",
     "StorageStrategy",
+    "UploadBatchStatus",
+    "UploadFileStatus",
     "VariabilityClass",
 ]

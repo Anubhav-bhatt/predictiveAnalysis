@@ -31,6 +31,7 @@ from backend.app.models.telemetry_frame import (
     TelemetrySourceFrame,
 )
 from backend.app.models.telemetry_gap import TelemetryGap
+from backend.app.models.upload_batch import UploadBatch, UploadBatchFile
 
 __all__ = [
     "Base",
@@ -52,4 +53,6 @@ __all__ = [
     "TelemetryFrameSource",
     "TelemetryGap",
     "TelemetrySourceFrame",
+    "UploadBatch",
+    "UploadBatchFile",
 ]

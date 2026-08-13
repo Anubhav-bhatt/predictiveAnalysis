@@ -41,8 +41,8 @@ RUN useradd --create-home --uid 10001 cpi
 # A named volume inherits ownership from the image directory it covers, so /data
 # must exist and be owned by cpi here; otherwise Docker creates it as root and the
 # non-root process cannot write telemetry into it.
-RUN mkdir -p data/raw data/quarantine data/processed data/inbox \
-    && mkdir -p /data/raw /data/quarantine /data/processed /data/inbox \
+RUN mkdir -p data/raw data/quarantine data/processed data/inbox data/uploads \
+    && mkdir -p /data/raw /data/quarantine /data/processed /data/inbox /data/uploads \
     && chown -R cpi:cpi /app /data
 
 USER cpi

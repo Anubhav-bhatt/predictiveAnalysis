@@ -156,6 +156,33 @@ class IngestSettings(BaseSettings):
         return value
 
 
+class UploadSettings(BaseSettings):
+    """Bulk manual upload limits (Phase 1C.5 section 14).
+
+    Deliberately not derived from the ~16.5 MB reference sample: a fleet
+    backfill may present far larger or far more numerous files, and a limit
+    inferred from one sample would become an arbitrary production ceiling.
+    """
+
+    model_config = SettingsConfigDict(env_prefix="CPI_UPLOAD_", env_file=_ENV_FILE, extra="ignore")
+
+    max_files_per_batch: int = 200
+    #: Per-file ceiling. Separate from the ingest limit so an operator upload can
+    #: be constrained more tightly than a trusted filesystem drop.
+    max_file_size_bytes: int = 268_435_456  # 256 MiB
+    #: Whole-request ceiling, which is what actually protects the API process.
+    max_batch_size_bytes: int = 5_368_709_120  # 5 GiB
+    allowed_extensions: list[str] = Field(default_factory=lambda: [".csv"])
+    #: Where uploaded bytes land before registration. Distinct from Bronze: a
+    #: staged file has not yet been accepted as a telemetry file.
+    staging_root: Path = Path("./data/uploads")
+
+    @field_validator("allowed_extensions")
+    @classmethod
+    def _normalise_extensions(cls, value: list[str]) -> list[str]:
+        return [ext if ext.startswith(".") else f".{ext}" for ext in (e.lower() for e in value)]
+
+
 class FleetSettings(BaseSettings):
     """Fleet-scale daily operations policy (Phase 1C).
 
@@ -275,6 +302,7 @@ class Settings(BaseSettings):
     storage: StorageSettings = Field(default_factory=StorageSettings)
     filesystem_source: FilesystemSourceSettings = Field(default_factory=FilesystemSourceSettings)
     ingest: IngestSettings = Field(default_factory=IngestSettings)
+    upload: UploadSettings = Field(default_factory=UploadSettings)
     fleet: FleetSettings = Field(default_factory=FleetSettings)
     quality_weights: QualityScoreWeights = Field(default_factory=QualityScoreWeights)
     daily_severities: DailyQualitySeverities = Field(default_factory=DailyQualitySeverities)

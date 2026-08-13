@@ -21,6 +21,9 @@ data/quarantine/*
 data/processed/*
 data/inbox/*
 data/inbox_archive/*
+# Uploaded bytes awaiting registration. Runtime state like the roots above, and
+# unlike them it holds files the platform has not yet decided to keep.
+data/uploads/*
 !data/**/.gitkeep
 
 .DS_Store

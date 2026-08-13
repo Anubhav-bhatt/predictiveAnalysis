@@ -6,7 +6,7 @@
  */
 
 import { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import {
   DailyFindings,
@@ -101,6 +101,12 @@ export function DataOperations() {
             style={{ width: 130 }}
           />
           <button onClick={reloadAll}>Reload</button>
+          <Link className="btn-link" to="/data-operations/upload">
+            Upload data
+          </Link>
+          <Link className="btn-link" to="/data-operations/uploads">
+            Upload history
+          </Link>
         </div>
       </div>
 

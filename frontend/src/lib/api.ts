@@ -7,6 +7,7 @@
  */
 
 import type {
+  BatchFileRow,
   ChargerDayDetail,
   CollisionGroup,
   CoverageRow,
@@ -21,6 +22,10 @@ import type {
   MissingChargerRow,
   PaginatedEnvelope,
   ReconstructionSummary,
+  UploadBatchDetail,
+  UploadBatchRow,
+  UploadCreated,
+  UploadLimits,
 } from './types';
 
 const BASE = '/api/v1';
@@ -160,5 +165,84 @@ export const api = {
   frameDiff: (frameId: string, otherFrameId: string) =>
     request<Envelope<FrameDiff>>(
       `/frames/${encodeURIComponent(frameId)}/diff/${encodeURIComponent(otherFrameId)}`,
+    ),
+
+  // --- Phase 1C.5: bulk manual upload -------------------------------------
+
+  /**
+   * Upload telemetry files as one batch.
+   *
+   * Uses XMLHttpRequest rather than fetch purely for `onprogress`: an operator
+   * uploading a multi-gigabyte backfill needs to see transfer progress, and fetch
+   * cannot report it. The response only means the bytes are staged - processing
+   * happens in the worker, which is why the caller then polls the batch.
+   */
+  uploadFiles: (
+    files: File[],
+    onProgress?: (transferred: number, total: number) => void,
+  ): Promise<Envelope<UploadCreated>> =>
+    new Promise((resolve, reject) => {
+      const form = new FormData();
+      for (const file of files) form.append('files', file, file.name);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `${BASE}/ingestion/uploads`);
+      xhr.setRequestHeader('Accept', 'application/json');
+
+      if (onProgress) {
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable) onProgress(event.loaded, event.total);
+        };
+      }
+
+      xhr.onload = () => {
+        let body: unknown;
+        try {
+          body = JSON.parse(xhr.responseText);
+        } catch {
+          reject(new ApiRequestError('Upload response was not JSON', xhr.status));
+          return;
+        }
+        const envelope = body as Envelope<UploadCreated> & {
+          error?: { message: string; code: string } | null;
+        };
+        if (xhr.status >= 400 || envelope.error) {
+          reject(
+            new ApiRequestError(
+              envelope.error?.message ?? `Upload failed (${xhr.status})`,
+              xhr.status,
+              envelope.error?.code,
+            ),
+          );
+          return;
+        }
+        resolve(envelope);
+      };
+      xhr.onerror = () => reject(new ApiRequestError('Upload failed: network error', 0));
+      xhr.onabort = () => reject(new ApiRequestError('Upload cancelled', 0));
+
+      xhr.send(form);
+    }),
+
+  uploadLimits: () => request<Envelope<UploadLimits>>('/ingestion/uploads/limits'),
+
+  uploadBatches: (page = 1, pageSize = 25) =>
+    request<PaginatedEnvelope<UploadBatchRow>>('/ingestion/uploads', {
+      page,
+      page_size: pageSize,
+    }),
+
+  uploadBatch: (batchId: string) =>
+    request<Envelope<UploadBatchDetail>>(
+      `/ingestion/uploads/${encodeURIComponent(batchId)}`,
+    ),
+
+  uploadBatchFiles: (
+    batchId: string,
+    options: { status?: string; page?: number; page_size?: number } = {},
+  ) =>
+    request<PaginatedEnvelope<BatchFileRow>>(
+      `/ingestion/uploads/${encodeURIComponent(batchId)}/files`,
+      options,
     ),
 };

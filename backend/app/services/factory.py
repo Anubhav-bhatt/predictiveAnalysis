@@ -19,10 +19,12 @@ from backend.app.repositories.frames import FrameRepository
 from backend.app.repositories.ingestion import IngestionRunRepository, TelemetryFileRepository
 from backend.app.repositories.quality import QualityRepository
 from backend.app.repositories.schema import SchemaRepository
+from backend.app.repositories.uploads import UploadRepository
 from backend.app.services.coverage_service import CoverageService
 from backend.app.services.frame_service import FrameReconstructionService
 from backend.app.services.ingestion_service import IngestionService
 from backend.app.services.metrics_service import MetricsService
+from backend.app.services.upload_service import UploadService
 from pipelines.persistence.storage import LocalFilesystemRawStorage, RawObjectStorage
 from pipelines.quality.rules import build_default_registry
 from pipelines.sources.filesystem import FilesystemTelemetrySource
@@ -35,6 +37,7 @@ __all__ = [
     "build_ingestion_service",
     "build_metrics_service",
     "build_storage",
+    "build_upload_service",
     "get_dictionary",
 ]
 
@@ -123,6 +126,13 @@ def build_frame_service(
         dictionary=get_dictionary(),
         settings=config,
     )
+
+
+def build_upload_service(
+    session: AsyncSession, *, settings: Settings | None = None
+) -> UploadService:
+    config = settings or get_settings()
+    return UploadService(upload_repo=UploadRepository(session), settings=config)
 
 
 def build_metrics_service(

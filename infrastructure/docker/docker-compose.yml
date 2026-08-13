@@ -53,6 +53,7 @@ services:
       CPI_STORAGE_QUARANTINE_ROOT: /data/quarantine
       CPI_STORAGE_PROCESSED_ROOT: /data/processed
       CPI_SOURCE_FILESYSTEM_INBOX: /data/inbox
+      CPI_UPLOAD_STAGING_ROOT: /data/uploads
       CPI_FLEET_DEFAULT_SOURCE_TIMEZONE: Asia/Kolkata
     ports:
       - '8000:8000'
@@ -73,9 +74,15 @@ services:
     depends_on:
       - backend
 
-  # The scheduled daily cycle. Not started by default: run it on demand with
-  #   docker compose run --rm ingest run-daily
-  # or point a host scheduler at it. No in-container cron is installed.
+  # The scheduled daily cycle, and the manual-upload worker. Not started by
+  # default: run either on demand with
+  #   docker compose --profile tools run --rm ingest run-daily
+  #   docker compose --profile tools run --rm ingest process-uploads
+  # or point a host scheduler at them. No in-container cron is installed.
+  #
+  # `process-uploads` shares the telemetry-data volume with `backend`, which is
+  # what lets the API stage bytes and this process pick them up - the request path
+  # and the processing path are deliberately different processes.
   ingest:
     build:
       context: ../..
@@ -86,6 +93,7 @@ services:
       CPI_STORAGE_RAW_ROOT: /data/raw
       CPI_STORAGE_QUARANTINE_ROOT: /data/quarantine
       CPI_SOURCE_FILESYSTEM_INBOX: /data/inbox
+      CPI_UPLOAD_STAGING_ROOT: /data/uploads
       CPI_FLEET_DEFAULT_SOURCE_TIMEZONE: Asia/Kolkata
     entrypoint: ['python', '-m', 'pipelines.ingestion']
     command: ['run-daily']

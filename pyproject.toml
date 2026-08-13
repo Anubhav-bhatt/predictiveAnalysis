@@ -23,6 +23,8 @@ dependencies = [
     "structlog>=24.4",
     "greenlet>=3.1",
     "pyyaml>=6.0",
+    # Required by FastAPI to parse multipart/form-data for bulk telemetry upload.
+    "python-multipart>=0.0.20",
 ]
 
 [project.optional-dependencies]
@@ -94,7 +96,10 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["S101", "S311"]
+# ASYNC240: blocking pathlib in async test helpers is fine - the files are
+# tiny local fixtures and the suite is single-threaded. The rule stays on
+# for production code, where it matters.
+"tests/*" = ["S101", "S311", "ASYNC240"]
 "scripts/*" = ["S101"]
 
 [tool.ruff.lint.isort]
