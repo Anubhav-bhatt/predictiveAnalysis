@@ -94,9 +94,7 @@ async def upload_and_process(
 
 
 async def count_of(session: AsyncSession, model: type) -> int:
-    return int(
-        (await session.execute(sa.select(sa.func.count()).select_from(model))).scalar_one()
-    )
+    return int((await session.execute(sa.select(sa.func.count()).select_from(model))).scalar_one())
 
 
 # ---------------------------------------------------------------------------
@@ -116,9 +114,7 @@ async def test_single_upload_reaches_frames_reconstructed(
 ) -> None:
     """Upload -> register -> profile -> schema -> quality -> coverage -> frames."""
     await register_charger(fleet_repo)
-    source = make_fixture(
-        tmp_path / "src", "HYD12_28-07-2026.csv", FixtureSpec(timestamp_count=12)
-    )
+    source = make_fixture(tmp_path / "src", "HYD12_28-07-2026.csv", FixtureSpec(timestamp_count=12))
 
     batch_id, result = await upload_and_process(
         uploads=upload_service,
@@ -143,9 +139,7 @@ async def test_single_upload_reaches_frames_reconstructed(
     assert telemetry_file.filename_date == dt.date(2026, 7, 28)
 
     # Coverage and frames exist for the charger-day.
-    coverage_row = (
-        await session.execute(sa.select(ChargerDayCoverage))
-    ).scalars().one()
+    coverage_row = (await session.execute(sa.select(ChargerDayCoverage))).scalars().one()
     assert coverage_row.charger_id == CHARGER
     assert coverage_row.business_date == BUSINESS_DATE
     assert coverage_row.unique_timestamp_count == 12
@@ -257,9 +251,7 @@ async def test_multiple_dates_produce_separate_charger_days(
             make_fixture(
                 tmp_path / "src",
                 f"HYD12_{day}.csv",
-                FixtureSpec(
-                    timestamp_count=6, start=dt.datetime(2026, 7, day, 0, 1, 22)
-                ),
+                FixtureSpec(timestamp_count=6, start=dt.datetime(2026, 7, day, 0, 1, 22)),
             ),
         )
         for day in (10, 11, 12)
@@ -325,12 +317,16 @@ async def test_two_files_same_charger_day_combine_coverage(
     assert result.files_duplicate == 0  # type: ignore[attr-defined]
 
     coverage_row = (
-        await session.execute(
-            sa.select(ChargerDayCoverage).where(
-                ChargerDayCoverage.business_date == BUSINESS_DATE
+        (
+            await session.execute(
+                sa.select(ChargerDayCoverage).where(
+                    ChargerDayCoverage.business_date == BUSINESS_DATE
+                )
             )
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
     # One charger-day whose coverage is the union of both files.
     assert coverage_row.file_count == 2
     assert coverage_row.unique_timestamp_count == 200
@@ -388,19 +384,21 @@ async def test_late_historical_upload_flips_missing_to_late(
     # A MISSING charger-day exists first.
     await coverage_service.reconcile(BUSINESS_DATE)
     before = (
-        await session.execute(
-            sa.select(ChargerDayCoverage).where(
-                ChargerDayCoverage.business_date == BUSINESS_DATE
+        (
+            await session.execute(
+                sa.select(ChargerDayCoverage).where(
+                    ChargerDayCoverage.business_date == BUSINESS_DATE
+                )
             )
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
     assert before.arrival_status is ArrivalStatus.MISSING
     original_id = before.id
 
     # The telemetry finally arrives by manual upload.
-    source = make_fixture(
-        tmp_path / "src", "HYD12_late.csv", FixtureSpec(timestamp_count=700)
-    )
+    source = make_fixture(tmp_path / "src", "HYD12_late.csv", FixtureSpec(timestamp_count=700))
     await upload_and_process(
         uploads=upload_service,
         ingestion=ingestion_service,
@@ -411,12 +409,16 @@ async def test_late_historical_upload_flips_missing_to_late(
 
     session.expire_all()
     after = (
-        await session.execute(
-            sa.select(ChargerDayCoverage).where(
-                ChargerDayCoverage.business_date == BUSINESS_DATE
+        (
+            await session.execute(
+                sa.select(ChargerDayCoverage).where(
+                    ChargerDayCoverage.business_date == BUSINESS_DATE
+                )
             )
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
     assert after.id == original_id, "the same coverage row must be updated in place"
     assert after.arrival_status is ArrivalStatus.LATE
     # The fixture's injected gap pushes its tail past midnight, so one timestamp
@@ -424,12 +426,16 @@ async def test_late_historical_upload_flips_missing_to_late(
     # it actually falls in, not a miscount.
     assert after.unique_timestamp_count == 699
     spill = (
-        await session.execute(
-            sa.select(ChargerDayCoverage).where(
-                ChargerDayCoverage.business_date == dt.date(2026, 7, 28)
+        (
+            await session.execute(
+                sa.select(ChargerDayCoverage).where(
+                    ChargerDayCoverage.business_date == dt.date(2026, 7, 28)
+                )
             )
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
     assert spill.unique_timestamp_count == 1
     assert after.unique_timestamp_count + spill.unique_timestamp_count == 700
 
@@ -713,13 +719,9 @@ async def test_filesystem_and_manual_upload_produce_identical_analytical_results
 
     # Duplicate/replay profile from Phase 1A.
     assert fs_file.exact_duplicate_row_count == up_file.exact_duplicate_row_count
+    assert fs_file.logical_key_collision_group_count == up_file.logical_key_collision_group_count
     assert (
-        fs_file.logical_key_collision_group_count
-        == up_file.logical_key_collision_group_count
-    )
-    assert (
-        fs_file.logical_key_conflicting_group_count
-        == up_file.logical_key_conflicting_group_count
+        fs_file.logical_key_conflicting_group_count == up_file.logical_key_conflicting_group_count
     )
 
     # Phase 1C coverage.
@@ -756,19 +758,23 @@ async def test_filesystem_and_manual_upload_produce_identical_analytical_results
         )
 
     fs_frames = (
-        await session.execute(
-            sa.select(TelemetrySourceFrame).where(
-                TelemetrySourceFrame.charger_id == charger_fs
+        (
+            await session.execute(
+                sa.select(TelemetrySourceFrame).where(TelemetrySourceFrame.charger_id == charger_fs)
             )
         )
-    ).scalars().all()
+        .scalars()
+        .all()
+    )
     up_frames = (
-        await session.execute(
-            sa.select(TelemetrySourceFrame).where(
-                TelemetrySourceFrame.charger_id == charger_up
+        (
+            await session.execute(
+                sa.select(TelemetrySourceFrame).where(TelemetrySourceFrame.charger_id == charger_up)
             )
         )
-    ).scalars().all()
+        .scalars()
+        .all()
+    )
 
     assert len(fs_frames) == len(up_frames) > 0
     assert frame_shape(fs_frames) == frame_shape(up_frames)
@@ -957,9 +963,7 @@ async def test_too_many_files_rejects_the_request(
     source = make_fixture(tmp_path / "src", "a.csv", FixtureSpec(timestamp_count=3))
 
     with pytest.raises(UploadRejected, match="exceeds the configured maximum"):
-        await service.stage_batch(
-            [(f"file{i}.csv", chunks_of(source)) for i in range(3)]
-        )
+        await service.stage_batch([(f"file{i}.csv", chunks_of(source)) for i in range(3)])
 
 
 async def test_empty_request_is_rejected(upload_service: UploadService) -> None:
@@ -967,9 +971,7 @@ async def test_empty_request_is_rejected(upload_service: UploadService) -> None:
         await upload_service.stage_batch([])
 
 
-async def test_symlinked_staged_reference_is_refused(
-    settings: Settings, tmp_path: Path
-) -> None:
+async def test_symlinked_staged_reference_is_refused(settings: Settings, tmp_path: Path) -> None:
     """A staged reference that is a symlink must never be read.
 
     Covers both directions: a link pointing outside staging (caught by the escape
@@ -1012,17 +1014,13 @@ async def test_symlinked_staged_reference_is_refused(
         await source.metadata(ref_for(inside_link))
 
 
-async def test_reference_outside_staging_is_refused(
-    settings: Settings, tmp_path: Path
-) -> None:
+async def test_reference_outside_staging_is_refused(settings: Settings, tmp_path: Path) -> None:
     from pipelines.sources.base import SourceFileRef, TelemetrySourceError
     from pipelines.sources.manual_upload import ManualUploadTelemetrySource
 
     outside = tmp_path / "outside.csv"
     outside.write_text("nope", encoding="utf-8")
-    source = ManualUploadTelemetrySource(
-        [], staging_root=Path(settings.upload.staging_root)
-    )
+    source = ManualUploadTelemetrySource([], staging_root=Path(settings.upload.staging_root))
     ref = SourceFileRef(
         source_type=SourceType.MANUAL_UPLOAD,
         reference=str(outside),
@@ -1090,10 +1088,14 @@ async def test_batch_file_rows_exist_before_processing(
     batch_id, _ = await upload_service.stage_batch([("HYD12.csv", chunks_of(source))])
 
     rows = (
-        await session.execute(
-            sa.select(UploadBatchFile).where(UploadBatchFile.batch_id == batch_id)
+        (
+            await session.execute(
+                sa.select(UploadBatchFile).where(UploadBatchFile.batch_id == batch_id)
+            )
         )
-    ).scalars().all()
+        .scalars()
+        .all()
+    )
     assert len(rows) == 1
     assert rows[0].status is UploadFileStatus.PENDING
     assert rows[0].telemetry_file_id is None

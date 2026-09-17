@@ -158,9 +158,7 @@ def build_file_days(
                 logical_collision_count=(
                     duplicates.logical_collision_groups if not multi_day else 0
                 ),
-                exact_duplicate_row_count=(
-                    duplicates.exact_duplicate_rows if not multi_day else 0
-                ),
+                exact_duplicate_row_count=(duplicates.exact_duplicate_rows if not multi_day else 0),
                 detail={
                     "date_span": analysis.date_span.value,
                     "multi_day_file": multi_day,

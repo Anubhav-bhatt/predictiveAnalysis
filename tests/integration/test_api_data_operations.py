@@ -109,9 +109,7 @@ async def test_daily_summary_requires_a_date(client: AsyncClient) -> None:
 
 
 async def test_daily_summary_rejects_a_malformed_date(client: AsyncClient) -> None:
-    response = await client.get(
-        "/api/v1/data-operations/daily", params={"date": "not-a-date"}
-    )
+    response = await client.get("/api/v1/data-operations/daily", params={"date": "not-a-date"})
     assert response.status_code == 422
 
 
@@ -163,9 +161,7 @@ async def test_charger_list_filters_by_completeness_status(
     assert {row["charger_id"] for row in rows} == {CHARGER, "LATE01"}
 
 
-async def test_charger_list_filters_by_charger_and_site(
-    client: AsyncClient, seeded: None
-) -> None:
+async def test_charger_list_filters_by_charger_and_site(client: AsyncClient, seeded: None) -> None:
     by_charger = await client.get(
         f"/api/v1/data-operations/daily/{BUSINESS_DATE}/chargers",
         params={"charger": CHARGER},
@@ -380,9 +376,7 @@ async def test_run_detail_rejects_a_bad_uuid(client: AsyncClient) -> None:
 
 
 async def test_run_detail_404s_when_absent(client: AsyncClient) -> None:
-    response = await client.get(
-        "/api/v1/data-operations/runs/00000000-0000-0000-0000-000000000000"
-    )
+    response = await client.get("/api/v1/data-operations/runs/00000000-0000-0000-0000-000000000000")
     assert response.status_code == 404
 
 

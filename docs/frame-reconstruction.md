@@ -20,7 +20,7 @@ duplicate rows, and — critically — repeated rows sharing
 So this is unsafe and is never done:
 
 ```python
-drop_duplicates(subset=["timestamp", "connector", "smr"])   # ❌ deletes real data
+drop_duplicates(subset=["timestamp", "connector", "smr"])  # ❌ deletes real data
 ```
 
 Those rows are not duplicates. They are separate observations the charger reported

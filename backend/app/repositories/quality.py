@@ -29,9 +29,7 @@ __all__ = ["QualityRepository"]
 
 
 class QualityRepository(Repository):
-    async def replace_issues(
-        self, telemetry_file_id: UUID, rows: Sequence[dict[str, Any]]
-    ) -> None:
+    async def replace_issues(self, telemetry_file_id: UUID, rows: Sequence[dict[str, Any]]) -> None:
         await self.session.execute(
             sa.delete(DataQualityIssue).where(
                 DataQualityIssue.telemetry_file_id == telemetry_file_id

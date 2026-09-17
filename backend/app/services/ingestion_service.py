@@ -529,9 +529,7 @@ class IngestionService:
         ]
         await self._files.replace_identifiers(telemetry_file.id, rows)
 
-    async def persist_file_days(
-        self, telemetry_file: TelemetryFile, profile: FileProfile
-    ) -> None:
+    async def persist_file_days(self, telemetry_file: TelemetryFile, profile: FileProfile) -> None:
         """Record one row per business date this file actually contains.
 
         This is what lets reconciliation rebuild a charger-day later - after a

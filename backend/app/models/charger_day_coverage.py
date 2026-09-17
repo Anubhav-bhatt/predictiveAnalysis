@@ -51,12 +51,8 @@ class ChargerDayCoverage(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     )
 
     # --- observed window --------------------------------------------------
-    first_event_at: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
-    last_event_at: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
+    first_event_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
+    last_event_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
     unique_timestamp_count: Mapped[int] = mapped_column(sa.Integer, nullable=False, default=0)
     expected_timestamp_count: Mapped[int | None] = mapped_column(sa.Integer, nullable=True)
 
@@ -121,18 +117,14 @@ class ChargerDayCoverage(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         enum_column(CompletenessStatus), nullable=False, default=CompletenessStatus.UNKNOWN
     )
 
-    first_received_at: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
+    first_received_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
     late_by_seconds: Mapped[int | None] = mapped_column(sa.BigInteger, nullable=True)
 
     #: File-level quality stays on telemetry_file; this is the aggregate for the
     #: day and is intentionally a separate number (section 25).
     quality_score: Mapped[Decimal | None] = mapped_column(sa.Numeric(5, 2), nullable=True)
 
-    last_evaluated_at: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
+    last_evaluated_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
 
     charger: Mapped[Charger | None] = relationship(back_populates="coverage_days")
     primary_file: Mapped[TelemetryFile | None] = relationship()
@@ -141,9 +133,7 @@ class ChargerDayCoverage(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     )
     #: CHARGER_DAY-scope findings (section 28). Separate from file quality, which
     #: stays on telemetry_file and is never overwritten by these (section 25).
-    quality_issues: Mapped[list[DataQualityIssue]] = relationship(
-        cascade="all, delete-orphan"
-    )
+    quality_issues: Mapped[list[DataQualityIssue]] = relationship(cascade="all, delete-orphan")
 
     __table_args__ = (
         sa.UniqueConstraint("charger_id", "business_date", name="uq_charger_day_coverage_identity"),

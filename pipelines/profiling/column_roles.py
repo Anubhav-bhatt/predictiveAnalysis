@@ -33,6 +33,7 @@ class ColumnRole(StrEnum):
     OCPP_ID = "OCPP_ID"
     CONNECTOR = "CONNECTOR"
     SMR = "SMR"
+    RECTIFIER = "RECTIFIER"
     SESSION_ID = "SESSION_ID"
 
 
@@ -54,11 +55,19 @@ ROLE_SPECS: Final[Mapping[ColumnRole, _RoleSpec]] = {
             "event_date_time",
             "log_time",
             "log_timestamp",
+            "logged_at_time",
+            "logged_time",
             "timestamp",
             "date_time",
         ),
         # Deliberately anchored: "session_start_time" must not win this role.
-        patterns=(r"^event_?time.*$", r"^log_?time.*$", r"^date_?time$", r"^time_?stamp$"),
+        patterns=(
+            r"^event_?time.*$",
+            r"^log_?time.*$",
+            r"^log(ged)?_?(at_)?time.*$",
+            r"^date_?time$",
+            r"^time_?stamp$",
+        ),
         required=True,
     ),
     ColumnRole.CHARGER_ID: _RoleSpec(
@@ -86,6 +95,10 @@ ROLE_SPECS: Final[Mapping[ColumnRole, _RoleSpec]] = {
         exact=("smr_no", "smr_number", "smr_id", "smr", "smr_index", "module_no"),
         patterns=(r"^smr(_?(no|num|number|id|index))?$",),
         required=True,
+    ),
+    ColumnRole.RECTIFIER: _RoleSpec(
+        exact=("rectifier_number", "rectifier_no", "rectifier_id", "rectifier"),
+        patterns=(r"^rectifier(_?(no|num|number|id|index))?$",),
     ),
     ColumnRole.SESSION_ID: _RoleSpec(
         exact=("session_id", "transaction_id", "charging_session_id", "txn_id"),

@@ -7,25 +7,41 @@
  */
 
 import type {
+  AlarmEventsResponse,
   BatchFileRow,
+  ChargerContinuitySummary,
   ChargerDayDetail,
+  ChargerHistoryResponse,
+  ChargingSessionsResponse,
   CollisionGroup,
   CoverageRow,
   DailySummary,
   Envelope,
+  EventReconstructionOutcome,
+  EventTimelineResponse,
   FrameDetail,
   FrameDiff,
   FrameSummaryRow,
   GapRow,
+  HistoricalGap,
   IngestionRun,
   LateFileRow,
   MissingChargerRow,
   PaginatedEnvelope,
+  PatternResearchEligibility,
   ReconstructionSummary,
+  SignalHistoryResponse,
   UploadBatchDetail,
   UploadBatchRow,
   UploadCreated,
   UploadLimits,
+  AnalyticalDatasetSummary,
+  CorrelationMatrix,
+  DataReadiness,
+  FleetEDASummary,
+  PatternCandidateDTO,
+  PatternScanOutcome,
+  SignalStatisticsDTO,
 } from './types';
 
 const BASE = '/api/v1';
@@ -41,14 +57,27 @@ export class ApiRequestError extends Error {
   }
 }
 
-async function request<T>(path: string, params?: Record<string, string | number | undefined>) {
+async function request<T>(
+  path: string,
+  params?: Record<string, string | number | boolean | string[] | undefined>,
+  init?: RequestInit,
+) {
   const url = new URL(`${BASE}${path}`, window.location.origin);
   for (const [key, value] of Object.entries(params ?? {})) {
-    if (value !== undefined && value !== '') url.searchParams.set(key, String(value));
+    if (value !== undefined && value !== '') {
+      if (Array.isArray(value)) {
+        for (const item of value) {
+          url.searchParams.append(key, String(item));
+        }
+      } else {
+        url.searchParams.set(key, String(value));
+      }
+    }
   }
 
   const response = await fetch(url.toString(), {
-    headers: { Accept: 'application/json' },
+    headers: { Accept: 'application/json', ...(init?.headers ?? {}) },
+    ...init,
   });
 
   let body: unknown;
@@ -245,4 +274,165 @@ export const api = {
       `/ingestion/uploads/${encodeURIComponent(batchId)}/files`,
       options,
     ),
+
+  // --- Phase 7: Historical Continuity & Time-Series Research ----------------
+  chargerContinuitySummary: (chargerId: string) =>
+    request<Envelope<ChargerContinuitySummary>>(
+      `/chargers/${encodeURIComponent(chargerId)}/summary`,
+    ),
+
+  chargerHistory: (
+    chargerId: string,
+    options: {
+      start_time?: string;
+      end_time?: string;
+      metrics?: string[];
+      limit?: number;
+      cursor?: string;
+    } = {},
+  ) =>
+    request<Envelope<ChargerHistoryResponse>>(
+      `/chargers/${encodeURIComponent(chargerId)}/history`,
+      options,
+    ),
+
+  componentHistory: (
+    chargerId: string,
+    componentType: string,
+    componentId: number,
+    options: {
+      start_time?: string;
+      end_time?: string;
+      metrics?: string[];
+      limit?: number;
+      cursor?: string;
+    } = {},
+  ) =>
+    request<Envelope<ChargerHistoryResponse>>(
+      `/chargers/${encodeURIComponent(chargerId)}/components/${encodeURIComponent(componentType)}/${componentId}/history`,
+      options,
+    ),
+
+  signalHistory: (
+    chargerId: string,
+    signalName: string,
+    options: {
+      component_type?: string;
+      component_id?: number;
+      start_time?: string;
+      end_time?: string;
+      limit?: number;
+    } = {},
+  ) =>
+    request<Envelope<SignalHistoryResponse>>(
+      `/chargers/${encodeURIComponent(chargerId)}/signals/${encodeURIComponent(signalName)}/history`,
+      options,
+    ),
+
+  chargerGapsHistory: (chargerId: string) =>
+    request<Envelope<HistoricalGap[]>>(
+      `/chargers/${encodeURIComponent(chargerId)}/gaps`,
+    ),
+
+  patternEligibility: (chargerId: string) =>
+    request<Envelope<PatternResearchEligibility>>(
+      `/chargers/${encodeURIComponent(chargerId)}/pattern-eligibility`,
+    ),
+
+  // --- Phase 8: Discrete Operational Event Reconstruction -----------------
+
+  reconstructEvents: (
+    chargerId: string,
+    options: { start_time?: string; end_time?: string } = {},
+  ) =>
+    request<Envelope<EventReconstructionOutcome>>(
+      `/chargers/${encodeURIComponent(chargerId)}/reconstruct-events`,
+      options,
+      { method: 'POST' },
+    ),
+
+  eventTimeline: (
+    chargerId: string,
+    options: { start_time?: string; end_time?: string; limit?: number } = {},
+  ) =>
+    request<Envelope<EventTimelineResponse>>(
+      `/chargers/${encodeURIComponent(chargerId)}/event-timeline`,
+      options,
+    ),
+
+  sessions: (
+    chargerId: string,
+    options: {
+      connector_id?: number;
+      start_time?: string;
+      end_time?: string;
+      limit?: number;
+    } = {},
+  ) =>
+    request<Envelope<ChargingSessionsResponse>>(
+      `/chargers/${encodeURIComponent(chargerId)}/sessions`,
+      options,
+    ),
+
+  alarms: (
+    chargerId: string,
+    options: {
+      alarm_code?: string;
+      is_open?: boolean;
+      start_time?: string;
+      end_time?: string;
+      limit?: number;
+    } = {},
+  ) =>
+    request<Envelope<AlarmEventsResponse>>(
+      `/chargers/${encodeURIComponent(chargerId)}/alarms`,
+      options,
+    ),
 };
+
+export const research = {
+  fleetEda: () =>
+    request<Envelope<FleetEDASummary>>('/research/fleet-eda'),
+
+  dataReadiness: () =>
+    request<Envelope<DataReadiness>>('/research/data-readiness'),
+
+  signalStats: (chargerId: string) =>
+    request<Envelope<SignalStatisticsDTO[]>>(
+      `/research/chargers/${encodeURIComponent(chargerId)}/signal-stats`,
+    ),
+
+  correlations: (chargerId: string) =>
+    request<Envelope<CorrelationMatrix>>(
+      `/research/chargers/${encodeURIComponent(chargerId)}/correlations`,
+    ),
+
+  patterns: (
+    chargerId: string,
+    options: {
+      pattern_category?: string;
+      evidence_level?: string;
+      min_confidence?: number;
+      limit?: number;
+    } = {},
+  ) =>
+    request<Envelope<PatternCandidateDTO[]>>(
+      `/research/chargers/${encodeURIComponent(chargerId)}/patterns`,
+      options,
+    ),
+
+  scanPatterns: (chargerId: string) =>
+    request<Envelope<PatternScanOutcome>>(
+      `/research/chargers/${encodeURIComponent(chargerId)}/scan-patterns`,
+      undefined,
+      { method: 'POST' },
+    ),
+
+  buildDataset: (chargerId: string, grain: string = 'CHARGER_TIME') =>
+    request<Envelope<AnalyticalDatasetSummary>>(
+      `/research/chargers/${encodeURIComponent(chargerId)}/build-dataset`,
+      { grain },
+      { method: 'POST' },
+    ),
+};
+

@@ -68,9 +68,7 @@ class UploadBatch(UUIDPrimaryKeyMixin, TimestampMixin, Base):
 
     upload_started_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
     upload_completed_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
-    processing_started_at: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
+    processing_started_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
     processing_completed_at: Mapped[dt.datetime | None] = mapped_column(
         UtcDateTime(), nullable=True
     )
@@ -143,25 +141,17 @@ class UploadBatchFile(UUIDPrimaryKeyMixin, Base):
 
     failure_reason: Mapped[str | None] = mapped_column(sa.Text, nullable=True)
 
-    staged_at: Mapped[dt.datetime] = mapped_column(
-        UtcDateTime(), nullable=False, default=utcnow
-    )
+    staged_at: Mapped[dt.datetime] = mapped_column(UtcDateTime(), nullable=False, default=utcnow)
     registered_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
 
     batch: Mapped[UploadBatch] = relationship(back_populates="files")
-    telemetry_file: Mapped[TelemetryFile | None] = relationship(
-        foreign_keys=[telemetry_file_id]
-    )
-    duplicate_of: Mapped[TelemetryFile | None] = relationship(
-        foreign_keys=[duplicate_of_file_id]
-    )
+    telemetry_file: Mapped[TelemetryFile | None] = relationship(foreign_keys=[telemetry_file_id])
+    duplicate_of: Mapped[TelemetryFile | None] = relationship(foreign_keys=[duplicate_of_file_id])
 
     __table_args__ = (
         # One staged entry per filename per batch. Re-presenting the same batch
         # converges rather than accumulating.
-        sa.UniqueConstraint(
-            "batch_id", "original_filename", name="uq_upload_batch_file_identity"
-        ),
+        sa.UniqueConstraint("batch_id", "original_filename", name="uq_upload_batch_file_identity"),
         sa.Index("ix_upload_batch_file_status", "status"),
         sa.Index("ix_upload_batch_file_sha256", "sha256"),
         sa.CheckConstraint("size_bytes >= 0", name="size_bytes_non_negative"),

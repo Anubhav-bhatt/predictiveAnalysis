@@ -1,131 +1,2288 @@
-# SMR (switched-mode rectifier) module telemetry.
-#
-# The known charger carries 4 SMRs, so these fields repeat per (timestamp, SMR)
-# and must normalise to SMR_TELEMETRY rather than charger-level scalars.
-
 version: 1
-
 fields:
-  - source_name: SMR RectifierinternalTemp
-    canonical_name: smr_internal_temperature
-    display_name: SMR Internal Temperature
-    description: >-
-      Internal rectifier module temperature. The device emits -150 when the
-      probe reading is unavailable; that value is a sentinel, not a measurement.
-    entity: SMR
-    field_class: CONTINUOUS_TELEMETRY
-    category: THERMAL
-    data_type: FLOAT
-    unit: "°C"
-    nullable: true
-    required: false
-    sentinel_values:
-      - value: "-150"
-        meaning: sensor_unavailable
-    range_status: UNVERIFIED
-    normalization_strategy: PER_SMR
-    storage_strategy: SMR_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    prediction_domains:
-      - smr_health
-      - thermal_failure
-    leakage_risk: LOW
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-    notes: >-
-      Canonical name is curated: the raw name "RectifierinternalTemp" mechanically
-      canonicalises to smr_rectifierinternal_temp, which is accurate but not
-      readable. The sentinel rule is field-specific - -150 is NOT globally
-      invalid across the schema.
-
-  - source_name: SMR Output Voltage
-    canonical_name: smr_output_voltage
-    display_name: SMR Output Voltage
-    description: DC output voltage of the rectifier module.
-    entity: SMR
-    field_class: CONTINUOUS_TELEMETRY
-    category: ELECTRICAL_OUTPUT
-    data_type: FLOAT
-    unit: V
-    nullable: true
-    required: false
-    valid_min: 0
-    range_status: UNVERIFIED
-    normalization_strategy: PER_SMR
-    storage_strategy: SMR_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    prediction_domains:
-      - smr_health
-    leakage_risk: LOW
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: SMR Output Current
-    canonical_name: smr_output_current
-    display_name: SMR Output Current
-    description: DC output current of the rectifier module.
-    entity: SMR
-    field_class: CONTINUOUS_TELEMETRY
-    category: ELECTRICAL_OUTPUT
-    data_type: FLOAT
-    unit: A
-    nullable: true
-    required: false
-    valid_min: 0
-    range_status: UNVERIFIED
-    normalization_strategy: PER_SMR
-    storage_strategy: SMR_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    prediction_domains:
-      - smr_health
-    leakage_risk: LOW
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: SMR Input Voltage
-    canonical_name: smr_input_voltage
-    display_name: SMR Input Voltage
-    description: AC input voltage presented to the rectifier module.
-    entity: SMR
-    field_class: CONTINUOUS_TELEMETRY
-    category: ELECTRICAL_INPUT
-    data_type: FLOAT
-    unit: V
-    nullable: true
-    required: false
-    valid_min: 0
-    range_status: UNVERIFIED
-    normalization_strategy: PER_SMR
-    storage_strategy: SMR_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    prediction_domains:
-      - smr_health
-    leakage_risk: LOW
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: SMR Status
-    canonical_name: smr_status
-    display_name: SMR Status
-    description: Operating state of the rectifier module.
-    entity: SMR
-    field_class: STATE
-    category: SMR
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: PER_SMR
-    storage_strategy: SMR_TELEMETRY
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - smr_health
-    leakage_risk: MEDIUM
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
+- source_name: SMR Set Voltage
+  canonical_name: smr_set_voltage
+  display_name: SMR Set Voltage
+  description: Authoritative telemetry specification for SMR Set Voltage (smr_set_voltage)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Set Current
+  canonical_name: smr_set_current
+  display_name: SMR Set Current
+  description: Authoritative telemetry specification for SMR Set Current (smr_set_current)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Available Current
+  canonical_name: smr_available_current
+  display_name: SMR Available Current
+  description: Authoritative telemetry specification for SMR Available Current (smr_available_current)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Max Power
+  canonical_name: smr_max_power
+  display_name: SMR Max Power
+  description: Authoritative telemetry specification for SMR Max Power (smr_max_power)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR DcDc Temperature
+  canonical_name: smr_dc_dc_temperature
+  display_name: SMR DcDc Temperature
+  description: Authoritative telemetry specification for SMR DcDc Temperature (smr_dc_dc_temperature)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+  sentinel_values:
+  - value: '-150.0'
+    meaning: probe_unavailable
+  - value: '-150'
+    meaning: probe_unavailable
+- source_name: SMR Pfc Temperature
+  canonical_name: smr_pfc_temperature
+  display_name: SMR Pfc Temperature
+  description: Authoritative telemetry specification for SMR Pfc Temperature (smr_pfc_temperature)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+  sentinel_values:
+  - value: '-150.0'
+    meaning: probe_unavailable
+  - value: '-150'
+    meaning: probe_unavailable
+- source_name: SMR Hardware Ver
+  canonical_name: smr_hardware_version
+  display_name: SMR Hardware Ver
+  description: Authoritative telemetry specification for SMR Hardware Ver (smr_hardware_version)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Soft Ver
+  canonical_name: smr_software_version
+  display_name: SMR Soft Ver
+  description: Authoritative telemetry specification for SMR Soft Ver (smr_software_version)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: PFC Side Abnormal
+  canonical_name: pfc_side_abnormal
+  display_name: PFC Side Abnormal
+  description: Authoritative telemetry specification for PFC Side Abnormal (pfc_side_abnormal)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: PFC Side Is Off
+  canonical_name: pfc_side_is_off
+  display_name: PFC Side Is Off
+  description: Authoritative telemetry specification for PFC Side Is Off (pfc_side_is_off)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: PFC DCDC Comm Fail
+  canonical_name: pfc_dcdc_comm_fail
+  display_name: PFC DCDC Comm Fail
+  description: Authoritative telemetry specification for PFC DCDC Comm Fail (pfc_dcdc_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: PFC Eeprom Faults
+  canonical_name: pfc_eeprom_faults
+  display_name: PFC Eeprom Faults
+  description: Authoritative telemetry specification for PFC Eeprom Faults (pfc_eeprom_faults)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Mapped GUN
+  canonical_name: smr_mapped_gun
+  display_name: SMR Mapped GUN
+  description: Authoritative telemetry specification for SMR Mapped GUN (smr_mapped_gun)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: SMR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR GroupId
+  canonical_name: smr_group_id
+  display_name: SMR GroupId
+  description: Authoritative telemetry specification for SMR GroupId (smr_group_id)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR OutputVoltage
+  canonical_name: smr_output_voltage
+  display_name: SMR OutputVoltage
+  description: Authoritative telemetry specification for SMR OutputVoltage (smr_output_voltage)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR OutputCurrent
+  canonical_name: smr_output_current
+  display_name: SMR OutputCurrent
+  description: Authoritative telemetry specification for SMR OutputCurrent (smr_output_current)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Output Power
+  canonical_name: smr_output_power
+  display_name: SMR Output Power
+  description: Authoritative telemetry specification for SMR Output Power (smr_output_power)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR AvailableMaxCurrent
+  canonical_name: smr_available_max_current
+  display_name: SMR AvailableMaxCurrent
+  description: Authoritative telemetry specification for SMR AvailableMaxCurrent (smr_available_max_current)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR AvailableMaxPower
+  canonical_name: smr_available_max_power
+  display_name: SMR AvailableMaxPower
+  description: Authoritative telemetry specification for SMR AvailableMaxPower (smr_available_max_power)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR RectifierDCstatus
+  canonical_name: smr_rectifier_d_cstatus
+  display_name: SMR RectifierDCstatus
+  description: Authoritative telemetry specification for SMR RectifierDCstatus (smr_rectifier_d_cstatus)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR RectifierinternalTemp
+  canonical_name: smr_rectifierinternal_temp
+  display_name: SMR RectifierinternalTemp
+  description: Authoritative telemetry specification for SMR RectifierinternalTemp
+    (smr_rectifierinternal_temp)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+  sentinel_values:
+  - value: '-150.0'
+    meaning: probe_unavailable
+  - value: '-150'
+    meaning: probe_unavailable
+- source_name: SMRDCDCTemperature
+  canonical_name: smrdcdc_temperature
+  display_name: SMRDCDCTemperature
+  description: Authoritative telemetry specification for SMRDCDCTemperature (smrdcdc_temperature)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+  sentinel_values:
+  - value: '-150.0'
+    meaning: probe_unavailable
+  - value: '-150'
+    meaning: probe_unavailable
+- source_name: SMRPFCTemperature
+  canonical_name: smrpfc_temperature
+  display_name: SMRPFCTemperature
+  description: Authoritative telemetry specification for SMRPFCTemperature (smrpfc_temperature)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+  sentinel_values:
+  - value: '-150.0'
+    meaning: probe_unavailable
+  - value: '-150'
+    meaning: probe_unavailable
+- source_name: SMR AvailableMaxVoltage
+  canonical_name: smr_available_max_voltage
+  display_name: SMR AvailableMaxVoltage
+  description: Authoritative telemetry specification for SMR AvailableMaxVoltage (smr_available_max_voltage)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Rated Maximum Current
+  canonical_name: smr_rated_maximum_current
+  display_name: SMR Rated Maximum Current
+  description: Authoritative telemetry specification for SMR Rated Maximum Current
+    (smr_rated_maximum_current)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Rated Maximum Power
+  canonical_name: smr_rated_maximum_power
+  display_name: SMR Rated Maximum Power
+  description: Authoritative telemetry specification for SMR Rated Maximum Power (smr_rated_maximum_power)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMRHardwareVer
+  canonical_name: smr_module_hardware_version
+  display_name: SMRHardwareVer
+  description: Authoritative telemetry specification for SMRHardwareVer (smr_module_hardware_version)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: SMR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMRSoftVer
+  canonical_name: smr_module_software_version
+  display_name: SMRSoftVer
+  description: Authoritative telemetry specification for SMRSoftVer (smr_module_software_version)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMRPFCVer
+  canonical_name: smrpfc_ver
+  display_name: SMRPFCVer
+  description: Authoritative telemetry specification for SMRPFCVer (smrpfc_ver)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: SMR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Line1 Voltage
+  canonical_name: smr_line1_voltage
+  display_name: SMR Line1 Voltage
+  description: Authoritative telemetry specification for SMR Line1 Voltage (smr_line1_voltage)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Line2 Voltage
+  canonical_name: smr_line2_voltage
+  display_name: SMR Line2 Voltage
+  description: Authoritative telemetry specification for SMR Line2 Voltage (smr_line2_voltage)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Line3 Voltage
+  canonical_name: smr_line3_voltage
+  display_name: SMR Line3 Voltage
+  description: Authoritative telemetry specification for SMR Line3 Voltage (smr_line3_voltage)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Rated Minimum Voltage
+  canonical_name: smr_rated_minimum_voltage
+  display_name: SMR Rated Minimum Voltage
+  description: Authoritative telemetry specification for SMR Rated Minimum Voltage
+    (smr_rated_minimum_voltage)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Rated Maximum Voltage
+  canonical_name: smr_rated_maximum_voltage
+  display_name: SMR Rated Maximum Voltage
+  description: Authoritative telemetry specification for SMR Rated Maximum Voltage
+    (smr_rated_maximum_voltage)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Fan Speed
+  canonical_name: smr_fan_speed
+  display_name: SMR Fan Speed
+  description: Authoritative telemetry specification for SMR Fan Speed (smr_fan_speed)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: FAN
+  data_type: FLOAT
+  unit: rpm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Output Short
+  canonical_name: smr_output_short
+  display_name: SMR Output Short
+  description: Authoritative telemetry specification for SMR Output Short (smr_output_short)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Inner Comm Interrupt
+  canonical_name: smr_inner_comm_interrupt
+  display_name: SMR Inner Comm Interrupt
+  description: Authoritative telemetry specification for SMR Inner Comm Interrupt
+    (smr_inner_comm_interrupt)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR PFC Side Abnormal
+  canonical_name: smr_pfc_side_abnormal
+  display_name: SMR PFC Side Abnormal
+  description: Authoritative telemetry specification for SMR PFC Side Abnormal (smr_pfc_side_abnormal)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Discharge Abnormal
+  canonical_name: smr_discharge_abnormal
+  display_name: SMR Discharge Abnormal
+  description: Authoritative telemetry specification for SMR Discharge Abnormal (smr_discharge_abnormal)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR DC Side is OFF
+  canonical_name: smr_dc_side_is_off
+  display_name: SMR DC Side is OFF
+  description: Authoritative telemetry specification for SMR DC Side is OFF (smr_dc_side_is_off)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR MDL Fault
+  canonical_name: smr_mdl_fault
+  display_name: SMR MDL Fault
+  description: Authoritative telemetry specification for SMR MDL Fault (smr_mdl_fault)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR MDL Protect
+  canonical_name: smr_mdl_protect
+  display_name: SMR MDL Protect
+  description: Authoritative telemetry specification for SMR MDL Protect (smr_mdl_protect)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Fan Fault
+  canonical_name: smr_fan_fault
+  display_name: SMR Fan Fault
+  description: Authoritative telemetry specification for SMR Fan Fault (smr_fan_fault)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Over Temperature
+  canonical_name: smr_over_temperature
+  display_name: SMR Over Temperature
+  description: Authoritative telemetry specification for SMR Over Temperature (smr_over_temperature)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Output Over Voltage
+  canonical_name: smr_output_over_voltage
+  display_name: SMR Output Over Voltage
+  description: Authoritative telemetry specification for SMR Output Over Voltage (smr_output_over_voltage)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR WALK-IN Enable
+  canonical_name: smr_walk_in_enable
+  display_name: SMR WALK-IN Enable
+  description: Authoritative telemetry specification for SMR WALK-IN Enable (smr_walk_in_enable)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR CAN Communication Interrupt
+  canonical_name: smr_can_communication_interrupt
+  display_name: SMR CAN Communication Interrupt
+  description: Authoritative telemetry specification for SMR CAN Communication Interrupt
+    (smr_can_communication_interrupt)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Power Limit
+  canonical_name: smr_power_limit
+  display_name: SMR Power Limit
+  description: Authoritative telemetry specification for SMR Power Limit (smr_power_limit)
+  entity: CONFIGURATION
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR DL ID Repetition
+  canonical_name: smr_dl_id_repetition
+  display_name: SMR DL ID Repetition
+  description: Authoritative telemetry specification for SMR DL ID Repetition (smr_dl_id_repetition)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Load Sharing
+  canonical_name: smr_load_sharing
+  display_name: SMR Load Sharing
+  description: Authoritative telemetry specification for SMR Load Sharing (smr_load_sharing)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Input Phase loss
+  canonical_name: smr_input_phase_loss
+  display_name: SMR Input Phase loss
+  description: Authoritative telemetry specification for SMR Input Phase loss (smr_input_phase_loss)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Input Unbalance
+  canonical_name: smr_input_unbalance
+  display_name: SMR Input Unbalance
+  description: Authoritative telemetry specification for SMR Input Unbalance (smr_input_unbalance)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Input Under Voltage
+  canonical_name: smr_input_under_voltage
+  display_name: SMR Input Under Voltage
+  description: Authoritative telemetry specification for SMR Input Under Voltage (smr_input_under_voltage)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Input Over Voltage
+  canonical_name: smr_input_over_voltage
+  display_name: SMR Input Over Voltage
+  description: Authoritative telemetry specification for SMR Input Over Voltage (smr_input_over_voltage)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR PFC Side is OFF
+  canonical_name: smr_pfc_side_is_off
+  display_name: SMR PFC Side is OFF
+  description: Authoritative telemetry specification for SMR PFC Side is OFF (smr_pfc_side_is_off)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Fuse Burn Out
+  canonical_name: smr_fuse_burn_out
+  display_name: SMR Fuse Burn Out
+  description: Authoritative telemetry specification for SMR Fuse Burn Out (smr_fuse_burn_out)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR PFC DCDC Comm Fail
+  canonical_name: smr_pfc_dcdc_comm_fail
+  display_name: SMR PFC DCDC Comm Fail
+  description: Authoritative telemetry specification for SMR PFC DCDC Comm Fail (smr_pfc_dcdc_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Bus Unbalanced Voltage
+  canonical_name: smr_bus_unbalanced_voltage
+  display_name: SMR Bus Unbalanced Voltage
+  description: Authoritative telemetry specification for SMR Bus Unbalanced Voltage
+    (smr_bus_unbalanced_voltage)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Bus Over Voltage
+  canonical_name: smr_bus_over_voltage
+  display_name: SMR Bus Over Voltage
+  description: Authoritative telemetry specification for SMR Bus Over Voltage (smr_bus_over_voltage)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Bus Voltage Abnormal
+  canonical_name: smr_bus_voltage_abnormal
+  display_name: SMR Bus Voltage Abnormal
+  description: Authoritative telemetry specification for SMR Bus Voltage Abnormal
+    (smr_bus_voltage_abnormal)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Bus Under Voltage
+  canonical_name: smr_bus_under_voltage
+  display_name: SMR Bus Under Voltage
+  description: Authoritative telemetry specification for SMR Bus Under Voltage (smr_bus_under_voltage)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Fan At Full Speed
+  canonical_name: smr_fan_at_full_speed
+  display_name: SMR Fan At Full Speed
+  description: Authoritative telemetry specification for SMR Fan At Full Speed (smr_fan_at_full_speed)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Output Derating Temp
+  canonical_name: smr_output_derating_temp
+  display_name: SMR Output Derating Temp
+  description: Authoritative telemetry specification for SMR Output Derating Temp
+    (smr_output_derating_temp)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Output Derating AC
+  canonical_name: smr_output_derating_ac
+  display_name: SMR Output Derating AC
+  description: Authoritative telemetry specification for SMR Output Derating AC (smr_output_derating_ac)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR DCDC Eeprom Faults
+  canonical_name: smr_dcdc_eeprom_faults
+  display_name: SMR DCDC Eeprom Faults
+  description: Authoritative telemetry specification for SMR DCDC Eeprom Faults (smr_dcdc_eeprom_faults)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR PFC Eeprom Faults
+  canonical_name: smr_pfc_eeprom_faults
+  display_name: SMR PFC Eeprom Faults
+  description: Authoritative telemetry specification for SMR PFC Eeprom Faults (smr_pfc_eeprom_faults)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Module Fail
+  canonical_name: smr_module_fail
+  display_name: SMR Module Fail
+  description: Authoritative telemetry specification for SMR Module Fail (smr_module_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Module Comm Fail
+  canonical_name: smr_module_comm_fail
+  display_name: SMR Module Comm Fail
+  description: Authoritative telemetry specification for SMR Module Comm Fail (smr_module_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-1
+  canonical_name: in_pfc_1
+  display_name: IN_PFC-1
+  description: Authoritative telemetry specification for IN_PFC-1 (in_pfc_1)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-2
+  canonical_name: in_pfc_2
+  display_name: IN_PFC-2
+  description: Authoritative telemetry specification for IN_PFC-2 (in_pfc_2)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-3
+  canonical_name: in_pfc_3
+  display_name: IN_PFC-3
+  description: Authoritative telemetry specification for IN_PFC-3 (in_pfc_3)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-4
+  canonical_name: in_pfc_4
+  display_name: IN_PFC-4
+  description: Authoritative telemetry specification for IN_PFC-4 (in_pfc_4)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-5
+  canonical_name: in_pfc_5
+  display_name: IN_PFC-5
+  description: Authoritative telemetry specification for IN_PFC-5 (in_pfc_5)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-6
+  canonical_name: in_pfc_6
+  display_name: IN_PFC-6
+  description: Authoritative telemetry specification for IN_PFC-6 (in_pfc_6)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-7
+  canonical_name: in_pfc_7
+  display_name: IN_PFC-7
+  description: Authoritative telemetry specification for IN_PFC-7 (in_pfc_7)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-8
+  canonical_name: in_pfc_8
+  display_name: IN_PFC-8
+  description: Authoritative telemetry specification for IN_PFC-8 (in_pfc_8)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-9
+  canonical_name: in_pfc_9
+  display_name: IN_PFC-9
+  description: Authoritative telemetry specification for IN_PFC-9 (in_pfc_9)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-10
+  canonical_name: in_pfc_10
+  display_name: IN_PFC-10
+  description: Authoritative telemetry specification for IN_PFC-10 (in_pfc_10)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-11
+  canonical_name: in_pfc_11
+  display_name: IN_PFC-11
+  description: Authoritative telemetry specification for IN_PFC-11 (in_pfc_11)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: IN_PFC-12
+  canonical_name: in_pfc_12
+  display_name: IN_PFC-12
+  description: Authoritative telemetry specification for IN_PFC-12 (in_pfc_12)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-1
+  canonical_name: out_pfc_1
+  display_name: Out_PFC-1
+  description: Authoritative telemetry specification for Out_PFC-1 (out_pfc_1)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-2
+  canonical_name: out_pfc_2
+  display_name: Out_PFC-2
+  description: Authoritative telemetry specification for Out_PFC-2 (out_pfc_2)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-3
+  canonical_name: out_pfc_3
+  display_name: Out_PFC-3
+  description: Authoritative telemetry specification for Out_PFC-3 (out_pfc_3)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-4
+  canonical_name: out_pfc_4
+  display_name: Out_PFC-4
+  description: Authoritative telemetry specification for Out_PFC-4 (out_pfc_4)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-5
+  canonical_name: out_pfc_5
+  display_name: Out_PFC-5
+  description: Authoritative telemetry specification for Out_PFC-5 (out_pfc_5)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-6
+  canonical_name: out_pfc_6
+  display_name: Out_PFC-6
+  description: Authoritative telemetry specification for Out_PFC-6 (out_pfc_6)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-7
+  canonical_name: out_pfc_7
+  display_name: Out_PFC-7
+  description: Authoritative telemetry specification for Out_PFC-7 (out_pfc_7)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-8
+  canonical_name: out_pfc_8
+  display_name: Out_PFC-8
+  description: Authoritative telemetry specification for Out_PFC-8 (out_pfc_8)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-9
+  canonical_name: out_pfc_9
+  display_name: Out_PFC-9
+  description: Authoritative telemetry specification for Out_PFC-9 (out_pfc_9)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-10
+  canonical_name: out_pfc_10
+  display_name: Out_PFC-10
+  description: Authoritative telemetry specification for Out_PFC-10 (out_pfc_10)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-11
+  canonical_name: out_pfc_11
+  display_name: Out_PFC-11
+  description: Authoritative telemetry specification for Out_PFC-11 (out_pfc_11)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Out_PFC-12
+  canonical_name: out_pfc_12
+  display_name: Out_PFC-12
+  description: Authoritative telemetry specification for Out_PFC-12 (out_pfc_12)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR1 Fail
+  canonical_name: floating_smr1_fail
+  display_name: Floating SMR1 Fail
+  description: Authoritative telemetry specification for Floating SMR1 Fail (floating_smr1_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR1 Group Fail
+  canonical_name: floating_smr1_group_fail
+  display_name: Floating SMR1 Group Fail
+  description: Authoritative telemetry specification for Floating SMR1 Group Fail
+    (floating_smr1_group_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR1 Comm Fail
+  canonical_name: floating_smr1_comm_fail
+  display_name: Floating SMR1 Comm Fail
+  description: Authoritative telemetry specification for Floating SMR1 Comm Fail (floating_smr1_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR1 Group Comm Fail
+  canonical_name: floating_smr1_group_comm_fail
+  display_name: Floating SMR1 Group Comm Fail
+  description: Authoritative telemetry specification for Floating SMR1 Group Comm
+    Fail (floating_smr1_group_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR2 Fail
+  canonical_name: floating_smr2_fail
+  display_name: Floating SMR2 Fail
+  description: Authoritative telemetry specification for Floating SMR2 Fail (floating_smr2_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR2 Group Fail
+  canonical_name: floating_smr2_group_fail
+  display_name: Floating SMR2 Group Fail
+  description: Authoritative telemetry specification for Floating SMR2 Group Fail
+    (floating_smr2_group_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR2 Comm Fail
+  canonical_name: floating_smr2_comm_fail
+  display_name: Floating SMR2 Comm Fail
+  description: Authoritative telemetry specification for Floating SMR2 Comm Fail (floating_smr2_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR2 Group Comm Fail
+  canonical_name: floating_smr2_group_comm_fail
+  display_name: Floating SMR2 Group Comm Fail
+  description: Authoritative telemetry specification for Floating SMR2 Group Comm
+    Fail (floating_smr2_group_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR3 Fail
+  canonical_name: floating_smr3_fail
+  display_name: Floating SMR3 Fail
+  description: Authoritative telemetry specification for Floating SMR3 Fail (floating_smr3_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR3 Group Fail
+  canonical_name: floating_smr3_group_fail
+  display_name: Floating SMR3 Group Fail
+  description: Authoritative telemetry specification for Floating SMR3 Group Fail
+    (floating_smr3_group_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR3 Comm Fail
+  canonical_name: floating_smr3_comm_fail
+  display_name: Floating SMR3 Comm Fail
+  description: Authoritative telemetry specification for Floating SMR3 Comm Fail (floating_smr3_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR3 Group Comm Fail
+  canonical_name: floating_smr3_group_comm_fail
+  display_name: Floating SMR3 Group Comm Fail
+  description: Authoritative telemetry specification for Floating SMR3 Group Comm
+    Fail (floating_smr3_group_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR4 Fail
+  canonical_name: floating_smr4_fail
+  display_name: Floating SMR4 Fail
+  description: Authoritative telemetry specification for Floating SMR4 Fail (floating_smr4_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR4 Group Fail
+  canonical_name: floating_smr4_group_fail
+  display_name: Floating SMR4 Group Fail
+  description: Authoritative telemetry specification for Floating SMR4 Group Fail
+    (floating_smr4_group_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR4 Comm Fail
+  canonical_name: floating_smr4_comm_fail
+  display_name: Floating SMR4 Comm Fail
+  description: Authoritative telemetry specification for Floating SMR4 Comm Fail (floating_smr4_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Floating SMR4 Group Comm Fail
+  canonical_name: floating_smr4_group_comm_fail
+  display_name: Floating SMR4 Group Comm Fail
+  description: Authoritative telemetry specification for Floating SMR4 Group Comm
+    Fail (floating_smr4_group_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Fail Count
+  canonical_name: smr_fail_count
+  display_name: SMR Fail Count
+  description: Authoritative telemetry specification for SMR Fail Count (smr_fail_count)
+  entity: SMR
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SMR Comm Fail Count
+  canonical_name: smr_comm_fail_count
+  display_name: SMR Comm Fail Count
+  description: Authoritative telemetry specification for SMR Comm Fail Count (smr_comm_fail_count)
+  entity: CHARGER
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUNA SMR Fail Count
+  canonical_name: guna_smr_fail_count
+  display_name: GUNA SMR Fail Count
+  description: Authoritative telemetry specification for GUNA SMR Fail Count (guna_smr_fail_count)
+  entity: SMR
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUNA SMR Comm Fail Count
+  canonical_name: guna_smr_comm_fail_count
+  display_name: GUNA SMR Comm Fail Count
+  description: Authoritative telemetry specification for GUNA SMR Comm Fail Count
+    (guna_smr_comm_fail_count)
+  entity: CHARGER
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUNB SMR Fail Count
+  canonical_name: gunb_smr_fail_count
+  display_name: GUNB SMR Fail Count
+  description: Authoritative telemetry specification for GUNB SMR Fail Count (gunb_smr_fail_count)
+  entity: SMR
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUNB SMR Comm Fail Count
+  canonical_name: gunb_smr_comm_fail_count
+  display_name: GUNB SMR Comm Fail Count
+  description: Authoritative telemetry specification for GUNB SMR Comm Fail Count
+    (gunb_smr_comm_fail_count)
+  entity: CHARGER
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: FR1 SMR Fail Count
+  canonical_name: fr1_smr_fail_count
+  display_name: FR1 SMR Fail Count
+  description: Authoritative telemetry specification for FR1 SMR Fail Count (fr1_smr_fail_count)
+  entity: SMR
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: FR1 SMR Comm Fail Count
+  canonical_name: fr1_smr_comm_fail_count
+  display_name: FR1 SMR Comm Fail Count
+  description: Authoritative telemetry specification for FR1 SMR Comm Fail Count (fr1_smr_comm_fail_count)
+  entity: CHARGER
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: FR2 SMR Fail Count
+  canonical_name: fr2_smr_fail_count
+  display_name: FR2 SMR Fail Count
+  description: Authoritative telemetry specification for FR2 SMR Fail Count (fr2_smr_fail_count)
+  entity: SMR
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: FR2 SMR Comm Fail Count
+  canonical_name: fr2_smr_comm_fail_count
+  display_name: FR2 SMR Comm Fail Count
+  description: Authoritative telemetry specification for FR2 SMR Comm Fail Count (fr2_smr_comm_fail_count)
+  entity: CHARGER
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED

@@ -189,9 +189,7 @@ class FrameReconstructionService:
                     serializer=serializer,
                     telemetry_file_id=telemetry_file.id,
                     charger_id_fallback=charger_id,
-                    charger_connector_count=(
-                        charger.expected_connector_count if charger else None
-                    ),
+                    charger_connector_count=(charger.expected_connector_count if charger else None),
                     charger_smr_count=charger.expected_smr_count if charger else None,
                     default_connector_count=self._settings.ingest.expected_connector_count,
                     default_smr_count=self._settings.ingest.expected_smr_count,
@@ -223,8 +221,7 @@ class FrameReconstructionService:
                 frame_count=outcome.metrics.frames_reconstructed,
                 canonical_frame_count=outcome.metrics.canonical_frames,
                 replay_count=(
-                    outcome.metrics.full_frame_replays
-                    + outcome.metrics.partial_frame_replays
+                    outcome.metrics.full_frame_replays + outcome.metrics.partial_frame_replays
                 ),
                 collision_count=outcome.metrics.collision_timestamps,
                 partial_count=outcome.metrics.partial_frames,
@@ -308,9 +305,7 @@ class FrameReconstructionService:
             spec = self._dictionary.by_name.get(canonical_name) or (
                 self._dictionary.by_name.get(source_name)
             )
-            field_types[canonical_name] = (
-                spec.data_type if spec else CanonicalDataType.UNKNOWN
-            )
+            field_types[canonical_name] = spec.data_type if spec else CanonicalDataType.UNKNOWN
 
         # Both token maps from the Phase 1B missing-value contract. `explicit_states`
         # is deliberately NOT included: "Not alarm" is a real reported state, not
@@ -359,17 +354,13 @@ class FrameReconstructionService:
         )
 
         business_date = telemetry_file.business_date
-        existing_by_fingerprint = await self._existing_fingerprints(
-            outcome, reconstruction_version
-        )
+        existing_by_fingerprint = await self._existing_fingerprints(outcome, reconstruction_version)
         # frame_sequence is assigned by the algorithm *per file*, so two
         # overlapping files would both start at 0 and collide on frame identity.
         # Persistence therefore allocates the next free sequence per
         # (charger, event_time), preserving the file's relative ordering within a
         # timestamp. For the common single-file case this is a no-op.
-        next_sequence = await self._next_free_sequences(
-            outcome, reconstruction_version
-        )
+        next_sequence = await self._next_free_sequences(outcome, reconstruction_version)
 
         frame_rows: list[dict[str, object]] = []
         source_rows: list[dict[str, object]] = []
@@ -378,9 +369,7 @@ class FrameReconstructionService:
         sequence_to_id: dict[tuple[dt.datetime, int], UUID] = {}
 
         for frame in outcome.frames:
-            date_for_frame = self._business_date_for(
-                frame, source_timezone, business_date
-            )
+            date_for_frame = self._business_date_for(frame, source_timezone, business_date)
             reused_id = existing_by_fingerprint.get(frame.frame_fingerprint)
 
             if reused_id is not None:
@@ -397,9 +386,7 @@ class FrameReconstructionService:
                         is_primary=False,
                     )
                 )
-                row_rows.extend(
-                    self._row_rows(reused_id, telemetry_file.id, frame)
-                )
+                row_rows.extend(self._row_rows(reused_id, telemetry_file.id, frame))
                 continue
 
             frame_id = uuid4()
@@ -425,9 +412,7 @@ class FrameReconstructionService:
                     "observed_position_count": frame.observed_position_count,
                     "missing_position_count": frame.missing_position_count,
                     "unexpected_position_count": frame.unexpected_position_count,
-                    "completeness_percentage": Decimal(
-                        str(frame.completeness_percentage)
-                    ),
+                    "completeness_percentage": Decimal(str(frame.completeness_percentage)),
                     "source_order_min": frame.source_order_min,
                     "source_order_max": frame.source_order_max,
                     "reconstruction_version": reconstruction_version,
@@ -451,9 +436,7 @@ class FrameReconstructionService:
         await self._frames.insert_sources(source_rows)
 
         # Unassigned rows are persisted too, so nothing silently disappears.
-        row_rows.extend(
-            self._unassigned_row_rows(outcome, telemetry_file.id, sequence_to_id)
-        )
+        row_rows.extend(self._unassigned_row_rows(outcome, telemetry_file.id, sequence_to_id))
         await self._frames.insert_frame_rows(row_rows)
 
         # Replay pointers, now that every frame id exists.
@@ -483,9 +466,7 @@ class FrameReconstructionService:
             return {}
         charger_ids = {frame.charger_id for frame in outcome.frames}
         rows = await self._frames.session.execute(
-            sa.select(
-                TelemetrySourceFrame.frame_fingerprint, TelemetrySourceFrame.id
-            ).where(
+            sa.select(TelemetrySourceFrame.frame_fingerprint, TelemetrySourceFrame.id).where(
                 TelemetrySourceFrame.charger_id.in_(charger_ids),
                 TelemetrySourceFrame.frame_fingerprint.in_(fingerprints),
                 TelemetrySourceFrame.reconstruction_version == reconstruction_version,
@@ -516,9 +497,7 @@ class FrameReconstructionService:
                 TelemetrySourceFrame.event_time.in_(times),
                 TelemetrySourceFrame.reconstruction_version == reconstruction_version,
             )
-            .group_by(
-                TelemetrySourceFrame.charger_id, TelemetrySourceFrame.event_time
-            )
+            .group_by(TelemetrySourceFrame.charger_id, TelemetrySourceFrame.event_time)
         )
         return {
             (charger_id, event_time): int(highest) + 1
@@ -674,18 +653,14 @@ class FrameReconstructionService:
                         "reconstruction_version": reconstruction_version,
                     },
                     "occurrence_count": count,
-                    "issue_hash": _finding_hash(
-                        telemetry_file.id, code, reconstruction_version
-                    ),
+                    "issue_hash": _finding_hash(telemetry_file.id, code, reconstruction_version),
                     "detected_at": dt.datetime.now(dt.UTC),
                 }
             )
 
         # Frame findings are FRAME-scope; replacing only those leaves the file's
         # Phase 1A/1B findings untouched.
-        await self._quality.replace_scoped_issues(
-            telemetry_file.id, QualityRuleScope.FRAME, rows
-        )
+        await self._quality.replace_scoped_issues(telemetry_file.id, QualityRuleScope.FRAME, rows)
         return len(rows)
 
 

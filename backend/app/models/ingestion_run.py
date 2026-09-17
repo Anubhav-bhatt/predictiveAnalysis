@@ -39,12 +39,8 @@ class IngestionRun(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     #: ad-hoc single-file runs from the CLI.
     business_date: Mapped[dt.date | None] = mapped_column(sa.Date, nullable=True, index=True)
 
-    started_at: Mapped[dt.datetime] = mapped_column(
-        UtcDateTime(), nullable=False, default=utcnow
-    )
-    finished_at: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
+    started_at: Mapped[dt.datetime] = mapped_column(UtcDateTime(), nullable=False, default=utcnow)
+    finished_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
 
     # Outcome counters, maintained by the orchestrator as each file resolves.
     # These are a point-in-time snapshot of the run for operational reporting;

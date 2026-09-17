@@ -111,9 +111,7 @@ async def charger_day_detail(
     gaps = await fleet.gaps_for_coverage(coverage.id)
     findings = await quality.charger_day_issues(coverage.id)
     file_days = await files.file_days_for_charger(charger_id, business_date, business_date)
-    file_by_id = {
-        f.id: f for f in await files.files_for_charger_day(charger_id, business_date)
-    }
+    file_by_id = {f.id: f for f in await files.files_for_charger_day(charger_id, business_date)}
 
     contributing = [
         ContributingFile(

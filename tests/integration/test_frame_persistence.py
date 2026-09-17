@@ -106,9 +106,7 @@ async def register_charger(fleet: FleetRepository) -> None:
 
 
 async def count_of(session: AsyncSession, model: type) -> int:
-    return int(
-        (await session.execute(sa.select(sa.func.count()).select_from(model))).scalar_one()
-    )
+    return int((await session.execute(sa.select(sa.func.count()).select_from(model))).scalar_one())
 
 
 # ---------------------------------------------------------------------------
@@ -176,12 +174,16 @@ async def test_provenance_traces_frame_to_file_to_source_rows(
 
     repo = FrameRepository(session)
     complete = (
-        await session.execute(
-            sa.select(TelemetrySourceFrame)
-            .where(TelemetrySourceFrame.frame_status == FrameStatus.COMPLETE)
-            .limit(1)
+        (
+            await session.execute(
+                sa.select(TelemetrySourceFrame)
+                .where(TelemetrySourceFrame.frame_status == FrameStatus.COMPLETE)
+                .limit(1)
+            )
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
 
     frame = await repo.get(complete.id)
     assert frame is not None
@@ -231,13 +233,17 @@ async def test_replay_frames_point_at_their_canonical_frame(
     await frame_service.reconstruct_file(telemetry_file)
 
     replays = (
-        await session.execute(
-            sa.select(TelemetrySourceFrame).where(
-                TelemetrySourceFrame.duplicate_classification
-                == DuplicateClassification.FULL_FRAME_REPLAY
+        (
+            await session.execute(
+                sa.select(TelemetrySourceFrame).where(
+                    TelemetrySourceFrame.duplicate_classification
+                    == DuplicateClassification.FULL_FRAME_REPLAY
+                )
             )
         )
-    ).scalars().all()
+        .scalars()
+        .all()
+    )
 
     assert replays, "the fixture contains a byte-identical replayed frame"
     for replay in replays:
@@ -276,24 +282,32 @@ async def test_same_timestamp_distinct_frames_persist_as_two_canonical_rows(
     await frame_service.reconstruct_file(telemetry_file)
 
     distinct = (
-        await session.execute(
-            sa.select(TelemetrySourceFrame).where(
-                TelemetrySourceFrame.duplicate_classification
-                == DuplicateClassification.SAME_TIMESTAMP_DISTINCT_FRAME
+        (
+            await session.execute(
+                sa.select(TelemetrySourceFrame).where(
+                    TelemetrySourceFrame.duplicate_classification
+                    == DuplicateClassification.SAME_TIMESTAMP_DISTINCT_FRAME
+                )
             )
         )
-    ).scalars().all()
+        .scalars()
+        .all()
+    )
     assert distinct, "the fixture contains a differing frame at one timestamp"
 
     for frame in distinct:
         siblings = (
-            await session.execute(
-                sa.select(TelemetrySourceFrame).where(
-                    TelemetrySourceFrame.charger_id == frame.charger_id,
-                    TelemetrySourceFrame.event_time == frame.event_time,
+            (
+                await session.execute(
+                    sa.select(TelemetrySourceFrame).where(
+                        TelemetrySourceFrame.charger_id == frame.charger_id,
+                        TelemetrySourceFrame.event_time == frame.event_time,
+                    )
                 )
             )
-        ).scalars().all()
+            .scalars()
+            .all()
+        )
 
         # Both frames survive at the same event_time, separated only by sequence.
         assert len(siblings) >= 2
@@ -327,9 +341,7 @@ async def test_reconstruction_is_idempotent(
         spec=FixtureSpec(timestamp_count=15, interval_seconds=121),
     )
 
-    first = await frame_service.reconstruct_file(
-        telemetry_file, advance_lifecycle=False
-    )
+    first = await frame_service.reconstruct_file(telemetry_file, advance_lifecycle=False)
     counts = (
         await count_of(session, TelemetrySourceFrame),
         await count_of(session, TelemetryFrameSource),
@@ -338,9 +350,7 @@ async def test_reconstruction_is_idempotent(
     )
 
     for _ in range(3):
-        again = await frame_service.reconstruct_file(
-            telemetry_file, advance_lifecycle=False
-        )
+        again = await frame_service.reconstruct_file(telemetry_file, advance_lifecycle=False)
         assert (
             await count_of(session, TelemetrySourceFrame),
             await count_of(session, TelemetryFrameSource),
@@ -349,10 +359,7 @@ async def test_reconstruction_is_idempotent(
         ) == counts
         assert again.frames_persisted == first.frames_persisted
         assert again.outcome is not None and first.outcome is not None
-        assert (
-            again.outcome.metrics.canonical_frames
-            == first.outcome.metrics.canonical_frames
-        )
+        assert again.outcome.metrics.canonical_frames == first.outcome.metrics.canonical_frames
 
 
 async def test_frame_sequences_are_stable_across_reruns(
@@ -378,9 +385,7 @@ async def test_frame_sequences_are_stable_across_reruns(
                 TelemetrySourceFrame.event_time,
                 TelemetrySourceFrame.frame_sequence,
                 TelemetrySourceFrame.frame_fingerprint,
-            ).order_by(
-                TelemetrySourceFrame.event_time, TelemetrySourceFrame.frame_sequence
-            )
+            ).order_by(TelemetrySourceFrame.event_time, TelemetrySourceFrame.frame_sequence)
         )
         return [(row[0], row[1], row[2]) for row in rows.all()]
 
@@ -420,17 +425,13 @@ async def test_identical_frames_in_two_files_share_one_canonical_frame(
         conflicting_timestamp_indexes=(),
     )
 
-    file_a = await register_file(
-        session, settings, storage, filename="HYD12_A.csv", spec=spec
-    )
+    file_a = await register_file(session, settings, storage, filename="HYD12_A.csv", spec=spec)
     result_a = await frame_service.reconstruct_file(file_a, advance_lifecycle=False)
     frames_after_a = await count_of(session, TelemetrySourceFrame)
     assert frames_after_a == result_a.frames_persisted > 0
 
     # Same telemetry content, different filename.
-    file_b = await register_file(
-        session, settings, storage, filename="HYD12_B.csv", spec=spec
-    )
+    file_b = await register_file(session, settings, storage, filename="HYD12_B.csv", spec=spec)
     result_b = await frame_service.reconstruct_file(file_b, advance_lifecycle=False)
 
     # No new frames: every payload was already known.
@@ -439,9 +440,7 @@ async def test_identical_frames_in_two_files_share_one_canonical_frame(
     assert result_b.frames_reused_from_other_files == frames_after_a
 
     # Both files are recorded as sources of the shared frames.
-    sample = (
-        await session.execute(sa.select(TelemetrySourceFrame).limit(1))
-    ).scalars().one()
+    sample = (await session.execute(sa.select(TelemetrySourceFrame).limit(1))).scalars().one()
     repo = FrameRepository(session)
     frame = await repo.get(sample.id)
     assert frame is not None
@@ -465,12 +464,8 @@ async def test_reconstructing_one_file_does_not_destroy_a_shared_frame(
         replay_timestamp_indexes=(),
         conflicting_timestamp_indexes=(),
     )
-    file_a = await register_file(
-        session, settings, storage, filename="HYD12_A.csv", spec=spec
-    )
-    file_b = await register_file(
-        session, settings, storage, filename="HYD12_B.csv", spec=spec
-    )
+    file_a = await register_file(session, settings, storage, filename="HYD12_A.csv", spec=spec)
+    file_b = await register_file(session, settings, storage, filename="HYD12_B.csv", spec=spec)
 
     await frame_service.reconstruct_file(file_a, advance_lifecycle=False)
     await frame_service.reconstruct_file(file_b, advance_lifecycle=False)
@@ -515,12 +510,14 @@ async def test_frame_findings_use_the_existing_quality_framework(
     result = await frame_service.reconstruct_file(telemetry_file)
 
     findings = (
-        await session.execute(
-            sa.select(DataQualityIssue).where(
-                DataQualityIssue.scope == QualityRuleScope.FRAME
+        (
+            await session.execute(
+                sa.select(DataQualityIssue).where(DataQualityIssue.scope == QualityRuleScope.FRAME)
             )
         )
-    ).scalars().all()
+        .scalars()
+        .all()
+    )
 
     assert findings, "the fixture's replays and collisions produce findings"
     assert len(findings) == result.findings_persisted

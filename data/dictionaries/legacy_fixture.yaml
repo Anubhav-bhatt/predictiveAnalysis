@@ -1,0 +1,670 @@
+version: 1
+fields:
+- source_name: Ambient Temperature
+  canonical_name: ambient_temperature
+  display_name: Ambient Temperature
+  description: Outside air temperature measured at the charger.
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: NONE
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Battery SOC
+  canonical_name: battery_soc
+  display_name: Battery State of Charge
+  description: Vehicle battery state of charge reported over the charging link.
+  entity: SESSION
+  field_class: CONTINUOUS_TELEMETRY
+  category: BATTERY
+  data_type: FLOAT
+  unit: percent
+  nullable: true
+  required: false
+  range_status: VERIFIED
+  normalization_strategy: PER_SESSION
+  storage_strategy: SESSION_OBSERVATION
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: SESSION_DURING
+  review_status: AUTO_CLASSIFIED
+- source_name: Battery Voltage
+  canonical_name: battery_voltage
+  display_name: Battery Voltage
+  description: Vehicle battery pack voltage reported over the charging link.
+  entity: SESSION
+  field_class: CONTINUOUS_TELEMETRY
+  category: BATTERY
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: PER_SESSION
+  storage_strategy: SESSION_OBSERVATION
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: SESSION_DURING
+  review_status: AUTO_CLASSIFIED
+- source_name: CAN Bus Status
+  canonical_name: can_bus_status
+  display_name: CAN Bus Status
+  description: Internal CAN bus health between charger subsystems.
+  entity: CHARGER
+  field_class: STATE
+  category: CAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: MEDIUM
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: CCS Communication Status
+  canonical_name: ccs_communication_status
+  display_name: CCS Communication Status
+  description: State of the CCS high-level communication link to the vehicle.
+  entity: CONNECTOR
+  field_class: STATE
+  category: CCS
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: PER_CONNECTOR
+  storage_strategy: CONNECTOR_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: MEDIUM
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Charger Status
+  canonical_name: charger_status
+  display_name: Charger Status
+  description: Operating state of the charger as reported by its state machine.
+  entity: CHARGER
+  field_class: STATE
+  category: STATE_MACHINE
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: MEDIUM
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Contactor Status
+  canonical_name: contactor_status
+  display_name: Contactor Status
+  description: Main output contactor position.
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: MEDIUM
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Cooling Fan Speed
+  canonical_name: cooling_fan_speed
+  display_name: Cooling Fan Speed
+  description: Cabinet cooling fan rotational speed.
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: COOLING
+  data_type: INTEGER
+  unit: rpm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Cooling Fan Status
+  canonical_name: cooling_fan_status
+  display_name: Cooling Fan Status
+  description: Cooling fan operating state.
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Event Time
+  canonical_name: event_time
+  display_name: Event Time
+  description: Device-reported timestamp of the observation. Authoritative for business
+    date; the filename date is never used. Day-first format in the known schema (e.g.
+    27-07-2026 20:31:21), naive, interpreted in the charger's configured source timezone.
+  entity: FILE
+  field_class: TIMESTAMP
+  category: IDENTITY
+  data_type: DATETIME
+  unit: null
+  nullable: false
+  required: true
+  range_status: NOT_APPLICABLE
+  normalization_strategy: PASSTHROUGH
+  storage_strategy: RAW_ONLY
+  aggregation_strategy: FIRST
+  ml_candidate: 'NO'
+  leakage_risk: NONE
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Firmware Version
+  canonical_name: firmware_version
+  display_name: Firmware Version
+  description: Charger firmware build identifier.
+  entity: CONFIGURATION
+  field_class: CONFIGURATION
+  category: FIRMWARE
+  data_type: STRING
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: CONFIG_SNAPSHOT
+  storage_strategy: CONFIGURATION_SNAPSHOT
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: NONE
+  availability_semantics: STATIC
+  review_status: AUTO_CLASSIFIED
+- source_name: Grid Frequency
+  canonical_name: grid_frequency
+  display_name: Grid Frequency
+  description: AC supply frequency.
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: Hz
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: NONE
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Grid Voltage B Phase
+  canonical_name: grid_voltage_b_phase
+  display_name: Grid Voltage B Phase
+  description: AC input line voltage, B phase.
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: NONE
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Grid Voltage R Phase
+  canonical_name: grid_voltage_r_phase
+  display_name: Grid Voltage R Phase
+  description: AC input line voltage, R phase.
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: NONE
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Grid Voltage Y Phase
+  canonical_name: grid_voltage_y_phase
+  display_name: Grid Voltage Y Phase
+  description: AC input line voltage, Y phase.
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: NONE
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Gun Lock Status
+  canonical_name: gun_lock_status
+  display_name: Gun Lock Status
+  description: Connector locking actuator state.
+  entity: CONNECTOR
+  field_class: STATE
+  category: GUN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: PER_CONNECTOR
+  storage_strategy: CONNECTOR_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Gun Temperature
+  canonical_name: gun_temperature
+  display_name: Gun Temperature
+  description: Connector/gun body temperature.
+  entity: CONNECTOR
+  field_class: CONTINUOUS_TELEMETRY
+  category: GUN
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: PER_CONNECTOR
+  storage_strategy: CONNECTOR_TELEMETRY
+  aggregation_strategy: MAX
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Hardware Version
+  canonical_name: hardware_version
+  display_name: Hardware Version
+  description: Charger hardware revision identifier.
+  entity: CONFIGURATION
+  field_class: CONFIGURATION
+  category: HARDWARE
+  data_type: STRING
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: CONFIG_SNAPSHOT
+  storage_strategy: CONFIGURATION_SNAPSHOT
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: NONE
+  availability_semantics: STATIC
+  review_status: AUTO_CLASSIFIED
+- source_name: Insulation Resistance Negative
+  canonical_name: insulation_resistance_negative
+  display_name: Insulation Resistance (Negative Rail)
+  description: Measured insulation resistance on the negative DC rail.
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: INSULATION
+  data_type: FLOAT
+  unit: kOhm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MIN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Insulation Resistance Positive
+  canonical_name: insulation_resistance_positive
+  display_name: Insulation Resistance (Positive Rail)
+  description: Measured insulation resistance on the positive DC rail.
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: INSULATION
+  data_type: FLOAT
+  unit: kOhm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MIN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Meter Reading
+  canonical_name: meter_reading
+  display_name: Meter Reading
+  description: Cumulative energy meter register.
+  entity: CHARGER
+  field_class: COUNTER
+  category: METER
+  data_type: INTEGER
+  unit: Wh
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: COUNTER_SNAPSHOT
+  storage_strategy: COUNTER_TELEMETRY
+  aggregation_strategy: MAX
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: OCPP Connection Status
+  canonical_name: ocpp_connection_status
+  display_name: OCPP Connection Status
+  description: Connectivity state of the OCPP session to the central system.
+  entity: CHARGER
+  field_class: STATE
+  category: OCPP
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: MEDIUM
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: PLC Link Status
+  canonical_name: plc_link_status
+  display_name: PLC Link Status
+  description: HomePlug Green PHY power-line communication link state.
+  entity: CONNECTOR
+  field_class: STATE
+  category: PLC
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: PER_CONNECTOR
+  storage_strategy: CONNECTOR_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: MEDIUM
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: SMR Input Voltage
+  canonical_name: smr_input_voltage
+  display_name: SMR Input Voltage
+  description: AC input voltage presented to the rectifier module.
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: PER_SMR
+  storage_strategy: SMR_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: SMR No
+  canonical_name: smr_number
+  display_name: SMR Number
+  description: Which switched-mode rectifier module this row describes. The known
+    charger has 4. Part of the logical raw key.
+  entity: SMR
+  field_class: DIMENSION
+  category: SMR
+  data_type: INTEGER
+  unit: null
+  nullable: false
+  required: true
+  range_status: UNVERIFIED
+  normalization_strategy: PER_SMR
+  storage_strategy: SMR_TELEMETRY
+  aggregation_strategy: FIRST
+  ml_candidate: 'NO'
+  leakage_risk: NONE
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: SMR Status
+  canonical_name: smr_status
+  display_name: SMR Status
+  description: Operating state of the rectifier module.
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: PER_SMR
+  storage_strategy: SMR_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: MEDIUM
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Session Duration
+  canonical_name: session_duration
+  display_name: Session Duration
+  description: Elapsed time since session start.
+  entity: SESSION
+  field_class: COUNTER
+  category: SESSION
+  data_type: DURATION
+  unit: seconds
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: PER_SESSION
+  storage_strategy: SESSION_OBSERVATION
+  aggregation_strategy: MAX
+  ml_candidate: 'YES'
+  leakage_risk: MEDIUM
+  availability_semantics: SESSION_DURING
+  review_status: AUTO_CLASSIFIED
+- source_name: Session Energy Delivered
+  canonical_name: session_energy_delivered
+  display_name: Session Energy Delivered
+  description: Energy delivered so far in the active session.
+  entity: SESSION
+  field_class: COUNTER
+  category: SESSION
+  data_type: FLOAT
+  unit: kWh
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: PER_SESSION
+  storage_strategy: SESSION_OBSERVATION
+  aggregation_strategy: MAX
+  ml_candidate: 'YES'
+  leakage_risk: MEDIUM
+  availability_semantics: SESSION_DURING
+  review_status: AUTO_CLASSIFIED
+- source_name: Session Start Time
+  canonical_name: session_start_time
+  display_name: Session Start Time
+  description: Timestamp at which the active session began.
+  entity: SESSION
+  field_class: TIMESTAMP
+  category: SESSION
+  data_type: DATETIME
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: PER_SESSION
+  storage_strategy: SESSION_OBSERVATION
+  aggregation_strategy: FIRST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: SESSION_START
+  review_status: AUTO_CLASSIFIED
+- source_name: Session Stop Time
+  canonical_name: session_stop_time
+  display_name: Session Stop Time
+  description: Timestamp at which the session ended.
+  entity: SESSION
+  field_class: TIMESTAMP
+  category: SESSION
+  data_type: DATETIME
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: PER_SESSION
+  storage_strategy: SESSION_OBSERVATION
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: HIGH
+  availability_semantics: SESSION_END
+  review_status: AUTO_CLASSIFIED
+- source_name: Signal Strength
+  canonical_name: signal_strength
+  display_name: Signal Strength
+  description: Cellular/network received signal strength.
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: COMMUNICATION
+  data_type: INTEGER
+  unit: dBm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: NONE
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Site ID
+  canonical_name: site_id
+  display_name: Site ID
+  description: Identifier of the physical site hosting the charger.
+  entity: SITE
+  field_class: IDENTIFIER
+  category: IDENTITY
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: CHARGER_SCALAR
+  storage_strategy: MASTER_DATA
+  aggregation_strategy: FIRST
+  ml_candidate: 'NO'
+  leakage_risk: NONE
+  availability_semantics: STATIC
+  review_status: AUTO_CLASSIFIED
+- source_name: Total Energy Counter
+  canonical_name: total_energy_counter
+  display_name: Total Energy Counter
+  description: Lifetime cumulative energy delivered by the charger.
+  entity: CHARGER
+  field_class: COUNTER
+  category: COUNTER
+  data_type: INTEGER
+  unit: Wh
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: COUNTER_SNAPSHOT
+  storage_strategy: COUNTER_TELEMETRY
+  aggregation_strategy: MAX
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Total Session Counter
+  canonical_name: total_session_counter
+  display_name: Total Session Counter
+  description: Lifetime count of charging sessions delivered by the charger.
+  entity: CHARGER
+  field_class: COUNTER
+  category: COUNTER
+  data_type: INTEGER
+  unit: count
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: COUNTER_SNAPSHOT
+  storage_strategy: COUNTER_TELEMETRY
+  aggregation_strategy: MAX
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED
+- source_name: Uptime Seconds
+  canonical_name: uptime_seconds
+  display_name: Uptime
+  description: Seconds since the charger controller last restarted.
+  entity: CHARGER
+  field_class: COUNTER
+  category: SYSTEM
+  data_type: DURATION
+  unit: seconds
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: COUNTER_SNAPSHOT
+  storage_strategy: COUNTER_TELEMETRY
+  aggregation_strategy: MAX
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: AUTO_CLASSIFIED

@@ -65,9 +65,7 @@ def build_parser() -> argparse.ArgumentParser:
     one = sub.add_parser("reconstruct", help="Reconstruct a single telemetry file.")
     target = one.add_mutually_exclusive_group(required=True)
     target.add_argument("file_id", nargs="?", help="telemetry_file UUID.")
-    target.add_argument(
-        "--filename", help="Original filename, when the UUID is not to hand."
-    )
+    target.add_argument("--filename", help="Original filename, when the UUID is not to hand.")
 
     day = sub.add_parser(
         "reconstruct-day",
@@ -77,9 +75,7 @@ def build_parser() -> argparse.ArgumentParser:
     identity.add_argument(
         "--charger", help="charger_id exactly as it appears inside the telemetry."
     )
-    identity.add_argument(
-        "--ocpp", help="OCPP id; resolved to a charger_id through the registry."
-    )
+    identity.add_argument("--ocpp", help="OCPP id; resolved to a charger_id through the registry.")
     day.add_argument("--date", type=_parse_date, required=True)
 
     return parser
@@ -95,9 +91,7 @@ async def reconstruct_one(*, file_id: str | None, filename: str | None) -> int:
     async with session_scope() as session:
         telemetry_file = await _resolve_file(session, file_id=file_id, filename=filename)
         if telemetry_file is None:
-            print(
-                "No registered telemetry file matches that identifier.", file=sys.stderr
-            )
+            print("No registered telemetry file matches that identifier.", file=sys.stderr)
             return EXIT_USAGE
 
         service = build_frame_service(session, settings=settings)
@@ -107,9 +101,7 @@ async def reconstruct_one(*, file_id: str | None, filename: str | None) -> int:
     return EXIT_OK if result.succeeded else EXIT_FAILED
 
 
-async def reconstruct_day(
-    *, charger: str | None, ocpp: str | None, business_date: dt.date
-) -> int:
+async def reconstruct_day(*, charger: str | None, ocpp: str | None, business_date: dt.date) -> int:
     settings = get_settings()
     async with session_scope() as session:
         charger_id = charger
@@ -119,9 +111,7 @@ async def reconstruct_day(
             )
             charger_id = resolved.scalars().first()
             if charger_id is None:
-                print(
-                    f"No registered charger has OCPP id {ocpp!r}.", file=sys.stderr
-                )
+                print(f"No registered charger has OCPP id {ocpp!r}.", file=sys.stderr)
                 return EXIT_USAGE
 
         assert charger_id is not None
@@ -129,10 +119,7 @@ async def reconstruct_day(
         results = await service.reconstruct_charger_day(charger_id, business_date)
 
     if not results:
-        print(
-            f"\nNo usable telemetry files for {charger_id} on "
-            f"{business_date.isoformat()}."
-        )
+        print(f"\nNo usable telemetry files for {charger_id} on {business_date.isoformat()}.")
         return EXIT_OK
 
     print(f"\nCHARGER-DAY RECONSTRUCTION - {charger_id} {business_date.isoformat()}")
@@ -183,10 +170,7 @@ def _print_file_result(label: str, result: FrameReconstructionResult) -> None:
     print(result.outcome.metrics.render())
     print()
     print(f"  Frames persisted               {result.frames_persisted:>10,}")
-    print(
-        f"  Reused from other files        "
-        f"{result.frames_reused_from_other_files:>10,}"
-    )
+    print(f"  Reused from other files        {result.frames_reused_from_other_files:>10,}")
     print(f"  Findings persisted             {result.findings_persisted:>10,}")
 
     collisions = result.outcome.collision_timestamps

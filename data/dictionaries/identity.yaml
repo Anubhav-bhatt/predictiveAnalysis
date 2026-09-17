@@ -1,166 +1,116 @@
-# Identity and grain-defining fields.
-#
-# These are the columns that give every other value its meaning: what time, which
-# charger, which connector, which SMR.  They are the only fields marked
-# `required: true` - without them the file cannot be interpreted at all.
-
 version: 1
-
 fields:
-  - source_name: Event Time
-    canonical_name: event_time
-    display_name: Event Time
-    description: >-
-      Device-reported timestamp of the observation. Authoritative for business
-      date; the filename date is never used. Day-first format in the known
-      schema (e.g. 27-07-2026 20:31:21), naive, interpreted in the charger's
-      configured source timezone.
-    entity: FILE
-    field_class: TIMESTAMP
-    category: IDENTITY
-    data_type: DATETIME
-    unit: null
-    nullable: false
-    required: true
-    range_status: NOT_APPLICABLE
-    normalization_strategy: PASSTHROUGH
-    storage_strategy: RAW_ONLY
-    aggregation_strategy: FIRST
-    ml_candidate: "NO"
-    leakage_risk: NONE
-    availability_semantics: REAL_TIME
-    review_status: VERIFIED
-    notes: Part of the logical raw key (event time + connector + SMR).
-
-  - source_name: Charger ID
-    canonical_name: charger_id
-    display_name: Charger ID
-    description: Manufacturer serial identifier for the charger unit.
-    entity: CHARGER
-    field_class: IDENTIFIER
-    category: IDENTITY
-    data_type: IDENTIFIER
-    unit: null
-    nullable: false
-    required: true
-    range_status: NOT_APPLICABLE
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: MASTER_DATA
-    aggregation_strategy: FIRST
-    ml_candidate: "NO"
-    leakage_risk: NONE
-    availability_semantics: STATIC
-    review_status: VERIFIED
-
-  - source_name: OCPP ID
-    canonical_name: ocpp_id
-    display_name: OCPP ID
-    description: >-
-      OCPP charge-point identity used by the central system. Distinct from the
-      hardware serial; a unit can be re-registered under a new OCPP identity.
-    entity: CHARGER
-    field_class: IDENTIFIER
-    category: OCPP
-    data_type: IDENTIFIER
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: MASTER_DATA
-    aggregation_strategy: FIRST
-    ml_candidate: "NO"
-    leakage_risk: NONE
-    availability_semantics: STATIC
-    review_status: VERIFIED
-
-  - source_name: Site ID
-    canonical_name: site_id
-    display_name: Site ID
-    description: Identifier of the physical site hosting the charger.
-    entity: SITE
-    field_class: IDENTIFIER
-    category: IDENTITY
-    data_type: IDENTIFIER
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: MASTER_DATA
-    aggregation_strategy: FIRST
-    ml_candidate: "NO"
-    leakage_risk: NONE
-    availability_semantics: STATIC
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: Connector No
-    canonical_name: connector_number
-    display_name: Connector Number
-    description: >-
-      Which connector (gun) this row describes. The known charger has 2. Part of
-      the logical raw key.
-    entity: CONNECTOR
-    field_class: DIMENSION
-    category: CONNECTOR
-    data_type: INTEGER
-    unit: null
-    nullable: false
-    required: true
-    valid_min: 1
-    range_status: UNVERIFIED
-    normalization_strategy: PER_CONNECTOR
-    storage_strategy: CONNECTOR_TELEMETRY
-    aggregation_strategy: FIRST
-    ml_candidate: "NO"
-    leakage_risk: NONE
-    availability_semantics: REAL_TIME
-    review_status: VERIFIED
-    notes: >-
-      Minimum of 1 is definitional. No maximum is asserted - connector count is a
-      per-model property and inventing an upper bound would be fabrication.
-
-  - source_name: SMR No
-    canonical_name: smr_number
-    display_name: SMR Number
-    description: >-
-      Which switched-mode rectifier module this row describes. The known charger
-      has 4. Part of the logical raw key.
-    entity: SMR
-    field_class: DIMENSION
-    category: SMR
-    data_type: INTEGER
-    unit: null
-    nullable: false
-    required: true
-    valid_min: 1
-    range_status: UNVERIFIED
-    normalization_strategy: PER_SMR
-    storage_strategy: SMR_TELEMETRY
-    aggregation_strategy: FIRST
-    ml_candidate: "NO"
-    leakage_risk: NONE
-    availability_semantics: REAL_TIME
-    review_status: VERIFIED
-
-  - source_name: Session ID
-    canonical_name: session_id
-    display_name: Session ID
-    description: >-
-      Charging transaction identifier. Empty when no session is active, which is
-      a valid state rather than missing data.
-    entity: SESSION
-    field_class: IDENTIFIER
-    category: SESSION
-    data_type: IDENTIFIER
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: PER_SESSION
-    storage_strategy: SESSION_OBSERVATION
-    aggregation_strategy: FIRST
-    ml_candidate: "NO"
-    leakage_risk: NONE
-    availability_semantics: SESSION_START
-    review_status: VERIFIED
+- source_name: Charger Id
+  canonical_name: charger_id
+  display_name: Charger Id
+  description: Authoritative telemetry specification for Charger Id (charger_id)
+  entity: CHARGER
+  field_class: IDENTIFIER
+  category: SYSTEM
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: OCPP Id
+  canonical_name: ocpp_id
+  display_name: OCPP Id
+  description: Authoritative telemetry specification for OCPP Id (ocpp_id)
+  entity: CHARGER
+  field_class: IDENTIFIER
+  category: SYSTEM
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Charging Station
+  canonical_name: charging_station
+  display_name: Charging Station
+  description: Authoritative telemetry specification for Charging Station (charging_station)
+  entity: SITE
+  field_class: IDENTIFIER
+  category: SYSTEM
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Connector No
+  canonical_name: connector_no
+  display_name: Connector No
+  description: Authoritative telemetry specification for Connector No (connector_no)
+  entity: CONNECTOR
+  field_class: IDENTIFIER
+  category: CONNECTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Rectifier Number
+  canonical_name: rectifier_number
+  display_name: Rectifier Number
+  description: Authoritative telemetry specification for Rectifier Number (rectifier_number)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Smr No.
+  canonical_name: smr_no
+  display_name: Smr No.
+  description: Authoritative telemetry specification for Smr No. (smr_no)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED

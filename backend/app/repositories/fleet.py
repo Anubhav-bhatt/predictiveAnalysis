@@ -263,8 +263,7 @@ class FleetRepository(Repository):
             stmt = stmt.where(ChargerDayCoverage.charger_id.in_(list(charger_ids)))
         rows = (await self.session.execute(stmt)).all()
         return {
-            str(charger_id): (float(pct) if pct is not None else None)
-            for charger_id, pct in rows
+            str(charger_id): (float(pct) if pct is not None else None) for charger_id, pct in rows
         }
 
     async def coverage_distribution(self, business_date: dt.date) -> list[float]:

@@ -343,9 +343,7 @@ def test_connectors_and_smrs_are_unioned_across_files() -> None:
 
 def test_connector_identity_is_not_assumed_numeric() -> None:
     """Section 26: the source contract does not guarantee numeric ids."""
-    result = evaluate(
-        [FileContribution(None, stamps(5), connectors=frozenset({"GUN-A", "GUN-B"}))]
-    )
+    result = evaluate([FileContribution(None, stamps(5), connectors=frozenset({"GUN-A", "GUN-B"}))])
     assert result.connectors_detected == frozenset({"GUN-A", "GUN-B"})
 
 
@@ -360,9 +358,7 @@ def test_late_is_measured_from_receipt_not_processing() -> None:
     late = dt.datetime(2026, 8, 14, 12, 0, tzinfo=dt.UTC)
 
     assert is_late(business_date=BUSINESS_DATE, first_received_at=on_time, policy=pol)[0] is False
-    is_late_flag, late_by = is_late(
-        business_date=BUSINESS_DATE, first_received_at=late, policy=pol
-    )
+    is_late_flag, late_by = is_late(business_date=BUSINESS_DATE, first_received_at=late, policy=pol)
     assert is_late_flag is True
     assert late_by is not None and late_by > 0
 

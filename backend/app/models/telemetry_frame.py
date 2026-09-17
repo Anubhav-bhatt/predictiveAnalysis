@@ -72,9 +72,7 @@ class TelemetrySourceFrame(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     #: files, which is what makes cross-file replay detection possible.
     frame_fingerprint: Mapped[str] = mapped_column(sa.String(64), nullable=False)
 
-    frame_status: Mapped[FrameStatus] = mapped_column(
-        enum_column(FrameStatus), nullable=False
-    )
+    frame_status: Mapped[FrameStatus] = mapped_column(enum_column(FrameStatus), nullable=False)
     duplicate_classification: Mapped[DuplicateClassification] = mapped_column(
         enum_column(DuplicateClassification), nullable=False
     )
@@ -88,9 +86,7 @@ class TelemetrySourceFrame(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     observed_position_count: Mapped[int] = mapped_column(sa.Integer, nullable=False, default=0)
     missing_position_count: Mapped[int] = mapped_column(sa.Integer, nullable=False, default=0)
     unexpected_position_count: Mapped[int] = mapped_column(sa.Integer, nullable=False, default=0)
-    completeness_percentage: Mapped[Decimal | None] = mapped_column(
-        sa.Numeric(6, 3), nullable=True
-    )
+    completeness_percentage: Mapped[Decimal | None] = mapped_column(sa.Numeric(6, 3), nullable=True)
 
     #: Source row span this frame occupies, for provenance without a join.
     source_order_min: Mapped[int | None] = mapped_column(sa.Integer, nullable=True)
@@ -127,25 +123,15 @@ class TelemetrySourceFrame(UUIDPrimaryKeyMixin, TimestampMixin, Base):
             name="uq_telemetry_source_frame_identity",
         ),
         # Charger + time range is the dominant read pattern.
-        sa.Index(
-            "ix_telemetry_source_frame_charger_time", "charger_id", "event_time"
-        ),
-        sa.Index(
-            "ix_telemetry_source_frame_charger_date", "charger_id", "business_date"
-        ),
+        sa.Index("ix_telemetry_source_frame_charger_time", "charger_id", "event_time"),
+        sa.Index("ix_telemetry_source_frame_charger_date", "charger_id", "business_date"),
         sa.Index("ix_telemetry_source_frame_business_date", "business_date"),
         # Cross-file replay lookup: find frames carrying an identical payload.
-        sa.Index(
-            "ix_telemetry_source_frame_fingerprint", "charger_id", "frame_fingerprint"
-        ),
+        sa.Index("ix_telemetry_source_frame_fingerprint", "charger_id", "frame_fingerprint"),
         sa.Index("ix_telemetry_source_frame_status", "frame_status"),
-        sa.Index(
-            "ix_telemetry_source_frame_classification", "duplicate_classification"
-        ),
+        sa.Index("ix_telemetry_source_frame_classification", "duplicate_classification"),
         sa.CheckConstraint("frame_sequence >= 0", name="frame_sequence_non_negative"),
-        sa.CheckConstraint(
-            "observed_position_count >= 0", name="observed_position_non_negative"
-        ),
+        sa.CheckConstraint("observed_position_count >= 0", name="observed_position_non_negative"),
     )
 
     @property
@@ -185,13 +171,9 @@ class TelemetryFrameSource(UUIDPrimaryKeyMixin, Base):
     #: appearances of the same frame in other files.
     source_occurrence: Mapped[int] = mapped_column(sa.Integer, nullable=False, default=0)
     #: The file the canonical frame is attributed to.
-    is_primary_source: Mapped[bool] = mapped_column(
-        sa.Boolean, nullable=False, default=False
-    )
+    is_primary_source: Mapped[bool] = mapped_column(sa.Boolean, nullable=False, default=False)
 
-    created_at: Mapped[dt.datetime] = mapped_column(
-        UtcDateTime(), nullable=False, default=utcnow
-    )
+    created_at: Mapped[dt.datetime] = mapped_column(UtcDateTime(), nullable=False, default=utcnow)
 
     frame: Mapped[TelemetrySourceFrame] = relationship(back_populates="sources")
     telemetry_file: Mapped[TelemetryFile] = relationship()
@@ -239,9 +221,7 @@ class TelemetryFrameRow(UUIDPrimaryKeyMixin, Base):
     #: True for rows retained without a resolvable entity identity (section 22).
     unassigned: Mapped[bool] = mapped_column(sa.Boolean, nullable=False, default=False)
 
-    created_at: Mapped[dt.datetime] = mapped_column(
-        UtcDateTime(), nullable=False, default=utcnow
-    )
+    created_at: Mapped[dt.datetime] = mapped_column(UtcDateTime(), nullable=False, default=utcnow)
 
     frame: Mapped[TelemetrySourceFrame] = relationship(back_populates="frame_rows")
     telemetry_file: Mapped[TelemetryFile] = relationship()
@@ -254,9 +234,7 @@ class TelemetryFrameRow(UUIDPrimaryKeyMixin, Base):
             "source_row_number",
             name="uq_telemetry_frame_row_identity",
         ),
-        sa.Index(
-            "ix_telemetry_frame_row_file_row", "telemetry_file_id", "source_row_number"
-        ),
+        sa.Index("ix_telemetry_frame_row_file_row", "telemetry_file_id", "source_row_number"),
         sa.Index("ix_telemetry_frame_row_position", "logical_position"),
         sa.CheckConstraint("source_row_number >= 0", name="source_row_non_negative"),
     )

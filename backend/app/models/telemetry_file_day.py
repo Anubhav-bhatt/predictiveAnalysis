@@ -53,12 +53,8 @@ class TelemetryFileDay(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     #: the filename, received_at or processing time (section 8).
     business_date: Mapped[dt.date] = mapped_column(sa.Date, nullable=False)
 
-    first_event_at: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
-    last_event_at: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
+    first_event_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
+    last_event_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
 
     #: Distinct event timestamps this file contributes to this date. This is the
     #: coverage signal - never row_count (section 11).

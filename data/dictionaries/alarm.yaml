@@ -1,0 +1,1150 @@
+version: 1
+fields:
+- source_name: Ground resistance value
+  canonical_name: ground_resistance_value
+  display_name: Ground resistance value
+  description: Authoritative telemetry specification for Ground resistance value (ground_resistance_value)
+  entity: ALARM
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: kOhm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: RTC Clock Drift Warning
+  canonical_name: rtc_clock_drift_warning
+  display_name: RTC Clock Drift Warning
+  description: Authoritative telemetry specification for RTC Clock Drift Warning (rtc_clock_drift_warning)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: RMS Disabled Alarm
+  canonical_name: rms_disabled_alarm
+  display_name: RMS Disabled Alarm
+  description: Authoritative telemetry specification for RMS Disabled Alarm (rms_disabled_alarm)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Grid Fail
+  canonical_name: grid_fail
+  display_name: Grid Fail
+  description: Authoritative telemetry specification for Grid Fail (grid_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Class-C SPD Fail
+  canonical_name: class_c_spd_fail
+  display_name: Class-C SPD Fail
+  description: Authoritative telemetry specification for Class-C SPD Fail (class_c_spd_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: NE Voltage High Alarm
+  canonical_name: ne_voltage_high_alarm
+  display_name: NE Voltage High Alarm
+  description: Authoritative telemetry specification for NE Voltage High Alarm (ne_voltage_high_alarm)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 1 Fail
+  canonical_name: line_1_fail
+  display_name: Line 1 Fail
+  description: Authoritative telemetry specification for Line 1 Fail (line_1_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 2 Fail
+  canonical_name: line_2_fail
+  display_name: Line 2 Fail
+  description: Authoritative telemetry specification for Line 2 Fail (line_2_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 3 Fail
+  canonical_name: line_3_fail
+  display_name: Line 3 Fail
+  description: Authoritative telemetry specification for Line 3 Fail (line_3_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Door Open
+  canonical_name: door_open
+  display_name: Door Open
+  description: Authoritative telemetry specification for Door Open (door_open)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Smoke Alarm
+  canonical_name: smoke_alarm
+  display_name: Smoke Alarm
+  description: Authoritative telemetry specification for Smoke Alarm (smoke_alarm)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Emergency Stop Active
+  canonical_name: emergency_stop_active
+  display_name: Emergency Stop Active
+  description: Authoritative telemetry specification for Emergency Stop Active (emergency_stop_active)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: System FAN Fail
+  canonical_name: system_fan_fail
+  display_name: System FAN Fail
+  description: Authoritative telemetry specification for System FAN Fail (system_fan_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Filter Maintenance Warning
+  canonical_name: filter_maintenance_warning
+  display_name: Filter Maintenance Warning
+  description: Authoritative telemetry specification for Filter Maintenance Warning
+    (filter_maintenance_warning)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Grid Abnormal
+  canonical_name: grid_abnormal
+  display_name: Grid Abnormal
+  description: Authoritative telemetry specification for Grid Abnormal (grid_abnormal)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SD Card Fail
+  canonical_name: sd_card_fail
+  display_name: SD Card Fail
+  description: Authoritative telemetry specification for SD Card Fail (sd_card_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SD Card Crc Fail
+  canonical_name: sd_card_crc_fail
+  display_name: SD Card Crc Fail
+  description: Authoritative telemetry specification for SD Card Crc Fail (sd_card_crc_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Input RCBO Tripped
+  canonical_name: input_rcbo_tripped
+  display_name: Input RCBO Tripped
+  description: Authoritative telemetry specification for Input RCBO Tripped (input_rcbo_tripped)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: MCCB Tripped
+  canonical_name: mccb_tripped
+  display_name: MCCB Tripped
+  description: Authoritative telemetry specification for MCCB Tripped (mccb_tripped)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Class-D SPD Fail Alarm
+  canonical_name: class_d_spd_fail_alarm
+  display_name: Class-D SPD Fail Alarm
+  description: Authoritative telemetry specification for Class-D SPD Fail Alarm (class_d_spd_fail_alarm)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Ground Fault Alarm
+  canonical_name: ground_fault_alarm
+  display_name: Ground Fault Alarm
+  description: Authoritative telemetry specification for Ground Fault Alarm (ground_fault_alarm)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: HVLV Cut-Off Alarm
+  canonical_name: hvlv_cut_off_alarm
+  display_name: HVLV Cut-Off Alarm
+  description: Authoritative telemetry specification for HVLV Cut-Off Alarm (hvlv_cut_off_alarm)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Auxillary MCB Trip Alarm
+  canonical_name: auxillary_mcb_trip_alarm
+  display_name: Auxillary MCB Trip Alarm
+  description: Authoritative telemetry specification for Auxillary MCB Trip Alarm
+    (auxillary_mcb_trip_alarm)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: BackupBatteryLow
+  canonical_name: backup_battery_low
+  display_name: BackupBatteryLow
+  description: Authoritative telemetry specification for BackupBatteryLow (backup_battery_low)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Earth Leakage Sensed Alarm
+  canonical_name: earth_leakage_sensed_alarm
+  display_name: Earth Leakage Sensed Alarm
+  description: Authoritative telemetry specification for Earth Leakage Sensed Alarm
+    (earth_leakage_sensed_alarm)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Short Circuit
+  canonical_name: short_circuit
+  display_name: Short Circuit
+  description: Authoritative telemetry specification for Short Circuit (short_circuit)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Last Insulation Test Fail
+  canonical_name: last_insulation_test_fail
+  display_name: Last Insulation Test Fail
+  description: Authoritative telemetry specification for Last Insulation Test Fail
+    (last_insulation_test_fail)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fuse Fail Alarm
+  canonical_name: fuse_fail_alarm
+  display_name: Fuse Fail Alarm
+  description: Authoritative telemetry specification for Fuse Fail Alarm (fuse_fail_alarm)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC Fail Alarm
+  canonical_name: ac_fail_alarm
+  display_name: AC Fail Alarm
+  description: Authoritative telemetry specification for AC Fail Alarm (ac_fail_alarm)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC + Insulation Resistance
+  canonical_name: dc_positive_insulation_resistance
+  display_name: DC + Insulation Resistance
+  description: Authoritative telemetry specification for DC + Insulation Resistance
+    (dc_positive_insulation_resistance)
+  entity: ALARM
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kOhm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC - Insulation Resistance
+  canonical_name: dc_negative_insulation_resistance
+  display_name: DC - Insulation Resistance
+  description: Authoritative telemetry specification for DC - Insulation Resistance
+    (dc_negative_insulation_resistance)
+  entity: ALARM
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kOhm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Last Insulation Test Status
+  canonical_name: last_insulation_test_status
+  display_name: Last Insulation Test Status
+  description: Authoritative telemetry specification for Last Insulation Test Status
+    (last_insulation_test_status)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Calculated Insulation Resistance
+  canonical_name: calculated_insulation_resistance
+  display_name: Calculated Insulation Resistance
+  description: Authoritative telemetry specification for Calculated Insulation Resistance
+    (calculated_insulation_resistance)
+  entity: ALARM
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kOhm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: MDL Fault
+  canonical_name: mdl_fault
+  display_name: MDL Fault
+  description: Authoritative telemetry specification for MDL Fault (mdl_fault)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan Fault
+  canonical_name: fan_fault
+  display_name: Fan Fault
+  description: Authoritative telemetry specification for Fan Fault (fan_fault)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DCDC Eeprom Faults
+  canonical_name: dcdc_eeprom_faults
+  display_name: DCDC Eeprom Faults
+  description: Authoritative telemetry specification for DCDC Eeprom Faults (dcdc_eeprom_faults)
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 1 Fail
+  canonical_name: fan_1_fail
+  display_name: Fan 1 Fail
+  description: Authoritative telemetry specification for Fan 1 Fail (fan_1_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 2 Fail
+  canonical_name: fan_2_fail
+  display_name: Fan 2 Fail
+  description: Authoritative telemetry specification for Fan 2 Fail (fan_2_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 3 Fail
+  canonical_name: fan_3_fail
+  display_name: Fan 3 Fail
+  description: Authoritative telemetry specification for Fan 3 Fail (fan_3_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 4 Fail
+  canonical_name: fan_4_fail
+  display_name: Fan 4 Fail
+  description: Authoritative telemetry specification for Fan 4 Fail (fan_4_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 5 Fail
+  canonical_name: fan_5_fail
+  display_name: Fan 5 Fail
+  description: Authoritative telemetry specification for Fan 5 Fail (fan_5_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 6 Fail
+  canonical_name: fan_6_fail
+  display_name: Fan 6 Fail
+  description: Authoritative telemetry specification for Fan 6 Fail (fan_6_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 7 Fail
+  canonical_name: fan_7_fail
+  display_name: Fan 7 Fail
+  description: Authoritative telemetry specification for Fan 7 Fail (fan_7_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 8 Fail
+  canonical_name: fan_8_fail
+  display_name: Fan 8 Fail
+  description: Authoritative telemetry specification for Fan 8 Fail (fan_8_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 9 Fail
+  canonical_name: fan_9_fail
+  display_name: Fan 9 Fail
+  description: Authoritative telemetry specification for Fan 9 Fail (fan_9_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 10 Fail
+  canonical_name: fan_10_fail
+  display_name: Fan 10 Fail
+  description: Authoritative telemetry specification for Fan 10 Fail (fan_10_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 11 Fail
+  canonical_name: fan_11_fail
+  display_name: Fan 11 Fail
+  description: Authoritative telemetry specification for Fan 11 Fail (fan_11_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 12 Fail
+  canonical_name: fan_12_fail
+  display_name: Fan 12 Fail
+  description: Authoritative telemetry specification for Fan 12 Fail (fan_12_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 13 Fail
+  canonical_name: fan_13_fail
+  display_name: Fan 13 Fail
+  description: Authoritative telemetry specification for Fan 13 Fail (fan_13_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 14 Fail
+  canonical_name: fan_14_fail
+  display_name: Fan 14 Fail
+  description: Authoritative telemetry specification for Fan 14 Fail (fan_14_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 15 Fail
+  canonical_name: fan_15_fail
+  display_name: Fan 15 Fail
+  description: Authoritative telemetry specification for Fan 15 Fail (fan_15_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 16 Fail
+  canonical_name: fan_16_fail
+  display_name: Fan 16 Fail
+  description: Authoritative telemetry specification for Fan 16 Fail (fan_16_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 17 Fail
+  canonical_name: fan_17_fail
+  display_name: Fan 17 Fail
+  description: Authoritative telemetry specification for Fan 17 Fail (fan_17_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 18 Fail
+  canonical_name: fan_18_fail
+  display_name: Fan 18 Fail
+  description: Authoritative telemetry specification for Fan 18 Fail (fan_18_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 19 Fail
+  canonical_name: fan_19_fail
+  display_name: Fan 19 Fail
+  description: Authoritative telemetry specification for Fan 19 Fail (fan_19_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 20 Fail
+  canonical_name: fan_20_fail
+  display_name: Fan 20 Fail
+  description: Authoritative telemetry specification for Fan 20 Fail (fan_20_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 21 Fail
+  canonical_name: fan_21_fail
+  display_name: Fan 21 Fail
+  description: Authoritative telemetry specification for Fan 21 Fail (fan_21_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 22 Fail
+  canonical_name: fan_22_fail
+  display_name: Fan 22 Fail
+  description: Authoritative telemetry specification for Fan 22 Fail (fan_22_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 23 Fail
+  canonical_name: fan_23_fail
+  display_name: Fan 23 Fail
+  description: Authoritative telemetry specification for Fan 23 Fail (fan_23_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC Section Fan Fail
+  canonical_name: dc_section_fan_fail
+  display_name: DC Section Fan Fail
+  description: Authoritative telemetry specification for DC Section Fan Fail (dc_section_fan_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED

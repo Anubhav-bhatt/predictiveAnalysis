@@ -226,9 +226,7 @@ class UploadService:
                 batch_status=batch.status.value,
                 file_count=batch.file_count,
                 total_bytes=batch.total_bytes,
-                rejected=sum(
-                    1 for o in outcomes if o.status is UploadFileStatus.REJECTED
-                ),
+                rejected=sum(1 for o in outcomes if o.status is UploadFileStatus.REJECTED),
             )
         return batch.id, outcomes
 
@@ -319,8 +317,7 @@ class UploadService:
                 status=UploadFileStatus.DUPLICATE,
                 sha256=checksum,
                 rejection_reason=(
-                    f"Identical content to {seen_in_batch[checksum]!r} in this upload; "
-                    f"staged once"
+                    f"Identical content to {seen_in_batch[checksum]!r} in this upload; staged once"
                 ),
             )
         seen_in_batch[checksum] = display
@@ -425,9 +422,7 @@ class UploadService:
                         )
                         continue
                     if outcome.outcome is not None:
-                        result.frames_reconstructed += (
-                            outcome.outcome.metrics.frames_reconstructed
-                        )
+                        result.frames_reconstructed += outcome.outcome.metrics.frames_reconstructed
 
             batch.status = await self._uploads.resolve_batch_status(batch_id)
             batch.processing_completed_at = dt.datetime.now(dt.UTC)

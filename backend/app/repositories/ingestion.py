@@ -35,6 +35,9 @@ USABLE_FILE_STATES = (
     FileStatus.READY_FOR_NORMALIZATION,
     FileStatus.FRAME_RECONSTRUCTION,
     FileStatus.FRAMES_RECONSTRUCTED,
+    FileStatus.NORMALIZING,
+    FileStatus.NORMALIZED,
+    FileStatus.NORMALIZED_WITH_WARNINGS,
     FileStatus.COMPLETED,
     FileStatus.PARTIAL,
 )

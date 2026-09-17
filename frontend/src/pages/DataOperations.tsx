@@ -107,6 +107,9 @@ export function DataOperations() {
           <Link className="btn-link" to="/data-operations/uploads">
             Upload history
           </Link>
+          <Link className="btn-link" to="/research">
+            Research Lab
+          </Link>
         </div>
       </div>
 

@@ -161,9 +161,7 @@ async def test_charger_frames_canonical_only_excludes_replays(
     client: AsyncClient, reconstructed: dict[str, object]
 ) -> None:
     """What Phase 1E will consume."""
-    everything = await client.get(
-        f"/api/v1/chargers/{CHARGER}/frames", params={"page_size": 200}
-    )
+    everything = await client.get(f"/api/v1/chargers/{CHARGER}/frames", params={"page_size": 200})
     canonical = await client.get(
         f"/api/v1/chargers/{CHARGER}/frames",
         params={"canonical_only": "true", "page_size": 200},
@@ -230,15 +228,18 @@ async def test_frame_detail_exposes_provenance_but_no_telemetry(
     client: AsyncClient, session: AsyncSession, reconstructed: dict[str, object]
 ) -> None:
     frame = (
-        await session.execute(
-            sa.select(TelemetrySourceFrame)
-            .where(
-                TelemetrySourceFrame.duplicate_classification
-                == DuplicateClassification.UNIQUE
+        (
+            await session.execute(
+                sa.select(TelemetrySourceFrame)
+                .where(
+                    TelemetrySourceFrame.duplicate_classification == DuplicateClassification.UNIQUE
+                )
+                .limit(1)
             )
-            .limit(1)
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
 
     response = await client.get(f"/api/v1/frames/{frame.id}")
     assert response.status_code == 200
@@ -271,15 +272,19 @@ async def test_frame_detail_reports_replays_of_a_canonical_frame(
 ) -> None:
     """Section 52: "this frame appeared N times"."""
     replay = (
-        await session.execute(
-            sa.select(TelemetrySourceFrame)
-            .where(
-                TelemetrySourceFrame.duplicate_classification
-                == DuplicateClassification.FULL_FRAME_REPLAY
+        (
+            await session.execute(
+                sa.select(TelemetrySourceFrame)
+                .where(
+                    TelemetrySourceFrame.duplicate_classification
+                    == DuplicateClassification.FULL_FRAME_REPLAY
+                )
+                .limit(1)
             )
-            .limit(1)
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
     assert replay.replay_of_frame_id is not None
 
     response = await client.get(f"/api/v1/frames/{replay.replay_of_frame_id}")
@@ -290,14 +295,10 @@ async def test_frame_detail_reports_replays_of_a_canonical_frame(
     # Both full and partial replays point at the canonical frame - a partial
     # retransmission is still a replay of it, so the view lists both kinds.
     assert all(
-        item["duplicate_classification"]
-        in {"FULL_FRAME_REPLAY", "PARTIAL_FRAME_REPLAY"}
+        item["duplicate_classification"] in {"FULL_FRAME_REPLAY", "PARTIAL_FRAME_REPLAY"}
         for item in data["replays"]
     )
-    assert any(
-        item["duplicate_classification"] == "FULL_FRAME_REPLAY"
-        for item in data["replays"]
-    )
+    assert any(item["duplicate_classification"] == "FULL_FRAME_REPLAY" for item in data["replays"])
     assert all(item["is_canonical"] is False for item in data["replays"])
     # The canonical frame also lists its same-timestamp siblings.
     assert data["siblings"]
@@ -317,25 +318,33 @@ async def test_frame_diff_reports_which_positions_changed(
     client: AsyncClient, session: AsyncSession, reconstructed: dict[str, object]
 ) -> None:
     distinct = (
-        await session.execute(
-            sa.select(TelemetrySourceFrame)
-            .where(
-                TelemetrySourceFrame.duplicate_classification
-                == DuplicateClassification.SAME_TIMESTAMP_DISTINCT_FRAME
+        (
+            await session.execute(
+                sa.select(TelemetrySourceFrame)
+                .where(
+                    TelemetrySourceFrame.duplicate_classification
+                    == DuplicateClassification.SAME_TIMESTAMP_DISTINCT_FRAME
+                )
+                .limit(1)
             )
-            .limit(1)
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
 
     siblings = (
-        await session.execute(
-            sa.select(TelemetrySourceFrame).where(
-                TelemetrySourceFrame.charger_id == distinct.charger_id,
-                TelemetrySourceFrame.event_time == distinct.event_time,
-                TelemetrySourceFrame.id != distinct.id,
+        (
+            await session.execute(
+                sa.select(TelemetrySourceFrame).where(
+                    TelemetrySourceFrame.charger_id == distinct.charger_id,
+                    TelemetrySourceFrame.event_time == distinct.event_time,
+                    TelemetrySourceFrame.id != distinct.id,
+                )
             )
         )
-    ).scalars().all()
+        .scalars()
+        .all()
+    )
     assert siblings
 
     other = siblings[0]
@@ -356,20 +365,22 @@ async def test_frame_diff_of_identical_frames_reports_no_differences(
     client: AsyncClient, session: AsyncSession, reconstructed: dict[str, object]
 ) -> None:
     replay = (
-        await session.execute(
-            sa.select(TelemetrySourceFrame)
-            .where(
-                TelemetrySourceFrame.duplicate_classification
-                == DuplicateClassification.FULL_FRAME_REPLAY
+        (
+            await session.execute(
+                sa.select(TelemetrySourceFrame)
+                .where(
+                    TelemetrySourceFrame.duplicate_classification
+                    == DuplicateClassification.FULL_FRAME_REPLAY
+                )
+                .limit(1)
             )
-            .limit(1)
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
     assert replay.replay_of_frame_id is not None
 
-    response = await client.get(
-        f"/api/v1/frames/{replay.replay_of_frame_id}/diff/{replay.id}"
-    )
+    response = await client.get(f"/api/v1/frames/{replay.replay_of_frame_id}/diff/{replay.id}")
     data = response.json()["data"]
 
     assert data["identical_payload"] is True
@@ -382,9 +393,7 @@ async def test_frame_diff_rejects_cross_charger_comparison(
 ) -> None:
     from uuid import uuid4
 
-    frame = (
-        await session.execute(sa.select(TelemetrySourceFrame).limit(1))
-    ).scalars().one()
+    frame = (await session.execute(sa.select(TelemetrySourceFrame).limit(1))).scalars().one()
 
     other = TelemetrySourceFrame(
         id=uuid4(),

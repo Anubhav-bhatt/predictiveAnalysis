@@ -1,0 +1,355 @@
+version: 1
+fields:
+- source_name: Rect Max Temperature
+  canonical_name: rect_max_temperature
+  display_name: Rect Max Temperature
+  description: Authoritative telemetry specification for Rect Max Temperature (rect_max_temperature)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: All Rectifier Fail
+  canonical_name: all_rectifier_fail
+  display_name: All Rectifier Fail
+  description: Authoritative telemetry specification for All Rectifier Fail (all_rectifier_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: All Rectifier Communication Fail
+  canonical_name: all_rectifier_communication_fail
+  display_name: All Rectifier Communication Fail
+  description: Authoritative telemetry specification for All Rectifier Communication
+    Fail (all_rectifier_communication_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Any Rect Fail
+  canonical_name: any_rect_fail
+  display_name: Any Rect Fail
+  description: Authoritative telemetry specification for Any Rect Fail (any_rect_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Any Rect Comm Fail
+  canonical_name: any_rect_comm_fail
+  display_name: Any Rect Comm Fail
+  description: Authoritative telemetry specification for Any Rect Comm Fail (any_rect_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: No Of Active Rectifiers
+  canonical_name: no_of_active_rectifiers
+  display_name: No Of Active Rectifiers
+  description: Authoritative telemetry specification for No Of Active Rectifiers (no_of_active_rectifiers)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: SMR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Group Rect Fail
+  canonical_name: group_rect_fail
+  display_name: Group Rect Fail
+  description: Authoritative telemetry specification for Group Rect Fail (group_rect_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Group Rect Comm Fail
+  canonical_name: group_rect_comm_fail
+  display_name: Group Rect Comm Fail
+  description: Authoritative telemetry specification for Group Rect Comm Fail (group_rect_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Rect Fail
+  canonical_name: gun_rect_fail
+  display_name: Gun Rect Fail
+  description: Authoritative telemetry specification for Gun Rect Fail (gun_rect_fail)
+  entity: SMR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Rect Comm Fail
+  canonical_name: gun_rect_comm_fail
+  display_name: Gun Rect Comm Fail
+  description: Authoritative telemetry specification for Gun Rect Comm Fail (gun_rect_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Rectifier Dc Status
+  canonical_name: rectifier_dc_status
+  display_name: Rectifier Dc Status
+  description: Authoritative telemetry specification for Rectifier Dc Status (rectifier_dc_status)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Rectifier Internal Temp
+  canonical_name: rectifier_internal_temp
+  display_name: Rectifier Internal Temp
+  description: Authoritative telemetry specification for Rectifier Internal Temp (rectifier_internal_temp)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+  sentinel_values:
+  - value: '-50.0'
+    meaning: uninitialized_dsp
+  - value: '-50'
+    meaning: uninitialized_dsp
+- source_name: Rectifier Output Voltage
+  canonical_name: rectifier_output_voltage
+  display_name: Rectifier Output Voltage
+  description: Authoritative telemetry specification for Rectifier Output Voltage
+    (rectifier_output_voltage)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Rectifier Output Current
+  canonical_name: rectifier_output_current
+  display_name: Rectifier Output Current
+  description: Authoritative telemetry specification for Rectifier Output Current
+    (rectifier_output_current)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Rectifier Available Max Voltage
+  canonical_name: rectifier_available_max_voltage
+  display_name: Rectifier Available Max Voltage
+  description: Authoritative telemetry specification for Rectifier Available Max Voltage
+    (rectifier_available_max_voltage)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Rectifier Available Max Current
+  canonical_name: rectifier_available_max_current
+  display_name: Rectifier Available Max Current
+  description: Authoritative telemetry specification for Rectifier Available Max Current
+    (rectifier_available_max_current)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Rectifier Available MaxPower
+  canonical_name: rectifier_available_max_power
+  display_name: Rectifier Available MaxPower
+  description: Authoritative telemetry specification for Rectifier Available MaxPower
+    (rectifier_available_max_power)
+  entity: SMR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Rectifier Output Short
+  canonical_name: rectifier_output_short
+  display_name: Rectifier Output Short
+  description: Authoritative telemetry specification for Rectifier Output Short (rectifier_output_short)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED

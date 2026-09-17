@@ -1,122 +1,480 @@
-# Communication-stack telemetry: OCPP, CCS, PLC, CAN and cellular link.
-
 version: 1
-
 fields:
-  - source_name: CCS Communication Status
-    canonical_name: ccs_communication_status
-    display_name: CCS Communication Status
-    description: State of the CCS high-level communication link to the vehicle.
-    entity: CONNECTOR
-    field_class: STATE
-    category: CCS
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: PER_CONNECTOR
-    storage_strategy: CONNECTOR_TELEMETRY
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - communication_failure
-      - session_failure
-    leakage_risk: MEDIUM
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: PLC Link Status
-    canonical_name: plc_link_status
-    display_name: PLC Link Status
-    description: HomePlug Green PHY power-line communication link state.
-    entity: CONNECTOR
-    field_class: STATE
-    category: PLC
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: PER_CONNECTOR
-    storage_strategy: CONNECTOR_TELEMETRY
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - communication_failure
-    leakage_risk: MEDIUM
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: CAN Bus Status
-    canonical_name: can_bus_status
-    display_name: CAN Bus Status
-    description: Internal CAN bus health between charger subsystems.
-    entity: CHARGER
-    field_class: STATE
-    category: CAN
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - communication_failure
-      - charger_health
-    leakage_risk: MEDIUM
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: OCPP Connection Status
-    canonical_name: ocpp_connection_status
-    display_name: OCPP Connection Status
-    description: Connectivity state of the OCPP session to the central system.
-    entity: CHARGER
-    field_class: STATE
-    category: OCPP
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - communication_failure
-    leakage_risk: MEDIUM
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-    notes: >-
-      Directly relevant to telemetry-gap interpretation: a disconnected OCPP link
-      is a plausible cause of a delivery gap rather than a charger fault.
-
-  - source_name: Signal Strength
-    canonical_name: signal_strength
-    display_name: Signal Strength
-    description: Cellular/network received signal strength.
-    entity: CHARGER
-    field_class: CONTINUOUS_TELEMETRY
-    category: COMMUNICATION
-    data_type: INTEGER
-    unit: dBm
-    nullable: true
-    required: false
-    range_status: UNVERIFIED
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    prediction_domains:
-      - communication_failure
-    leakage_risk: NONE
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-    notes: >-
-      Unit dBm inferred from the negative value range observed. No valid range
-      asserted; modem families differ.
+- source_name: CCU Comm Fail
+  canonical_name: ccu_comm_fail
+  display_name: CCU Comm Fail
+  description: Authoritative telemetry specification for CCU Comm Fail (ccu_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: LED Strip Card Comm Fail
+  canonical_name: led_strip_card_comm_fail
+  display_name: LED Strip Card Comm Fail
+  description: Authoritative telemetry specification for LED Strip Card Comm Fail
+    (led_strip_card_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DCSI Card Comm Fail
+  canonical_name: dcsi_card_comm_fail
+  display_name: DCSI Card Comm Fail
+  description: Authoritative telemetry specification for DCSI Card Comm Fail (dcsi_card_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC Sense Card CommFail
+  canonical_name: ac_sense_card_comm_fail
+  display_name: AC Sense Card CommFail
+  description: Authoritative telemetry specification for AC Sense Card CommFail (ac_sense_card_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: LED Board Comm Fail
+  canonical_name: led_board_comm_fail
+  display_name: LED Board Comm Fail
+  description: Authoritative telemetry specification for LED Board Comm Fail (led_board_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: RFID Reader Comm Fail
+  canonical_name: rfid_reader_comm_fail
+  display_name: RFID Reader Comm Fail
+  description: Authoritative telemetry specification for RFID Reader Comm Fail (rfid_reader_comm_fail)
+  entity: CHARGER
+  field_class: IDENTIFIER
+  category: COMMUNICATION
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Modem Comm Fail
+  canonical_name: modem_comm_fail
+  display_name: Modem Comm Fail
+  description: Authoritative telemetry specification for Modem Comm Fail (modem_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Modem Sim Present
+  canonical_name: modem_sim_present
+  display_name: Modem Sim Present
+  description: Authoritative telemetry specification for Modem Sim Present (modem_sim_present)
+  entity: CHARGER
+  field_class: STATE
+  category: COMMUNICATION
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Display Comm Fail
+  canonical_name: display_comm_fail
+  display_name: Display Comm Fail
+  description: Authoritative telemetry specification for Display Comm Fail (display_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: CMS Comm Fail
+  canonical_name: cms_comm_fail
+  display_name: CMS Comm Fail
+  description: Authoritative telemetry specification for CMS Comm Fail (cms_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan Card Comm Fail
+  canonical_name: fan_card_comm_fail
+  display_name: Fan Card Comm Fail
+  description: Authoritative telemetry specification for Fan Card Comm Fail (fan_card_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: I/O Card Comm Fail
+  canonical_name: i_o_card_comm_fail
+  display_name: I/O Card Comm Fail
+  description: Authoritative telemetry specification for I/O Card Comm Fail (i_o_card_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Input ACEM Comm Fail
+  canonical_name: input_acem_comm_fail
+  display_name: Input ACEM Comm Fail
+  description: Authoritative telemetry specification for Input ACEM Comm Fail (input_acem_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: LEDCard2 Comm Fail
+  canonical_name: led_card2_comm_fail
+  display_name: LEDCard2 Comm Fail
+  description: Authoritative telemetry specification for LEDCard2 Comm Fail (led_card2_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: RSRP
+  canonical_name: rsrp
+  display_name: RSRP
+  description: Authoritative telemetry specification for RSRP (rsrp)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: COMMUNICATION
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: RSRQ
+  canonical_name: rsrq
+  display_name: RSRQ
+  description: Authoritative telemetry specification for RSRQ (rsrq)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: COMMUNICATION
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GMD Comm Fail alarm
+  canonical_name: gmd_comm_fail_alarm
+  display_name: GMD Comm Fail alarm
+  description: Authoritative telemetry specification for GMD Comm Fail alarm (gmd_comm_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Ring Communication Break
+  canonical_name: ring_communication_break
+  display_name: Ring Communication Break
+  description: Authoritative telemetry specification for Ring Communication Break
+    (ring_communication_break)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SIM not inserted Alarm
+  canonical_name: sim_not_inserted_alarm
+  display_name: SIM not inserted Alarm
+  description: Authoritative telemetry specification for SIM not inserted Alarm (sim_not_inserted_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Insulation Comm Fail
+  canonical_name: insulation_comm_fail
+  display_name: Insulation Comm Fail
+  description: Authoritative telemetry specification for Insulation Comm Fail (insulation_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: PLC Comm Fail
+  canonical_name: plc_comm_fail
+  display_name: PLC Comm Fail
+  description: Authoritative telemetry specification for PLC Comm Fail (plc_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Energy Meter Comm Fail
+  canonical_name: energy_meter_comm_fail
+  display_name: Energy Meter Comm Fail
+  description: Authoritative telemetry specification for Energy Meter Comm Fail (energy_meter_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC EnergyMeterCommFail
+  canonical_name: ac_energy_meter_comm_fail
+  display_name: AC EnergyMeterCommFail
+  description: Authoritative telemetry specification for AC EnergyMeterCommFail (ac_energy_meter_comm_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Inner Comm Interrupt
+  canonical_name: inner_comm_interrupt
+  display_name: Inner Comm Interrupt
+  description: Authoritative telemetry specification for Inner Comm Interrupt (inner_comm_interrupt)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: CAN Communication Interrupt
+  canonical_name: can_communication_interrupt
+  display_name: CAN Communication Interrupt
+  description: Authoritative telemetry specification for CAN Communication Interrupt
+    (can_communication_interrupt)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED

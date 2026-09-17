@@ -1,0 +1,287 @@
+{
+  "system_name": "Charger Predictive Intelligence Platform",
+  "audit_timestamp": "2026-09-17T11:38:00+05:30",
+  "total_backend_tests": 241,
+  "backend_tests_passed": 241,
+  "backend_tests_skipped": 0,
+  "total_frontend_tests": 56,
+  "frontend_tests_passed": 56,
+  "overall_verdict": "WORKING_THROUGH_PHASE_7",
+  "current_checkpoint": "HISTORICAL_CONTINUITY",
+  "next_checkpoint": "DISCRETE_EVENT_RECONSTRUCTION",
+  "checkpoints": [
+    {
+      "checkpoint": "RAW_INGESTION",
+      "phase": "Phase 1A",
+      "status": "WORKING",
+      "verified": true,
+      "verification_evidence": "test_api_uploads.py, test_manual_upload.py",
+      "capabilities": [
+        "Receive untrusted CSV telemetry files via staging manual upload or filesystem inbox",
+        "Enforce strict transport safety limits (max 512MB, max 2000 columns, max 5,000,000 rows)",
+        "Compute SHA-256 content hashes and discard duplicate bytes idempotently",
+        "Store immutable Bronze objects partitioned by year/month/day",
+        "Maintain end-to-end ingestion audit logging and file lifecycle state machine"
+      ],
+      "limitations": [
+        "Does not understand column semantics or data types",
+        "Does not reconstruct multi-row logical frames",
+        "Does not normalize telemetry into physical subcomponents"
+      ],
+      "dependencies": ["Filesystem Storage / S3", "PostgreSQL / SQLite metadata"],
+      "next_checkpoint": "SCHEMA_INTELLIGENCE"
+    },
+    {
+      "checkpoint": "SCHEMA_INTELLIGENCE",
+      "phase": "Phase 1B & Phase 2",
+      "status": "WORKING",
+      "verified": true,
+      "verification_evidence": "test_production_contract.py, pipelines/validation/dictionary.py",
+      "capabilities": [
+        "Parse CSV headers in source order without pandas or external schema assumptions",
+        "Compute sensitive positional SHA-256 header fingerprints",
+        "Map untrusted source names to canonical dictionary definitions via DictionaryRegistry",
+        "Disambiguate repeated column names using explicit (name, occurrence) pair identities",
+        "Enforce authoritative physical data types, physical units, and target entity routing"
+      ],
+      "limitations": [
+        "Does not profile column numeric distributions",
+        "Does not identify runtime hardware probe sentinels"
+      ],
+      "dependencies": ["RAW_INGESTION", "YAML Data Dictionaries"],
+      "next_checkpoint": "PROFILING"
+    },
+    {
+      "checkpoint": "PROFILING",
+      "phase": "Phase 1B & Phase 3",
+      "status": "WORKING",
+      "verified": true,
+      "verification_evidence": "pipelines/profiling/profiler.py, test_known_sample_regression.py",
+      "capabilities": [
+        "Single-pass pure Python/Polars file profiling",
+        "Extract dominant business dates and detect multi-day files without guessing",
+        "Compute median sampling cadences, row counts, and timestamp uniqueness",
+        "Enumerate physical connector IDs and SMR IDs present in raw rows",
+        "Detect exact byte-identical duplicate rows and logical collision groups"
+      ],
+      "limitations": [
+        "Does not score quality or enforce pass/fail acceptance gates",
+        "Does not construct physical component timelines"
+      ],
+      "dependencies": ["SCHEMA_INTELLIGENCE"],
+      "next_checkpoint": "DATA_QUALITY"
+    },
+    {
+      "checkpoint": "DATA_QUALITY",
+      "phase": "Phase 1C & Phase 4",
+      "status": "WORKING",
+      "verified": true,
+      "verification_evidence": "test_reconciliation.py, test_coverage_engine.py",
+      "capabilities": [
+        "Evaluate deterministic quality rule suites across 5 weighted pillars",
+        "Assign composite 0-100 quality scores with rule finding provenance",
+        "Detect telemetry outages relative to expected cadence factor",
+        "Reconcile daily fleet coverage, missing chargers, and late arrivals",
+        "Quarantine corrupt or unparsable files with non-destructive audit reasons"
+      ],
+      "limitations": [
+        "Measures data transport and representation quality, NOT physical equipment health",
+        "Does not synthesize or interpolate missing observations"
+      ],
+      "dependencies": ["PROFILING"],
+      "next_checkpoint": "FRAME_RECONSTRUCTION"
+    },
+    {
+      "checkpoint": "FRAME_RECONSTRUCTION",
+      "phase": "Phase 1D & Phase 5",
+      "status": "WORKING",
+      "verified": true,
+      "verification_evidence": "test_frame_reconstruction.py, test_frame_persistence.py",
+      "capabilities": [
+        "De-multiplex wide multi-entity rows into canonical telemetry frames",
+        "Resolve dynamic hardware topology (connectors x SMRs x rectifiers) per charger",
+        "Order frames deterministically by (event_time ASC, frame_sequence ASC)",
+        "Differentiate legitimate same-second distinct frames from redundant retransmissions",
+        "Compute SHA-256 frame payload fingerprints for exact replay detection",
+        "Isolate partial frames and record diagnostic missing positions"
+      ],
+      "limitations": [
+        "Outputs unstructured position-to-value dictionaries, not typed database entities",
+        "Does not convert string numbers into physical float/int types"
+      ],
+      "dependencies": ["DATA_QUALITY"],
+      "next_checkpoint": "PRODUCTION_CONTRACT_ALIGNMENT"
+    },
+    {
+      "checkpoint": "PRODUCTION_CONTRACT_ALIGNMENT",
+      "phase": "Phase 5.5",
+      "status": "WORKING",
+      "verified": true,
+      "verification_evidence": "test_production_contract.py, REAL_DATA_FORENSIC_AUDIT.md",
+      "capabilities": [
+        "Governs 456 of 456 positions of real commercial DC fast charger telemetry (0 unmapped)",
+        "Disambiguates duplicate 'Last Charge Session Stop Reason' (pos 143 vs pos 209)",
+        "Binds field-specific hardware probe disconnect sentinels (999.0, -50.0, -150.0)",
+        "Validates heterogeneous fleet topologies (1x1, 2x6, 3x2, 2x10) dynamically",
+        "Guarantees bit-for-bit source equivalence between manual upload and filesystem inbox"
+      ],
+      "limitations": [
+        "Governs schema definitions; does not by itself store normalized relational records"
+      ],
+      "dependencies": ["FRAME_RECONSTRUCTION"],
+      "next_checkpoint": "SILVER_NORMALIZATION"
+    },
+    {
+      "checkpoint": "SILVER_NORMALIZATION",
+      "phase": "Phase 6",
+      "status": "WORKING",
+      "verified": true,
+      "verification_evidence": "test_silver_normalization.py, test_silver_payload_resolver.py",
+      "capabilities": [
+        "Transform reconstructed frames into 11 canonical typed Silver domain tables",
+        "Strict non-destructive typing: floats, ints, enums, ISO datetimes without fabrication",
+        "Hardware sentinel masking: replaces probe open-circuit sentinels with SQL NULL",
+        "Atomic per-field lineage: silver_observation_provenance preserves raw text and position",
+        "Payload conflict resolution: enforces Case A (exact match), Case B (sentinel override), Case C (conflict to NULL + warning)",
+        "Configuration snapshot deduplication via SHA-256 config_hash"
+      ],
+      "limitations": [
+        "Does not assemble cross-file longitudinal continuous time-series streams",
+        "Does not evaluate continuous sampling intervals or outages across days"
+      ],
+      "dependencies": ["PRODUCTION_CONTRACT_ALIGNMENT"],
+      "next_checkpoint": "HISTORICAL_CONTINUITY"
+    },
+    {
+      "checkpoint": "HISTORICAL_CONTINUITY",
+      "phase": "Phase 7",
+      "status": "WORKING",
+      "verified": true,
+      "verification_evidence": "test_historical_continuity.py, test_api_history.py, test_history_benchmark.py",
+      "capabilities": [
+        "Direct Silver table time-series queries without redundant physical table copies",
+        "Strict chronological ordering: (event_time ASC, frame_sequence ASC)",
+        "Empirical sampling cadence analyzer: median, P05, P95, min, max deltas, same-second count",
+        "Empirical gap detector: identifies outages relative to cadence with ZERO imputation",
+        "Monotonic counter analyzer: classifies intervals as UNCHANGED, INCREASED, DECREASED, RESET_CANDIDATE",
+        "Component presence tracker: tracks first_seen, last_seen, active_days_count per subcomponent",
+        "Snapshot honesty: flags single-point snapshots (is_snapshot_only: true) and refuses premature pattern research",
+        "ResearchDataAccessLayer: sub-5ms programmatic time-series retrieval for Phase 9 research",
+        "Full interactive frontend timeline UI tab with stats, charts, gap viewer, and observation stream"
+      ],
+      "limitations": [
+        "Does not reconstruct discrete state events (charging sessions, alarm spans)",
+        "Does not compute rolling statistical features or behavioral baselines",
+        "Does not detect behavioral anomalies or predict equipment failures"
+      ],
+      "dependencies": ["SILVER_NORMALIZATION"],
+      "next_checkpoint": "DISCRETE_EVENT_RECONSTRUCTION"
+    },
+    {
+      "checkpoint": "DISCRETE_EVENT_RECONSTRUCTION",
+      "phase": "Phase 8",
+      "status": "NOT_BUILT",
+      "verified": false,
+      "capabilities": [
+        "Reconstruct charging session lifecycle events (plug-in, auth, charging, finishing, disconnect)",
+        "Reconstruct alarm and fault event spans (start_time, end_time, duration, severity)",
+        "Track configuration state transitions and parameter changes over time"
+      ],
+      "limitations": [
+        "Does not perform statistical pattern discovery or correlation mining"
+      ],
+      "dependencies": ["HISTORICAL_CONTINUITY"],
+      "next_checkpoint": "SCIENTIFIC_PATTERN_DISCOVERY"
+    },
+    {
+      "checkpoint": "SCIENTIFIC_PATTERN_DISCOVERY",
+      "phase": "Phase 9",
+      "status": "NOT_BUILT",
+      "verified": false,
+      "capabilities": [
+        "Conduct exploratory data analysis (EDA) across multi-charger historical cohorts",
+        "Mine cross-sectional statistical distributions across fleet peers",
+        "Identify candidate precursor signals (e.g. SMR thermal drift, contactor delay, resistance drop)"
+      ],
+      "limitations": [
+        "Cannot prove causation without external maintenance ground truth"
+      ],
+      "dependencies": ["DISCRETE_EVENT_RECONSTRUCTION", "Continuous multi-day telemetry data"],
+      "next_checkpoint": "BEHAVIORAL_BASELINES"
+    },
+    {
+      "checkpoint": "BEHAVIORAL_BASELINES",
+      "phase": "Phase 10",
+      "status": "NOT_BUILT",
+      "verified": false,
+      "capabilities": [
+        "Establish multi-tiered normative operating baselines: component vs itself, component vs peers in same charger, charger vs fleet cohort"
+      ],
+      "limitations": [
+        "Does not assign anomaly scores or generate maintenance tickets"
+      ],
+      "dependencies": ["SCIENTIFIC_PATTERN_DISCOVERY"],
+      "next_checkpoint": "ANOMALY_DETECTION"
+    },
+    {
+      "checkpoint": "ANOMALY_DETECTION",
+      "phase": "Phase 11",
+      "status": "NOT_BUILT",
+      "verified": false,
+      "capabilities": [
+        "Compute multivariate deviation metrics (Mahalanobis distance, rolling statistical z-scores)",
+        "Surface statistical outlier behaviors prior to catastrophic hardware trip"
+      ],
+      "limitations": [
+        "Detects statistical anomalies, NOT confirmed failures (high false positive risk without labels)"
+      ],
+      "dependencies": ["BEHAVIORAL_BASELINES"],
+      "next_checkpoint": "FAILURE_GROUND_TRUTH_LINKAGE"
+    },
+    {
+      "checkpoint": "FAILURE_GROUND_TRUTH_LINKAGE",
+      "phase": "Phase 12",
+      "status": "NOT_BUILT",
+      "verified": false,
+      "capabilities": [
+        "Ingest external maintenance ticketing, work orders, and component replacement logs",
+        "Construct labeled supervised dataset linking telemetry precursors to confirmed failures"
+      ],
+      "limitations": [
+        "Requires external CMMS / maintenance data feeds"
+      ],
+      "dependencies": ["ANOMALY_DETECTION", "External CMMS failure dataset"],
+      "next_checkpoint": "PREDICTIVE_MAINTENANCE_MODELS"
+    },
+    {
+      "checkpoint": "PREDICTIVE_MAINTENANCE_MODELS",
+      "phase": "Phase 13",
+      "status": "NOT_BUILT",
+      "verified": false,
+      "capabilities": [
+        "Train supervised failure prediction models and survival analysis (RUL estimation)",
+        "Generate calibrated failure probabilities with SHAP / feature explainability"
+      ],
+      "limitations": [
+        "Models require ongoing drift monitoring and retraining pipelines"
+      ],
+      "dependencies": ["FAILURE_GROUND_TRUTH_LINKAGE"],
+      "next_checkpoint": "MAINTENANCE_INTELLIGENCE_DASHBOARD"
+    },
+    {
+      "checkpoint": "MAINTENANCE_INTELLIGENCE_DASHBOARD",
+      "phase": "Phase 14",
+      "status": "NOT_BUILT",
+      "verified": false,
+      "capabilities": [
+        "Provide unified field operations console: fleet health, prioritized maintenance queues, component diagnosis, root cause evidence",
+        "Integrate two-way RMS/CMS action dispatch for proactive servicing"
+      ],
+      "limitations": [
+        "Final operational end-state"
+      ],
+      "dependencies": ["PREDICTIVE_MAINTENANCE_MODELS"],
+      "next_checkpoint": null
+    }
+  ]
+}

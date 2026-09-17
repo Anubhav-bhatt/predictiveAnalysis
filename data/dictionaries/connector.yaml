@@ -1,74 +1,653 @@
-# Connector / gun level telemetry.
-
 version: 1
-
 fields:
-  - source_name: Connector Status
-    canonical_name: connector_status
-    display_name: Connector Status
-    description: Availability/occupancy state of the connector.
-    entity: CONNECTOR
-    field_class: STATE
-    category: CONNECTOR
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: PER_CONNECTOR
-    storage_strategy: CONNECTOR_TELEMETRY
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - connector_failure
-    leakage_risk: MEDIUM
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: Gun Temperature
-    canonical_name: gun_temperature
-    display_name: Gun Temperature
-    description: Connector/gun body temperature.
-    entity: CONNECTOR
-    field_class: CONTINUOUS_TELEMETRY
-    category: GUN
-    data_type: FLOAT
-    unit: "°C"
-    nullable: true
-    required: false
-    range_status: UNVERIFIED
-    normalization_strategy: PER_CONNECTOR
-    storage_strategy: CONNECTOR_TELEMETRY
-    aggregation_strategy: MAX
-    ml_candidate: "YES"
-    prediction_domains:
-      - thermal_failure
-      - connector_failure
-    leakage_risk: LOW
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-    notes: >-
-      Aggregated with MAX rather than MEAN - for a thermal safety signal the peak
-      within an interval is the operationally meaningful value.
-
-  - source_name: Gun Lock Status
-    canonical_name: gun_lock_status
-    display_name: Gun Lock Status
-    description: Connector locking actuator state.
-    entity: CONNECTOR
-    field_class: STATE
-    category: GUN
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: PER_CONNECTOR
-    storage_strategy: CONNECTOR_TELEMETRY
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - connector_failure
-    leakage_risk: LOW
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
+- source_name: Connector Type
+  canonical_name: connector_type
+  display_name: Connector Type
+  description: Authoritative telemetry specification for Connector Type (connector_type)
+  entity: CONFIGURATION
+  field_class: CONFIGURATION
+  category: SYSTEM
+  data_type: STRING
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Connector Status
+  canonical_name: connector_status
+  display_name: Connector Status
+  description: Authoritative telemetry specification for Connector Status (connector_status)
+  entity: CONNECTOR
+  field_class: STATE
+  category: CONNECTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Plug Status
+  canonical_name: plug_status
+  display_name: Plug Status
+  description: Authoritative telemetry specification for Plug Status (plug_status)
+  entity: CONNECTOR
+  field_class: STATE
+  category: CONNECTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: CCS Main State
+  canonical_name: ccs_main_state
+  display_name: CCS Main State
+  description: Authoritative telemetry specification for CCS Main State (ccs_main_state)
+  entity: CONNECTOR
+  field_class: STATE
+  category: CONNECTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: CCS Sub State
+  canonical_name: ccs_sub_state
+  display_name: CCS Sub State
+  description: Authoritative telemetry specification for CCS Sub State (ccs_sub_state)
+  entity: CONNECTOR
+  field_class: STATE
+  category: CONNECTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Temp Dc+
+  canonical_name: gun_temp_dc_positive
+  display_name: Gun Temp Dc+
+  description: Authoritative telemetry specification for Gun Temp Dc+ (gun_temp_dc_positive)
+  entity: CONNECTOR
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+  sentinel_values:
+  - value: '999.0'
+    meaning: sensor_open_circuit
+  - value: '999'
+    meaning: sensor_open_circuit
+- source_name: Gun Temp Dc-
+  canonical_name: gun_temp_dc_negative
+  display_name: Gun Temp Dc-
+  description: Authoritative telemetry specification for Gun Temp Dc- (gun_temp_dc_negative)
+  entity: CONNECTOR
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+  sentinel_values:
+  - value: '999.0'
+    meaning: sensor_open_circuit
+  - value: '999'
+    meaning: sensor_open_circuit
+- source_name: Gun Insertion Cycle Count
+  canonical_name: gun_insertion_cycle_count
+  display_name: Gun Insertion Cycle Count
+  description: Authoritative telemetry specification for Gun Insertion Cycle Count
+    (gun_insertion_cycle_count)
+  entity: CHARGER
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Voltage
+  canonical_name: gun_voltage
+  display_name: Gun Voltage
+  description: Authoritative telemetry specification for Gun Voltage (gun_voltage)
+  entity: CONNECTOR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Over Temp Warning
+  canonical_name: gun_over_temp_warning
+  display_name: Gun Over Temp Warning
+  description: Authoritative telemetry specification for Gun Over Temp Warning (gun_over_temp_warning)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GunOverTempCutoff
+  canonical_name: gun_over_temp_cutoff
+  display_name: GunOverTempCutoff
+  description: Authoritative telemetry specification for GunOverTempCutoff (gun_over_temp_cutoff)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUNOverTempDC+ Warning
+  canonical_name: gun_over_temp_dc_positive_warning
+  display_name: GUNOverTempDC+ Warning
+  description: Authoritative telemetry specification for GUNOverTempDC+ Warning (gun_over_temp_dc_positive_warning)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUNOverTempDC- Warning
+  canonical_name: gun_over_temp_dc_negative_warning
+  display_name: GUNOverTempDC- Warning
+  description: Authoritative telemetry specification for GUNOverTempDC- Warning (gun_over_temp_dc_negative_warning)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Ov Temp Derating Set
+  canonical_name: gun_ov_temp_derating_set
+  display_name: Gun Ov Temp Derating Set
+  description: Authoritative telemetry specification for Gun Ov Temp Derating Set
+    (gun_ov_temp_derating_set)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun locked by CMS
+  canonical_name: gun_locked_by_cms
+  display_name: Gun locked by CMS
+  description: Authoritative telemetry specification for Gun locked by CMS (gun_locked_by_cms)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Temperature Derating Status
+  canonical_name: gun_temperature_derating_status
+  display_name: Gun Temperature Derating Status
+  description: Authoritative telemetry specification for Gun Temperature Derating
+    Status (gun_temperature_derating_status)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Dc+ Ultra Temp
+  canonical_name: gun_dc_positive_ultra_temp
+  display_name: Gun Dc+ Ultra Temp
+  description: Authoritative telemetry specification for Gun Dc+ Ultra Temp (gun_dc_positive_ultra_temp)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Dc- Ultra Temp
+  canonical_name: gun_dc_negative_ultra_temp
+  display_name: Gun Dc- Ultra Temp
+  description: Authoritative telemetry specification for Gun Dc- Ultra Temp (gun_dc_negative_ultra_temp)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun DC+ Temp Sensor Disconnect
+  canonical_name: gun_dc_positive_temp_sensor_disconnect
+  display_name: Gun DC+ Temp Sensor Disconnect
+  description: Authoritative telemetry specification for Gun DC+ Temp Sensor Disconnect
+    (gun_dc_positive_temp_sensor_disconnect)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun DC- Temp Sensor Disconnect
+  canonical_name: gun_dc_negative_temp_sensor_disconnect
+  display_name: Gun DC- Temp Sensor Disconnect
+  description: Authoritative telemetry specification for Gun DC- Temp Sensor Disconnect
+    (gun_dc_negative_temp_sensor_disconnect)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUN Temperature Sensor Disconnect
+  canonical_name: gun_temperature_sensor_disconnect
+  display_name: GUN Temperature Sensor Disconnect
+  description: Authoritative telemetry specification for GUN Temperature Sensor Disconnect
+    (gun_temperature_sensor_disconnect)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUN DC+ Temp Sensor Loose
+  canonical_name: gun_dc_positive_temp_sensor_loose
+  display_name: GUN DC+ Temp Sensor Loose
+  description: Authoritative telemetry specification for GUN DC+ Temp Sensor Loose
+    (gun_dc_positive_temp_sensor_loose)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUN DC- Temp Sensor Loose
+  canonical_name: gun_dc_negative_temp_sensor_loose
+  display_name: GUN DC- Temp Sensor Loose
+  description: Authoritative telemetry specification for GUN DC- Temp Sensor Loose
+    (gun_dc_negative_temp_sensor_loose)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Not Placed Back Alarm
+  canonical_name: gun_not_placed_back_alarm
+  display_name: Gun Not Placed Back Alarm
+  description: Authoritative telemetry specification for Gun Not Placed Back Alarm
+    (gun_not_placed_back_alarm)
+  entity: CONNECTOR
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: CCS Secc State
+  canonical_name: ccs_secc_state
+  display_name: CCS Secc State
+  description: Authoritative telemetry specification for CCS Secc State (ccs_secc_state)
+  entity: CONNECTOR
+  field_class: STATE
+  category: CONNECTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: CCS Secc Error Code
+  canonical_name: ccs_secc_error_code
+  display_name: CCS Secc Error Code
+  description: Authoritative telemetry specification for CCS Secc Error Code (ccs_secc_error_code)
+  entity: CONNECTOR
+  field_class: STATE
+  category: CONNECTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: CCS Ev Error Code
+  canonical_name: ccs_ev_error_code
+  display_name: CCS Ev Error Code
+  description: Authoritative telemetry specification for CCS Ev Error Code (ccs_ev_error_code)
+  entity: CONNECTOR
+  field_class: STATE
+  category: CONNECTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Output Voltage
+  canonical_name: gun_output_voltage
+  display_name: Gun Output Voltage
+  description: Authoritative telemetry specification for Gun Output Voltage (gun_output_voltage)
+  entity: CONNECTOR
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUN CCS Main State at Session stop
+  canonical_name: gun_ccs_main_state_at_session_stop
+  display_name: GUN CCS Main State at Session stop
+  description: Authoritative telemetry specification for GUN CCS Main State at Session
+    stop (gun_ccs_main_state_at_session_stop)
+  entity: SESSION
+  field_class: SESSION_ATTRIBUTE
+  category: SESSION
+  data_type: STRING
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: GUN CCS Sub State at Session stop
+  canonical_name: gun_ccs_sub_state_at_session_stop
+  display_name: GUN CCS Sub State at Session stop
+  description: Authoritative telemetry specification for GUN CCS Sub State at Session
+    stop (gun_ccs_sub_state_at_session_stop)
+  entity: SESSION
+  field_class: SESSION_ATTRIBUTE
+  category: SESSION
+  data_type: STRING
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Insert Counter- Charger Socket
+  canonical_name: gun_insert_counter_charger_socket
+  display_name: Gun Insert Counter- Charger Socket
+  description: Authoritative telemetry specification for Gun Insert Counter- Charger
+    Socket (gun_insert_counter_charger_socket)
+  entity: SESSION
+  field_class: CONTINUOUS_TELEMETRY
+  category: SESSION
+  data_type: FLOAT
+  unit: percent
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Over Temperature Counter
+  canonical_name: gun_over_temperature_counter
+  display_name: Gun Over Temperature Counter
+  description: Authoritative telemetry specification for Gun Over Temperature Counter
+    (gun_over_temperature_counter)
+  entity: CONNECTOR
+  field_class: COUNTER
+  category: COUNTER
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Placed in Charger Holder
+  canonical_name: gun_placed_in_charger_holder
+  display_name: Gun Placed in Charger Holder
+  description: Authoritative telemetry specification for Gun Placed in Charger Holder
+    (gun_placed_in_charger_holder)
+  entity: CONNECTOR
+  field_class: STATE
+  category: CONNECTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED

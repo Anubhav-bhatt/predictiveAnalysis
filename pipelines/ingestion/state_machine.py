@@ -64,11 +64,27 @@ ALLOWED_TRANSITIONS: Mapping[FileStatus, frozenset[FileStatus]] = {
     FileStatus.FRAME_RECONSTRUCTION: (
         frozenset({FileStatus.FRAMES_RECONSTRUCTED}) | _FAILURE_EXITS
     ),
-    # Re-running reconstruction (a new algorithm version) re-enters the stage; it
-    # is idempotent, so this is safe rather than a way to duplicate frames.
     FileStatus.FRAMES_RECONSTRUCTED: frozenset(
-        {FileStatus.FRAME_RECONSTRUCTION, FileStatus.COMPLETED, FileStatus.FAILED}
+        {
+            FileStatus.NORMALIZING,
+            FileStatus.NORMALIZED,
+            FileStatus.FRAME_RECONSTRUCTION,
+            FileStatus.COMPLETED,
+            FileStatus.FAILED,
+        }
     ),
+    FileStatus.NORMALIZING: (
+        frozenset(
+            {
+                FileStatus.NORMALIZED,
+                FileStatus.NORMALIZED_WITH_WARNINGS,
+                FileStatus.COMPLETED,
+            }
+        )
+        | _FAILURE_EXITS
+    ),
+    FileStatus.NORMALIZED: frozenset({FileStatus.NORMALIZING, FileStatus.COMPLETED}),
+    FileStatus.NORMALIZED_WITH_WARNINGS: frozenset({FileStatus.NORMALIZING, FileStatus.COMPLETED}),
     FileStatus.PARTIAL: frozenset({FileStatus.READY_FOR_NORMALIZATION}) | _FAILURE_EXITS,
     # Re-driving a failed file restarts it from the registered record; the raw
     # object is immutable so nothing needs to be re-landed.

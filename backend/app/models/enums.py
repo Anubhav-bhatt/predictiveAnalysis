@@ -53,6 +53,10 @@ class FileStatus(StrEnum):
     # pass through reconstruction first.
     FRAME_RECONSTRUCTION = "FRAME_RECONSTRUCTION"
     FRAMES_RECONSTRUCTED = "FRAMES_RECONSTRUCTED"
+    # Phase 6 Silver normalization states
+    NORMALIZING = "NORMALIZING"
+    NORMALIZED = "NORMALIZED"
+    NORMALIZED_WITH_WARNINGS = "NORMALIZED_WITH_WARNINGS"
     COMPLETED = "COMPLETED"
     PARTIAL = "PARTIAL"
     DUPLICATE = "DUPLICATE"
@@ -178,6 +182,14 @@ class QualityIssueType(StrEnum):
     INCONSISTENT_TOPOLOGY = "INCONSISTENT_TOPOLOGY"
     ENTITY_ID_MISSING = "ENTITY_ID_MISSING"
     UNASSIGNED_RAW_ROW = "UNASSIGNED_RAW_ROW"
+    # Phase 6 additions - normalization scope
+    TYPE_CONVERSION_FAILED = "TYPE_CONVERSION_FAILED"
+    SENTINEL_MASKED = "SENTINEL_MASKED"
+    REPEATED_FIELD_CONFLICT = "REPEATED_FIELD_CONFLICT"
+    CONNECTOR_FIELD_CONFLICT = "CONNECTOR_FIELD_CONFLICT"
+    MISSING_COMPONENT_ID = "MISSING_COMPONENT_ID"
+    UNROUTABLE_FIELD = "UNROUTABLE_FIELD"
+    NORMALIZATION_FAILED = "NORMALIZATION_FAILED"
 
 
 class QualityRuleScope(StrEnum):
@@ -553,14 +565,138 @@ class DuplicateClassification(StrEnum):
     AMBIGUOUS = "AMBIGUOUS"
 
 
+# ---------------------------------------------------------------------------
+# Phase 8 - Discrete Event Reconstruction
+# ---------------------------------------------------------------------------
+
+
+class EventType(StrEnum):
+    """Categorical domain of operational events reconstructed in Phase 8."""
+
+    CHARGING_SESSION = "CHARGING_SESSION"
+    ALARM_EVENT = "ALARM_EVENT"
+    FAULT_EVENT = "FAULT_EVENT"
+    STATE_TRANSITION = "STATE_TRANSITION"
+    CONFIGURATION_CHANGE = "CONFIGURATION_CHANGE"
+
+
+class SessionState(StrEnum):
+    """State machine states for an EV charging connector session."""
+
+    IDLE = "IDLE"
+    PLUGGED = "PLUGGED"
+    PREPARING = "PREPARING"
+    AUTHORIZED = "AUTHORIZED"
+    CHARGING = "CHARGING"
+    SUSPENDED = "SUSPENDED"
+    FINISHING = "FINISHING"
+    COMPLETED = "COMPLETED"
+    FAULTED = "FAULTED"
+    UNKNOWN = "UNKNOWN"
+
+
+class EventConfidence(StrEnum):
+    """Reconstruction confidence level based on corroborating telemetry evidence."""
+
+    HIGH = "HIGH"
+    MEDIUM = "MEDIUM"
+    LOW = "LOW"
+
+
+class EventQualityFlag(StrEnum):
+    """Data fidelity and boundary quality indicators for reconstructed events."""
+
+    EVENT_HAS_GAP = "EVENT_HAS_GAP"
+    SESSION_ID_MISSING = "SESSION_ID_MISSING"
+    SESSION_BOUNDARY_INFERRED = "SESSION_BOUNDARY_INFERRED"
+    SESSION_ENERGY_MISMATCH = "SESSION_ENERGY_MISMATCH"
+    SESSION_DURATION_MISMATCH = "SESSION_DURATION_MISMATCH"
+    ALARM_OPEN_ENDED = "ALARM_OPEN_ENDED"
+    UNKNOWN_EVENT_STATE = "UNKNOWN_EVENT_STATE"
+    OUT_OF_ORDER_DATA_CORRECTED = "OUT_OF_ORDER_DATA_CORRECTED"
+    CONFIG_CHANGE_WITHOUT_PREVIOUS_SNAPSHOT = "CONFIG_CHANGE_WITHOUT_PREVIOUS_SNAPSHOT"
+
+
+class AlarmSeverity(StrEnum):
+    """Authoritative severity classification for alarms and protection trips."""
+
+    CRITICAL = "CRITICAL"
+    MAJOR = "MAJOR"
+    MINOR = "MINOR"
+    WARNING = "WARNING"
+    INFO = "INFO"
+
+
+class TerminationClass(StrEnum):
+    """Classification of why an EV charging session concluded."""
+
+    NORMAL = "NORMAL"
+    USER_STOPPED = "USER_STOPPED"
+    REMOTE_STOPPED = "REMOTE_STOPPED"
+    FAULT_STOPPED = "FAULT_STOPPED"
+    EMERGENCY_STOPPED = "EMERGENCY_STOPPED"
+    COMMUNICATION_LOST = "COMMUNICATION_LOST"
+    INCOMPLETE = "INCOMPLETE"
+    UNKNOWN = "UNKNOWN"
+
+
+# ---------------------------------------------------------------------------
+# Phase 9 - scientific pattern discovery & analytical datasets
+# ---------------------------------------------------------------------------
+
+
+class PatternEvidenceLevel(StrEnum):
+    """Graduated evidence strength for pattern candidates.
+
+    Deliberately conservative: CONFIRMED_PRECURSOR requires longitudinal,
+    multi-occurrence validation that is impossible with a single snapshot.
+    """
+
+    OBSERVATION = "OBSERVATION"
+    WEAK_CANDIDATE = "WEAK_CANDIDATE"
+    MODERATE_CANDIDATE = "MODERATE_CANDIDATE"
+    STRONG_CANDIDATE = "STRONG_CANDIDATE"
+    CONFIRMED_PRECURSOR = "CONFIRMED_PRECURSOR"
+
+
+class AnalyticalGrain(StrEnum):
+    """The unit-of-analysis granularity for an analytical dataset record."""
+
+    CHARGER_TIME = "CHARGER_TIME"
+    CONNECTOR_TIME = "CONNECTOR_TIME"
+    SMR_TIME = "SMR_TIME"
+    RECTIFIER_TIME = "RECTIFIER_TIME"
+    SESSION_LEVEL = "SESSION_LEVEL"
+    EVENT_CENTERED = "EVENT_CENTERED"
+
+
+class PatternCategory(StrEnum):
+    """Domain-informed categories for discovered telemetry patterns."""
+
+    THERMAL_DRIFT = "THERMAL_DRIFT"
+    VOLTAGE_ANOMALY = "VOLTAGE_ANOMALY"
+    CURRENT_IMBALANCE = "CURRENT_IMBALANCE"
+    SESSION_DEGRADATION = "SESSION_DEGRADATION"
+    ALARM_CLUSTERING = "ALARM_CLUSTERING"
+    FAULT_RECURRENCE = "FAULT_RECURRENCE"
+    EFFICIENCY_DECLINE = "EFFICIENCY_DECLINE"
+    COMPONENT_DIVERGENCE = "COMPONENT_DIVERGENCE"
+    OPERATIONAL_PATTERN = "OPERATIONAL_PATTERN"
+
+
 __all__ = [
     "AggregationStrategy",
+    "AlarmSeverity",
+    "AnalyticalGrain",
     "ArrivalStatus",
     "AvailabilitySemantics",
     "CanonicalDataType",
     "ChargerLifecycleStatus",
     "CompletenessStatus",
     "DuplicateClassification",
+    "EventConfidence",
+    "EventQualityFlag",
+    "EventType",
     "FieldCategory",
     "FieldClass",
     "FieldEntity",
@@ -573,6 +709,8 @@ __all__ = [
     "LeakageRisk",
     "MlCandidate",
     "NormalizationStrategy",
+    "PatternCategory",
+    "PatternEvidenceLevel",
     "PredictionDomain",
     "QualityDimension",
     "QualityIssueType",
@@ -583,8 +721,10 @@ __all__ = [
     "SchemaCompatibility",
     "SchemaCoverageStatus",
     "SchemaVersionStatus",
+    "SessionState",
     "SourceType",
     "StorageStrategy",
+    "TerminationClass",
     "UploadBatchStatus",
     "UploadFileStatus",
     "VariabilityClass",

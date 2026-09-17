@@ -155,9 +155,7 @@ class SchemaService:
         await self._repo.add_version(schema_version)
 
         fields, sentinels, allowed, domains = _field_rows(resolved)
-        await self._repo.bulk_insert_fields(
-            schema_version.id, fields, sentinels, allowed, domains
-        )
+        await self._repo.bulk_insert_fields(schema_version.id, fields, sentinels, allowed, domains)
 
         logger.info(
             "schema.registered",

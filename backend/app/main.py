@@ -101,9 +101,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return JSONResponse(status_code=exc.status_code, content=envelope.model_dump(mode="json"))
 
     @app.exception_handler(RequestValidationError)
-    async def _validation_error(
-        request: Request, exc: RequestValidationError
-    ) -> JSONResponse:
+    async def _validation_error(request: Request, exc: RequestValidationError) -> JSONResponse:
         envelope = Envelope[None](
             data=None,
             meta={"path": request.url.path},

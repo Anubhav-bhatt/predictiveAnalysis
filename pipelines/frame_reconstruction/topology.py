@@ -134,9 +134,7 @@ class FrameTopologyResolver:
         connectors, connector_note = self._labels(
             declared=connector_count, observed=observed_connectors, kind="connector"
         )
-        smrs, smr_note = self._labels(
-            declared=smr_count, observed=observed_smrs, kind="SMR"
-        )
+        smrs, smr_note = self._labels(declared=smr_count, observed=observed_smrs, kind="SMR")
         notes = [note for note in (connector_note, smr_note) if note]
 
         return FrameTopology(

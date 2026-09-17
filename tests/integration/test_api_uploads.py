@@ -219,9 +219,7 @@ async def test_staged_batch_survives_the_request_that_created_it(
     assert (await client.get(f"/api/v1/ingestion/uploads/{batch_id}")).status_code == 200
 
 
-async def test_limits_are_published_from_settings(
-    client: AsyncClient, settings: Settings
-) -> None:
+async def test_limits_are_published_from_settings(client: AsyncClient, settings: Settings) -> None:
     """The UI pre-checks files, so it must read the real limits, not its own copy."""
     response = await client.get("/api/v1/ingestion/uploads/limits")
     assert response.status_code == 200
@@ -293,9 +291,7 @@ async def test_batch_files_lists_processing_state_from_the_telemetry_file(
     frame_service: FrameReconstructionService,
 ) -> None:
     await register_charger(fleet_repo)
-    source = make_fixture(
-        tmp_path / "src", "HYD12_28-07-2026.csv", FixtureSpec(timestamp_count=6)
-    )
+    source = make_fixture(tmp_path / "src", "HYD12_28-07-2026.csv", FixtureSpec(timestamp_count=6))
     batch_id, _ = await upload_and_process(
         uploads=upload_service,
         ingestion=ingestion_service,
@@ -343,9 +339,7 @@ async def test_batch_files_before_processing_show_no_fabricated_values(
     assert row["quality_score"] is None
 
 
-async def test_batch_files_filter_by_status(
-    client: AsyncClient, tmp_path: Path
-) -> None:
+async def test_batch_files_filter_by_status(client: AsyncClient, tmp_path: Path) -> None:
     good = csv_bytes(tmp_path, "good.csv", FixtureSpec(timestamp_count=3))
     created = await client.post(
         "/api/v1/ingestion/uploads",
@@ -394,9 +388,7 @@ async def test_upload_history_is_paginated_and_carries_counts(
 
 
 async def test_unknown_batch_404s(client: AsyncClient) -> None:
-    response = await client.get(
-        "/api/v1/ingestion/uploads/00000000-0000-0000-0000-000000000000"
-    )
+    response = await client.get("/api/v1/ingestion/uploads/00000000-0000-0000-0000-000000000000")
     assert response.status_code == 404
 
 
@@ -428,15 +420,11 @@ async def test_phase_1c_and_1d_endpoints_still_work(
     await session.commit()
 
     # Phase 1C daily summary sees the uploaded charger-day.
-    daily = await client.get(
-        "/api/v1/data-operations/daily", params={"date": "2026-07-27"}
-    )
+    daily = await client.get("/api/v1/data-operations/daily", params={"date": "2026-07-27"})
     assert daily.status_code == 200
     assert daily.json()["data"]["received"] == 1
 
     # Phase 1D frames exist for it, through the same endpoint as any other source.
-    frames = await client.get(
-        f"/api/v1/chargers/{CHARGER}/frames", params={"page_size": 5}
-    )
+    frames = await client.get(f"/api/v1/chargers/{CHARGER}/frames", params={"page_size": 5})
     assert frames.status_code == 200
     assert frames.json()["meta"]["total"] > 0

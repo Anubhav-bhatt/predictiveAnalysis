@@ -88,9 +88,7 @@ async def create_upload(
     except UploadRejected as exc:
         # A rejected *request* is a client error; a rejected individual file is
         # reported per file instead, so the rest of the batch still proceeds.
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)
-        ) from exc
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
     staged = [
         StagedFileResult(
@@ -140,9 +138,7 @@ async def get_limits(settings: SettingsDep) -> Envelope[UploadLimits]:
     response_model=PaginatedEnvelope[UploadBatchRow],
     summary="Upload history, newest first",
 )
-async def list_uploads(
-    repo: UploadRepoDep, page: PageDep
-) -> PaginatedEnvelope[UploadBatchRow]:
+async def list_uploads(repo: UploadRepoDep, page: PageDep) -> PaginatedEnvelope[UploadBatchRow]:
     result = await repo.list_batches(page)
     ids = [batch.id for batch in result.items]
     counts = await repo.list_counts_for_batches(ids)
@@ -165,9 +161,7 @@ async def get_upload(batch_id: str, repo: UploadRepoDep) -> Envelope[UploadBatch
     parsed = _parse_uuid(batch_id)
     batch = await repo.get_batch(parsed)
     if batch is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Upload batch not found"
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Upload batch not found")
     counts = UploadCounts(**await repo.batch_counts(parsed))
     detail = UploadBatchDetail(
         batch=UploadBatchRow.model_validate(batch).model_copy(update={"counts": counts}),
@@ -191,9 +185,7 @@ async def get_upload_files(
 ) -> PaginatedEnvelope[BatchFileRow]:
     parsed = _parse_uuid(batch_id)
     if await repo.get_batch(parsed) is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Upload batch not found"
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Upload batch not found")
 
     result = await repo.batch_files(
         page, parsed, status=file_status, charger_id=charger, business_date=business_date

@@ -65,8 +65,7 @@ class ClassifiedFrame:
 
 def _position_fingerprints(candidate: FrameCandidate) -> dict[str, str]:
     return {
-        str(position): row.row_fingerprint
-        for position, row in candidate.rows_by_position.items()
+        str(position): row.row_fingerprint for position, row in candidate.rows_by_position.items()
     }
 
 
@@ -111,8 +110,7 @@ def classify_group(
 
     for candidate in candidates:
         payload = {
-            position: row.row_fingerprint
-            for position, row in candidate.rows_by_position.items()
+            position: row.row_fingerprint for position, row in candidate.rows_by_position.items()
         }
         fingerprint = fingerprint_of(_position_fingerprints(candidate))
         issues: list[ReconstructionIssueType] = []

@@ -181,17 +181,13 @@ def reconstruct(payload: ReconstructionInput) -> ReconstructionOutcome:
                 error=str(exc),
             )
 
-    unassigned = [
-        row
-        for rows in keyed.unassigned_by_timestamp.values()
-        for row in rows
-    ] + list(keyed.undatable_rows)
+    unassigned = [row for rows in keyed.unassigned_by_timestamp.values() for row in rows] + list(
+        keyed.undatable_rows
+    )
 
     metrics = build_file_metrics(
         frames,
-        telemetry_file_id=(
-            str(payload.telemetry_file_id) if payload.telemetry_file_id else None
-        ),
+        telemetry_file_id=(str(payload.telemetry_file_id) if payload.telemetry_file_id else None),
         reconstruction_version=RECONSTRUCTION_VERSION,
         raw_rows=payload.frame.height,
         unique_timestamps=len({group.event_time for group in groups}),
@@ -205,9 +201,7 @@ def reconstruct(payload: ReconstructionInput) -> ReconstructionOutcome:
 
     logger.info(
         "reconstruction.completed",
-        telemetry_file_id=(
-            str(payload.telemetry_file_id) if payload.telemetry_file_id else None
-        ),
+        telemetry_file_id=(str(payload.telemetry_file_id) if payload.telemetry_file_id else None),
         reconstruction_version=RECONSTRUCTION_VERSION,
         timestamp_group_count=len(groups),
         frame_count=metrics.frames_reconstructed,
@@ -229,9 +223,7 @@ def reconstruct(payload: ReconstructionInput) -> ReconstructionOutcome:
     )
 
 
-def _frame_detail(
-    item: object, occupancy: object, topology: FrameTopology
-) -> Mapping[str, object]:
+def _frame_detail(item: object, occupancy: object, topology: FrameTopology) -> Mapping[str, object]:
     """Diagnostic payload stored alongside each frame.
 
     Small and bounded on purpose: no raw telemetry values, so a frame row never
@@ -262,9 +254,7 @@ def summarise(outcome: ReconstructionOutcome) -> dict[str, object]:
     """Flat summary for CLI/API use."""
     payload = outcome.metrics.as_dict()
     payload["topology"] = outcome.topology.describe()
-    payload["collision_timestamps"] = [
-        stamp.isoformat() for stamp in outcome.collision_timestamps
-    ]
+    payload["collision_timestamps"] = [stamp.isoformat() for stamp in outcome.collision_timestamps]
     payload["failed_groups"] = len(outcome.failed_groups)
     return payload
 

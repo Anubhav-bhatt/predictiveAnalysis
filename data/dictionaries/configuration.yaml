@@ -1,0 +1,155 @@
+version: 1
+fields:
+- source_name: Modem Signal Intensity
+  canonical_name: modem_signal_intensity
+  display_name: Modem Signal Intensity
+  description: Authoritative telemetry specification for Modem Signal Intensity (modem_signal_intensity)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: SYSTEM
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Charge Selected Mode
+  canonical_name: charge_selected_mode
+  display_name: Charge Selected Mode
+  description: Authoritative telemetry specification for Charge Selected Mode (charge_selected_mode)
+  entity: CONFIGURATION
+  field_class: CONFIGURATION
+  category: SYSTEM
+  data_type: STRING
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Charging Start Method
+  canonical_name: charging_start_method
+  display_name: Charging Start Method
+  description: Authoritative telemetry specification for Charging Start Method (charging_start_method)
+  entity: CONFIGURATION
+  field_class: CONFIGURATION
+  category: SYSTEM
+  data_type: STRING
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Charging Mode
+  canonical_name: charging_mode
+  display_name: Charging Mode
+  description: Authoritative telemetry specification for Charging Mode (charging_mode)
+  entity: CONFIGURATION
+  field_class: CONFIGURATION
+  category: SYSTEM
+  data_type: STRING
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: EV Max Voltage Limit
+  canonical_name: ev_max_voltage_limit
+  display_name: EV Max Voltage Limit
+  description: Authoritative telemetry specification for EV Max Voltage Limit (ev_max_voltage_limit)
+  entity: CONFIGURATION
+  field_class: CONFIGURATION
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: EV Max Current Limit
+  canonical_name: ev_max_current_limit
+  display_name: EV Max Current Limit
+  description: Authoritative telemetry specification for EV Max Current Limit (ev_max_current_limit)
+  entity: CONFIGURATION
+  field_class: CONFIGURATION
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Power Limit
+  canonical_name: power_limit
+  display_name: Power Limit
+  description: Authoritative telemetry specification for Power Limit (power_limit)
+  entity: CONFIGURATION
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Ring Current Operating Mode
+  canonical_name: ring_current_operating_mode
+  display_name: Ring Current Operating Mode
+  description: Authoritative telemetry specification for Ring Current Operating Mode
+    (ring_current_operating_mode)
+  entity: CONFIGURATION
+  field_class: STATE
+  category: ELECTRICAL_OUTPUT
+  data_type: STRING
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED

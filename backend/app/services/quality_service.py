@@ -67,10 +67,7 @@ class QualityService:
 
         await self._repo.replace_issues(
             telemetry_file_id,
-            [
-                self._issue_row(finding, ingestion_run_id)
-                for finding in findings
-            ],
+            [self._issue_row(finding, ingestion_run_id) for finding in findings],
         )
         await self._repo.replace_field_profiles(
             telemetry_file_id,
@@ -91,9 +88,7 @@ class QualityService:
 
     # -- row building ------------------------------------------------------
 
-    def _issue_row(
-        self, finding: QualityFinding, ingestion_run_id: UUID | None
-    ) -> dict[str, Any]:
+    def _issue_row(self, finding: QualityFinding, ingestion_run_id: UUID | None) -> dict[str, Any]:
         return {
             "ingestion_run_id": ingestion_run_id,
             "rule_code": finding.rule_code,
@@ -129,9 +124,7 @@ class QualityService:
                     "source_name": item.source_name,
                     "source_occurrence": item.source_occurrence,
                     "source_position": item.position,
-                    "canonical_name": canonical_by_position.get(
-                        item.position, item.canonical_name
-                    ),
+                    "canonical_name": canonical_by_position.get(item.position, item.canonical_name),
                     "null_count": item.null_count,
                     "null_percentage": Decimal(f"{item.null_percentage:.3f}"),
                     "unique_count": item.unique_count,

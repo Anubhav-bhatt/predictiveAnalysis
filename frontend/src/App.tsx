@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { ChargerDetail } from './pages/ChargerDetail';
 import { DataOperations } from './pages/DataOperations';
+import { FleetResearchPage } from './pages/FleetResearchPage';
 import { UploadBatchDetail } from './pages/UploadBatchDetail';
 import { UploadData } from './pages/UploadData';
 import { UploadHistory } from './pages/UploadHistory';
@@ -15,6 +16,7 @@ export function App() {
       <Route path="/data-operations/uploads" element={<UploadHistory />} />
       <Route path="/data-operations/uploads/:batchId" element={<UploadBatchDetail />} />
       <Route path="/chargers/:chargerId" element={<ChargerDetail />} />
+      <Route path="/research" element={<FleetResearchPage />} />
       <Route
         path="*"
         element={

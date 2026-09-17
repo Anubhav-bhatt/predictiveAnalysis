@@ -1,0 +1,1053 @@
+version: 1
+fields:
+- source_name: AC Contactor Status
+  canonical_name: ac_contactor_status
+  display_name: AC Contactor Status
+  description: Authoritative telemetry specification for AC Contactor Status (ac_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Input Contactor Fail
+  canonical_name: input_contactor_fail
+  display_name: Input Contactor Fail
+  description: Authoritative telemetry specification for Input Contactor Fail (input_contactor_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Gun Dc Contactor Fail
+  canonical_name: gun_dc_contactor_fail
+  display_name: Gun Dc Contactor Fail
+  description: Authoritative telemetry specification for Gun Dc Contactor Fail (gun_dc_contactor_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC Contactor Switching Cycle
+  canonical_name: ac_contactor_switching_cycle
+  display_name: AC Contactor Switching Cycle
+  description: Authoritative telemetry specification for AC Contactor Switching Cycle
+    (ac_contactor_switching_cycle)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC Contactor Feedback Status
+  canonical_name: ac_contactor_feedback_status
+  display_name: AC Contactor Feedback Status
+  description: Authoritative telemetry specification for AC Contactor Feedback Status
+    (ac_contactor_feedback_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC Contactor Switching Cycle
+  canonical_name: dc_contactor_switching_cycle
+  display_name: DC Contactor Switching Cycle
+  description: Authoritative telemetry specification for DC Contactor Switching Cycle
+    (dc_contactor_switching_cycle)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC1 Contactor Status
+  canonical_name: ac1_contactor_status
+  display_name: AC1 Contactor Status
+  description: Authoritative telemetry specification for AC1 Contactor Status (ac1_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC2 Contactor Status
+  canonical_name: ac2_contactor_status
+  display_name: AC2 Contactor Status
+  description: Authoritative telemetry specification for AC2 Contactor Status (ac2_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC3 Contactor Status
+  canonical_name: ac3_contactor_status
+  display_name: AC3 Contactor Status
+  description: Authoritative telemetry specification for AC3 Contactor Status (ac3_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC4 Contactor Status
+  canonical_name: ac4_contactor_status
+  display_name: AC4 Contactor Status
+  description: Authoritative telemetry specification for AC4 Contactor Status (ac4_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC5 Contactor Status
+  canonical_name: ac5_contactor_status
+  display_name: AC5 Contactor Status
+  description: Authoritative telemetry specification for AC5 Contactor Status (ac5_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC6 Contactor Status
+  canonical_name: ac6_contactor_status
+  display_name: AC6 Contactor Status
+  description: Authoritative telemetry specification for AC6 Contactor Status (ac6_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC1 Contactor Cycle Count
+  canonical_name: ac1_contactor_cycle_count
+  display_name: AC1 Contactor Cycle Count
+  description: Authoritative telemetry specification for AC1 Contactor Cycle Count
+    (ac1_contactor_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC2 Contactor Cycle Count
+  canonical_name: ac2_contactor_cycle_count
+  display_name: AC2 Contactor Cycle Count
+  description: Authoritative telemetry specification for AC2 Contactor Cycle Count
+    (ac2_contactor_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC3 Contactor Cycle Count
+  canonical_name: ac3_contactor_cycle_count
+  display_name: AC3 Contactor Cycle Count
+  description: Authoritative telemetry specification for AC3 Contactor Cycle Count
+    (ac3_contactor_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC4 Contactor Cycle Count
+  canonical_name: ac4_contactor_cycle_count
+  display_name: AC4 Contactor Cycle Count
+  description: Authoritative telemetry specification for AC4 Contactor Cycle Count
+    (ac4_contactor_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC5 Contactor Cycle Count
+  canonical_name: ac5_contactor_cycle_count
+  display_name: AC5 Contactor Cycle Count
+  description: Authoritative telemetry specification for AC5 Contactor Cycle Count
+    (ac5_contactor_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC6 Contactor Cycle Count
+  canonical_name: ac6_contactor_cycle_count
+  display_name: AC6 Contactor Cycle Count
+  description: Authoritative telemetry specification for AC6 Contactor Cycle Count
+    (ac6_contactor_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC1 Contactor Fail  Alarm
+  canonical_name: ac1_contactor_fail_alarm
+  display_name: AC1 Contactor Fail  Alarm
+  description: Authoritative telemetry specification for AC1 Contactor Fail  Alarm
+    (ac1_contactor_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC2 Contactor Fail  Alarm
+  canonical_name: ac2_contactor_fail_alarm
+  display_name: AC2 Contactor Fail  Alarm
+  description: Authoritative telemetry specification for AC2 Contactor Fail  Alarm
+    (ac2_contactor_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC3 Contactor Fail  Alarm
+  canonical_name: ac3_contactor_fail_alarm
+  display_name: AC3 Contactor Fail  Alarm
+  description: Authoritative telemetry specification for AC3 Contactor Fail  Alarm
+    (ac3_contactor_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC4 Contactor Fail  Alarm
+  canonical_name: ac4_contactor_fail_alarm
+  display_name: AC4 Contactor Fail  Alarm
+  description: Authoritative telemetry specification for AC4 Contactor Fail  Alarm
+    (ac4_contactor_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC5 Contactor Fail  Alarm
+  canonical_name: ac5_contactor_fail_alarm
+  display_name: AC5 Contactor Fail  Alarm
+  description: Authoritative telemetry specification for AC5 Contactor Fail  Alarm
+    (ac5_contactor_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC6 Contactor Fail  Alarm
+  canonical_name: ac6_contactor_fail_alarm
+  display_name: AC6 Contactor Fail  Alarm
+  description: Authoritative telemetry specification for AC6 Contactor Fail  Alarm
+    (ac6_contactor_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC1 Contactor Welded Alarm
+  canonical_name: ac1_contactor_welded_alarm
+  display_name: AC1 Contactor Welded Alarm
+  description: Authoritative telemetry specification for AC1 Contactor Welded Alarm
+    (ac1_contactor_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC2 Contactor Welded Alarm
+  canonical_name: ac2_contactor_welded_alarm
+  display_name: AC2 Contactor Welded Alarm
+  description: Authoritative telemetry specification for AC2 Contactor Welded Alarm
+    (ac2_contactor_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC3 Contactor Welded Alarm
+  canonical_name: ac3_contactor_welded_alarm
+  display_name: AC3 Contactor Welded Alarm
+  description: Authoritative telemetry specification for AC3 Contactor Welded Alarm
+    (ac3_contactor_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC4 Contactor Welded Alarm
+  canonical_name: ac4_contactor_welded_alarm
+  display_name: AC4 Contactor Welded Alarm
+  description: Authoritative telemetry specification for AC4 Contactor Welded Alarm
+    (ac4_contactor_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC5 Contactor Welded Alarm
+  canonical_name: ac5_contactor_welded_alarm
+  display_name: AC5 Contactor Welded Alarm
+  description: Authoritative telemetry specification for AC5 Contactor Welded Alarm
+    (ac5_contactor_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC6 Contactor Welded Alarm
+  canonical_name: ac6_contactor_welded_alarm
+  display_name: AC6 Contactor Welded Alarm
+  description: Authoritative telemetry specification for AC6 Contactor Welded Alarm
+    (ac6_contactor_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC Merger Contactor (C0) Cycle Count
+  canonical_name: dc_merger_contactor_c0_cycle_count
+  display_name: DC Merger Contactor (C0) Cycle Count
+  description: Authoritative telemetry specification for DC Merger Contactor (C0)
+    Cycle Count (dc_merger_contactor_c0_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC Merger Contactor (C1) Cycle Count
+  canonical_name: dc_merger_contactor_c1_cycle_count
+  display_name: DC Merger Contactor (C1) Cycle Count
+  description: Authoritative telemetry specification for DC Merger Contactor (C1)
+    Cycle Count (dc_merger_contactor_c1_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC Merger Contactor (C2) Cycle Count
+  canonical_name: dc_merger_contactor_c2_cycle_count
+  display_name: DC Merger Contactor (C2) Cycle Count
+  description: Authoritative telemetry specification for DC Merger Contactor (C2)
+    Cycle Count (dc_merger_contactor_c2_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC Merger Contactor (C3) Cycle Count
+  canonical_name: dc_merger_contactor_c3_cycle_count
+  display_name: DC Merger Contactor (C3) Cycle Count
+  description: Authoritative telemetry specification for DC Merger Contactor (C3)
+    Cycle Count (dc_merger_contactor_c3_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC Merger Contactor (C4) Cycle Count
+  canonical_name: dc_merger_contactor_c4_cycle_count
+  display_name: DC Merger Contactor (C4) Cycle Count
+  description: Authoritative telemetry specification for DC Merger Contactor (C4)
+    Cycle Count (dc_merger_contactor_c4_cycle_count)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: External Contactor Cycle Count(Ring)
+  canonical_name: external_contactor_cycle_count_ring
+  display_name: External Contactor Cycle Count(Ring)
+  description: Authoritative telemetry specification for External Contactor Cycle
+    Count(Ring) (external_contactor_cycle_count_ring)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: CONTACTOR
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Merger Contactor (C0) Fail Alarm
+  canonical_name: merger_contactor_c0_fail_alarm
+  display_name: Merger Contactor (C0) Fail Alarm
+  description: Authoritative telemetry specification for Merger Contactor (C0) Fail
+    Alarm (merger_contactor_c0_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Merger Contactor (C1) Fail Alarm
+  canonical_name: merger_contactor_c1_fail_alarm
+  display_name: Merger Contactor (C1) Fail Alarm
+  description: Authoritative telemetry specification for Merger Contactor (C1) Fail
+    Alarm (merger_contactor_c1_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Merger Contactor (C2) Fail Alarm
+  canonical_name: merger_contactor_c2_fail_alarm
+  display_name: Merger Contactor (C2) Fail Alarm
+  description: Authoritative telemetry specification for Merger Contactor (C2) Fail
+    Alarm (merger_contactor_c2_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Merger Contactor (C3) Fail Alarm
+  canonical_name: merger_contactor_c3_fail_alarm
+  display_name: Merger Contactor (C3) Fail Alarm
+  description: Authoritative telemetry specification for Merger Contactor (C3) Fail
+    Alarm (merger_contactor_c3_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Merger Contactor (C4) Fail Alarm
+  canonical_name: merger_contactor_c4_fail_alarm
+  display_name: Merger Contactor (C4) Fail Alarm
+  description: Authoritative telemetry specification for Merger Contactor (C4) Fail
+    Alarm (merger_contactor_c4_fail_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: External Contactor Fail Alarm(Ring)
+  canonical_name: external_contactor_fail_alarm_ring
+  display_name: External Contactor Fail Alarm(Ring)
+  description: Authoritative telemetry specification for External Contactor Fail Alarm(Ring)
+    (external_contactor_fail_alarm_ring)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Merger Contactor (C0) Welded Alarm
+  canonical_name: merger_contactor_c0_welded_alarm
+  display_name: Merger Contactor (C0) Welded Alarm
+  description: Authoritative telemetry specification for Merger Contactor (C0) Welded
+    Alarm (merger_contactor_c0_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Merger Contactor (C1) Welded Alarm
+  canonical_name: merger_contactor_c1_welded_alarm
+  display_name: Merger Contactor (C1) Welded Alarm
+  description: Authoritative telemetry specification for Merger Contactor (C1) Welded
+    Alarm (merger_contactor_c1_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Merger Contactor (C2) Welded Alarm
+  canonical_name: merger_contactor_c2_welded_alarm
+  display_name: Merger Contactor (C2) Welded Alarm
+  description: Authoritative telemetry specification for Merger Contactor (C2) Welded
+    Alarm (merger_contactor_c2_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Merger Contactor (C3) Welded Alarm
+  canonical_name: merger_contactor_c3_welded_alarm
+  display_name: Merger Contactor (C3) Welded Alarm
+  description: Authoritative telemetry specification for Merger Contactor (C3) Welded
+    Alarm (merger_contactor_c3_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Merger Contactor (C4) Welded Alarm
+  canonical_name: merger_contactor_c4_welded_alarm
+  display_name: Merger Contactor (C4) Welded Alarm
+  description: Authoritative telemetry specification for Merger Contactor (C4) Welded
+    Alarm (merger_contactor_c4_welded_alarm)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: C0 Merger Contactor Status
+  canonical_name: c0_merger_contactor_status
+  display_name: C0 Merger Contactor Status
+  description: Authoritative telemetry specification for C0 Merger Contactor Status
+    (c0_merger_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: C1 Merger Contactor Status
+  canonical_name: c1_merger_contactor_status
+  display_name: C1 Merger Contactor Status
+  description: Authoritative telemetry specification for C1 Merger Contactor Status
+    (c1_merger_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: C2 Merger Contactor Status
+  canonical_name: c2_merger_contactor_status
+  display_name: C2 Merger Contactor Status
+  description: Authoritative telemetry specification for C2 Merger Contactor Status
+    (c2_merger_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: C3 Merger Contactor Status
+  canonical_name: c3_merger_contactor_status
+  display_name: C3 Merger Contactor Status
+  description: Authoritative telemetry specification for C3 Merger Contactor Status
+    (c3_merger_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: C4 Merger Contactor Status
+  canonical_name: c4_merger_contactor_status
+  display_name: C4 Merger Contactor Status
+  description: Authoritative telemetry specification for C4 Merger Contactor Status
+    (c4_merger_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: External Contactor Status
+  canonical_name: external_contactor_status
+  display_name: External Contactor Status
+  description: Authoritative telemetry specification for External Contactor Status
+    (external_contactor_status)
+  entity: CHARGER
+  field_class: STATE
+  category: CONTACTOR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED

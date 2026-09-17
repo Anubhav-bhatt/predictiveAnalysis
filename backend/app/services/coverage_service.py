@@ -454,9 +454,7 @@ class CoverageService:
             "unique_timestamp_count": ev.unique_timestamp_count,
             "expected_timestamp_count": ev.expected_timestamp_count,
             "expected_sampling_interval_seconds": ev.expected_sampling_interval_seconds,
-            "observed_median_sampling_interval_seconds": _dec(
-                ev.observed_median_interval_seconds
-            ),
+            "observed_median_sampling_interval_seconds": _dec(ev.observed_median_interval_seconds),
             "observed_p95_sampling_interval_seconds": _dec(ev.observed_p95_interval_seconds),
             "observed_min_sampling_interval_seconds": _dec(ev.observed_min_interval_seconds),
             "observed_max_sampling_interval_seconds": _dec(ev.observed_max_interval_seconds),

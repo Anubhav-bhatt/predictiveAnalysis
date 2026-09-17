@@ -52,9 +52,7 @@ class TelemetryGap(UUIDPrimaryKeyMixin, Base):
 
     severity: Mapped[GapSeverity] = mapped_column(enum_column(GapSeverity), nullable=False)
 
-    created_at: Mapped[dt.datetime] = mapped_column(
-        UtcDateTime(), nullable=False, default=utcnow
-    )
+    created_at: Mapped[dt.datetime] = mapped_column(UtcDateTime(), nullable=False, default=utcnow)
 
     coverage: Mapped[ChargerDayCoverage] = relationship(back_populates="gaps")
     charger: Mapped[Charger | None] = relationship(back_populates="gaps")

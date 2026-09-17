@@ -378,6 +378,7 @@ class DictionaryRegistry:
     missing_values: MissingValueRegistry
     by_identity: dict[tuple[str, int], FieldSpec] = field(default_factory=dict)
     by_name: dict[str, FieldSpec] = field(default_factory=dict)
+    by_name_normalized: dict[str, FieldSpec] = field(default_factory=dict)
     patterns: list[_PatternRule] = field(default_factory=list)
 
     # -- loading -----------------------------------------------------------
@@ -436,6 +437,8 @@ class DictionaryRegistry:
         return registry
 
     def _register(self, spec: FieldSpec) -> None:
+        norm_key = re.sub(r"\s+", "", spec.source_name).casefold()
+        self.by_name_normalized.setdefault(norm_key, spec)
         if spec.source_occurrence is None:
             if spec.source_name in self.by_name:
                 raise DictionaryError(
@@ -480,6 +483,9 @@ class DictionaryRegistry:
             return ResolvedField(explicit, source_position=position, is_dictionary_mapped=True)
 
         named = self.by_name.get(source_name)
+        if named is None:
+            norm_key = re.sub(r"\s+", "", source_name).casefold()
+            named = self.by_name_normalized.get(norm_key)
         if named is not None:
             spec = named
             if occurrence > 1:

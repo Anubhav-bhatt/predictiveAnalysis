@@ -10,6 +10,13 @@ from backend.app.db.base import Base
 from backend.app.models.charger import Charger
 from backend.app.models.charger_day_coverage import ChargerDayCoverage
 from backend.app.models.data_quality_issue import DataQualityIssue
+from backend.app.models.discrete_events import (
+    AlarmEvent,
+    ChargingSessionEvent,
+    ConfigurationChangeEvent,
+    FaultEvent,
+    StateTransitionEvent,
+)
 from backend.app.models.field_definition import (
     FieldAllowedValue,
     FieldDefinition,
@@ -18,7 +25,26 @@ from backend.app.models.field_definition import (
 )
 from backend.app.models.field_profile import FieldProfile
 from backend.app.models.ingestion_run import IngestionRun
+from backend.app.models.research_results import (
+    AnalyticalDatasetRun,
+    PatternCandidateRecord,
+)
 from backend.app.models.schema_version import SchemaVersion
+from backend.app.models.silver_telemetry import (
+    SilverAlarmObservation,
+    SilverChargerTelemetry,
+    SilverCommunicationObservation,
+    SilverConfigurationSnapshot,
+    SilverConnectorTelemetry,
+    SilverContactorObservation,
+    SilverLifecycleCounterObservation,
+    SilverNormalizationRun,
+    SilverObservationProvenance,
+    SilverRectifierTelemetry,
+    SilverSessionObservation,
+    SilverSiteMetadata,
+    SilverSmrTelemetry,
+)
 from backend.app.models.telemetry_file import (
     IdentifierType,
     TelemetryFile,
@@ -34,10 +60,15 @@ from backend.app.models.telemetry_gap import TelemetryGap
 from backend.app.models.upload_batch import UploadBatch, UploadBatchFile
 
 __all__ = [
+    "AlarmEvent",
+    "AnalyticalDatasetRun",
     "Base",
     "Charger",
     "ChargerDayCoverage",
+    "ChargingSessionEvent",
+    "ConfigurationChangeEvent",
     "DataQualityIssue",
+    "FaultEvent",
     "FieldAllowedValue",
     "FieldDefinition",
     "FieldPredictionDomain",
@@ -45,7 +76,22 @@ __all__ = [
     "FieldSentinelValue",
     "IdentifierType",
     "IngestionRun",
+    "PatternCandidateRecord",
     "SchemaVersion",
+    "SilverAlarmObservation",
+    "SilverChargerTelemetry",
+    "SilverCommunicationObservation",
+    "SilverConfigurationSnapshot",
+    "SilverConnectorTelemetry",
+    "SilverContactorObservation",
+    "SilverLifecycleCounterObservation",
+    "SilverNormalizationRun",
+    "SilverObservationProvenance",
+    "SilverRectifierTelemetry",
+    "SilverSessionObservation",
+    "SilverSiteMetadata",
+    "SilverSmrTelemetry",
+    "StateTransitionEvent",
     "TelemetryFile",
     "TelemetryFileDay",
     "TelemetryFileIdentifier",

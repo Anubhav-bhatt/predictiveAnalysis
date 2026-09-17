@@ -101,9 +101,7 @@ class UUIDPrimaryKeyMixin:
 
 
 class TimestampMixin:
-    created_at: Mapped[dt.datetime] = mapped_column(
-        UtcDateTime(), default=utcnow, nullable=False
-    )
+    created_at: Mapped[dt.datetime] = mapped_column(UtcDateTime(), default=utcnow, nullable=False)
     updated_at: Mapped[dt.datetime] = mapped_column(
         UtcDateTime(), default=utcnow, onupdate=utcnow, nullable=False
     )

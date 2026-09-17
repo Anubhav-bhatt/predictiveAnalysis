@@ -9,7 +9,10 @@ import { useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 
 import { GapTimeline } from '../components/GapTimeline';
+import { EventTimelineTab } from './EventTimelineTab';
 import { FramesTab } from './FramesTab';
+import { HistoryTab } from './HistoryTab';
+import { ResearchLabTab } from './ResearchLabTab';
 import { CompletenessPill, ArrivalPill, CoverageBar, SeverityPill } from '../components/status';
 import { GapsTable } from '../components/tables';
 import { api } from '../lib/api';
@@ -28,8 +31,18 @@ export function ChargerDetail() {
   const selectedDate = params.get('date') ?? today();
   const [rangeDays, setRangeDays] = useState(30);
   // Tab lives in the URL so a view is refreshable, bookmarkable and shareable.
-  const tab = params.get('tab') === 'frames' ? 'frames' : 'coverage';
-  const setTab = (value: 'coverage' | 'frames') => {
+  const rawTab = params.get('tab');
+  const tab: 'coverage' | 'frames' | 'history' | 'events' | 'research' =
+    rawTab === 'frames'
+      ? 'frames'
+      : rawTab === 'history'
+      ? 'history'
+      : rawTab === 'events'
+      ? 'events'
+      : rawTab === 'research'
+      ? 'research'
+      : 'coverage';
+  const setTab = (value: 'coverage' | 'frames' | 'history' | 'events' | 'research') => {
     const next = new URLSearchParams(params);
     next.set('tab', value);
     setParams(next, { replace: true });
@@ -55,7 +68,7 @@ export function ChargerDetail() {
         <div>
           <h1>{chargerId}</h1>
           <div className="sub">
-            Telemetry coverage history. <Link to="/data-operations">Back to data operations</Link>
+            Telemetry coverage and historical continuity. <Link to="/data-operations">Back to data operations</Link>
           </div>
         </div>
         <div className="controls">
@@ -90,7 +103,31 @@ export function ChargerDetail() {
         >
           Reconstruction
         </button>
+        <button
+          className={tab === 'history' ? 'active' : ''}
+          onClick={() => setTab('history')}
+        >
+          Historical Continuity
+        </button>
+        <button
+          className={tab === 'events' ? 'active' : ''}
+          onClick={() => setTab('events')}
+        >
+          Operational Events
+        </button>
+        <button
+          className={tab === 'research' ? 'active' : ''}
+          onClick={() => setTab('research')}
+        >
+          Research Lab
+        </button>
       </div>
+
+      {tab === 'research' ? <ResearchLabTab chargerId={chargerId} /> : null}
+
+      {tab === 'events' ? <EventTimelineTab chargerId={chargerId} /> : null}
+
+      {tab === 'history' ? <HistoryTab chargerId={chargerId} /> : null}
 
       {tab === 'frames' ? (
         <FramesTab chargerId={chargerId} businessDate={selectedDate} />

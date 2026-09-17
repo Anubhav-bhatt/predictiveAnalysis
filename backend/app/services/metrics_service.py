@@ -133,9 +133,7 @@ class MetricsService:
 
         # Expected = every charger-day this fleet was measured against. Rows
         # flagged UNEXPECTED are not part of that denominator.
-        metrics.expected_chargers = (
-            int(summary["total_charger_days"]) - metrics.unexpected
-        )
+        metrics.expected_chargers = int(summary["total_charger_days"]) - metrics.unexpected
 
         metrics.complete = int(completeness.get(CompletenessStatus.COMPLETE.value, 0))
         metrics.partial = int(completeness.get(CompletenessStatus.PARTIAL.value, 0))
@@ -166,9 +164,7 @@ class MetricsService:
         metrics.fleet_coverage_percentage = (
             round(sum(coverage_values) / len(coverage_values), 3) if coverage_values else 0.0
         )
-        metrics.average_coverage_percentage = float(
-            summary["average_coverage_percentage"] or 0.0
-        )
+        metrics.average_coverage_percentage = float(summary["average_coverage_percentage"] or 0.0)
         metrics.p50_coverage_percentage = percentile(coverage_values, 0.50)
         metrics.p95_coverage_percentage = percentile(coverage_values, 0.95)
 

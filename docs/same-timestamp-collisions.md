@@ -20,7 +20,7 @@ are a genuine state transition.
 This is why the platform never does:
 
 ```python
-drop_duplicates(subset=["timestamp", "connector", "smr"])   # ❌
+drop_duplicates(subset=["timestamp", "connector", "smr"])  # ❌
 ```
 
 That single line would silently delete one of the two states, and nothing downstream

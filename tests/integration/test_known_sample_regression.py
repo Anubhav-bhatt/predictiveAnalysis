@@ -198,10 +198,14 @@ async def test_full_pipeline_over_the_known_sample(
     assert summary.missing_charger_count == 0
 
     coverage = (
-        await session.execute(
-            sa.select(ChargerDayCoverage).where(ChargerDayCoverage.charger_id == CHARGER)
+        (
+            await session.execute(
+                sa.select(ChargerDayCoverage).where(ChargerDayCoverage.charger_id == CHARGER)
+            )
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
 
     assert coverage.arrival_status in {ArrivalStatus.RECEIVED, ArrivalStatus.LATE}
     assert coverage.connector_count_detected == 2

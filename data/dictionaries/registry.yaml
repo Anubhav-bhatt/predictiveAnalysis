@@ -1,118 +1,55 @@
-# Charger field dictionary - registry index (Phase 1B sections 4 and 22).
-#
-# This file is the single programmatic entry point.  Curated per-entity files
-# are listed under `includes`; `patterns` cover regular field families where a
-# naming convention genuinely determines the semantics.
-#
-# Precedence, highest first:
-#   1. explicit entry matching (source_name, source_occurrence)
-#   2. explicit entry matching source_name with no occurrence given
-#   3. first matching pattern, in file order
-#   4. the deterministic classifier in pipelines/validation/classifier.py
-#
-# Anything resolved at level 3 or 4 is recorded as AUTO_CLASSIFIED; anything the
-# classifier cannot reason about becomes DOMAIN_REVIEW_REQUIRED rather than a
-# guess.
-
 version: 1
-revision: charger_status_v1.0.0
-name: charger_status_v1
-description: >-
-  Field dictionary for the daily DC fast-charger status export (449 source
-  positions, 2 connectors, 4 SMRs).
-
+revision: charger_status_v2.0.0
+name: charger_status_v2
+description: Authoritative field dictionary for commercial DC fast-charger status
+  telemetry (456 production positions + legacy fixture support).
 includes:
-  - identity.yaml
-  - charger.yaml
-  - connector.yaml
-  - smr.yaml
-  - session.yaml
-  - communication.yaml
-  - insulation.yaml
-  - counters.yaml
-
+- alarm.yaml
+- charger.yaml
+- communication.yaml
+- configuration.yaml
+- connector.yaml
+- contactor.yaml
+- counters.yaml
+- identity.yaml
+- legacy_fixture.yaml
+- rectifier.yaml
+- session.yaml
+- smr.yaml
 patterns:
-  # -- alarm family ------------------------------------------------------
-  # ~117 fields follow the "Alarm <subject>" convention and all carry the
-  # explicit "Not alarm" inactive state.  The convention is strong enough to
-  # classify entity/class/category, but NOT strong enough to claim we know what
-  # each specific alarm means at device level - hence no per-alarm description.
-  - id: alarm_family
-    match: "^Alarm\\s+.+$"
-    entity: ALARM
-    field_class: ALARM_FLAG
-    category: ALARM
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    allowed_values:
-      - value: "Not alarm"
-        meaning: alarm_inactive
-    normalization_strategy: ALARM_EDGE
-    storage_strategy: ALARM_EVENT
-    aggregation_strategy: ANY_TRUE
-    ml_candidate: "YES"
-    prediction_domains:
-      - charger_health
-    leakage_risk: MEDIUM
-    availability_semantics: REAL_TIME
-    review_status: AUTO_CLASSIFIED
-    range_status: NOT_APPLICABLE
-    notes: >-
-      Classified from the "Alarm <subject>" naming convention. The active-state
-      token is not yet confirmed for every alarm, so allowed_values lists only
-      the observed inactive state and UNKNOWN_ENUM_VALUE stays disabled for this
-      family until a device engineer confirms the full set.
-
-  # -- vendor configuration block ----------------------------------------
-  # Present and constant all day, but the vendor has not published what they
-  # control. Naming them "configuration" is justified; claiming to know their
-  # meaning is not.
-  - id: config_parameter_block
-    match: "^Config Parameter\\s+\\d+$"
-    entity: CONFIGURATION
-    field_class: CONFIGURATION
-    category: SYSTEM
-    data_type: UNKNOWN
-    unit: null
-    nullable: true
-    required: false
-    normalization_strategy: CONFIG_SNAPSHOT
-    storage_strategy: CONFIGURATION_SNAPSHOT
-    aggregation_strategy: LAST
-    ml_candidate: UNKNOWN
-    leakage_risk: UNKNOWN
-    availability_semantics: STATIC
-    review_status: DOMAIN_REVIEW_REQUIRED
-    range_status: UNVERIFIED
-    notes: >-
-      Vendor configuration block. Constant within a day but semantics are
-      undocumented; requires vendor/domain confirmation before any downstream
-      use. Retained in full - constant does not mean useless.
-
-  # -- reserved / spare positions ----------------------------------------
-  # Empty in the observed sample. Section 14 is explicit that this must NOT be
-  # read as "globally useless": a spare may be populated by another firmware
-  # variant or a differently-optioned charger.
-  - id: reserved_spare_block
-    match: "^Reserved Spare\\s+\\d+$"
-    entity: UNKNOWN
-    field_class: UNKNOWN
-    category: UNKNOWN
-    data_type: UNKNOWN
-    unit: null
-    nullable: true
-    required: false
-    normalization_strategy: RAW_RETAIN
-    storage_strategy: RAW_ONLY
-    aggregation_strategy: NONE
-    ml_candidate: UNKNOWN
-    leakage_risk: UNKNOWN
-    availability_semantics: UNKNOWN
-    review_status: DOMAIN_REVIEW_REQUIRED
-    range_status: UNVERIFIED
-    notes: >-
-      Reserved/spare source position, empty in the analysed sample. Retained in
-      the contract because emptiness on one charger-day says nothing about other
-      firmware variants, hardware options or days.
+- id: alarm_family
+  match: ^Alarm\s+.+$
+  entity: ALARM
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  review_status: AUTO_CLASSIFIED
+  range_status: NOT_APPLICABLE
+  allowed_values:
+  - value: Not alarm
+    meaning: alarm_inactive
+- id: config_parameter_block
+  match: ^Config Parameter\s+\d+$
+  entity: CONFIGURATION
+  field_class: CONFIGURATION
+  category: SYSTEM
+  data_type: UNKNOWN
+  unit: null
+  nullable: true
+  required: false
+  review_status: DOMAIN_REVIEW_REQUIRED
+  range_status: UNVERIFIED
+- id: reserved_spare_block
+  match: ^Reserved Spare\s+\d+$
+  entity: UNKNOWN
+  field_class: UNKNOWN
+  category: UNKNOWN
+  data_type: UNKNOWN
+  unit: null
+  nullable: true
+  required: false
+  review_status: DOMAIN_REVIEW_REQUIRED
+  range_status: UNVERIFIED

@@ -80,9 +80,7 @@ class DataQualityIssue(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     field_name: Mapped[str | None] = mapped_column(sa.String(512), nullable=True)
     field_occurrence: Mapped[int | None] = mapped_column(sa.Integer, nullable=True)
     source_row_number: Mapped[int | None] = mapped_column(sa.BigInteger, nullable=True)
-    event_time: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
+    event_time: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
     entity_reference: Mapped[str | None] = mapped_column(sa.String(128), nullable=True)
 
     # Charger-day locators, populated for CHARGER_DAY scope so daily findings are
@@ -99,9 +97,7 @@ class DataQualityIssue(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     occurrence_count: Mapped[int] = mapped_column(sa.BigInteger, nullable=False, default=1)
 
     issue_hash: Mapped[str] = mapped_column(sa.String(64), nullable=False)
-    detected_at: Mapped[dt.datetime] = mapped_column(
-        UtcDateTime(), nullable=False, default=utcnow
-    )
+    detected_at: Mapped[dt.datetime] = mapped_column(UtcDateTime(), nullable=False, default=utcnow)
 
     telemetry_file: Mapped[TelemetryFile | None] = relationship(back_populates="quality_issues")
     ingestion_run: Mapped[IngestionRun | None] = relationship(back_populates="quality_issues")

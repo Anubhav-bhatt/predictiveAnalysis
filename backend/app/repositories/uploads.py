@@ -43,9 +43,7 @@ class UploadRepository(Repository):
         await self.session.flush()
         return batch
 
-    async def get_batch(self, batch_id: UUID, *, with_files: bool = False) -> (
-        UploadBatch | None
-    ):
+    async def get_batch(self, batch_id: UUID, *, with_files: bool = False) -> UploadBatch | None:
         stmt = sa.select(UploadBatch).where(UploadBatch.id == batch_id)
         if with_files:
             stmt = stmt.options(selectinload(UploadBatch.files))
@@ -64,9 +62,7 @@ class UploadRepository(Repository):
         stmt = (
             sa.select(UploadBatch)
             .where(
-                UploadBatch.status.in_(
-                    [UploadBatchStatus.REGISTERED, UploadBatchStatus.PROCESSING]
-                )
+                UploadBatch.status.in_([UploadBatchStatus.REGISTERED, UploadBatchStatus.PROCESSING])
             )
             .order_by(UploadBatch.created_at)
         )
@@ -128,9 +124,7 @@ class UploadRepository(Repository):
         )
         return list((await self.session.execute(stmt)).scalars().all())
 
-    async def file_by_name(
-        self, batch_id: UUID, original_filename: str
-    ) -> UploadBatchFile | None:
+    async def file_by_name(self, batch_id: UUID, original_filename: str) -> UploadBatchFile | None:
         stmt = sa.select(UploadBatchFile).where(
             UploadBatchFile.batch_id == batch_id,
             UploadBatchFile.original_filename == original_filename,
@@ -187,9 +181,9 @@ class UploadRepository(Repository):
             UploadFileStatus.FAILED.value, 0
         )
         quarantined = file_counts.get(FileStatus.QUARANTINED.value, 0)
-        duplicate = staged_counts.get(
-            UploadFileStatus.DUPLICATE.value, 0
-        ) + file_counts.get(FileStatus.DUPLICATE.value, 0)
+        duplicate = staged_counts.get(UploadFileStatus.DUPLICATE.value, 0) + file_counts.get(
+            FileStatus.DUPLICATE.value, 0
+        )
         rejected = staged_counts.get(UploadFileStatus.REJECTED.value, 0)
         pending = staged_counts.get(UploadFileStatus.PENDING.value, 0)
 
@@ -254,9 +248,7 @@ class UploadRepository(Repository):
         }
 
         staged = await self.session.execute(
-            sa.select(
-                UploadBatchFile.batch_id, UploadBatchFile.status, sa.func.count()
-            )
+            sa.select(UploadBatchFile.batch_id, UploadBatchFile.status, sa.func.count())
             .where(UploadBatchFile.batch_id.in_(ids))
             .group_by(UploadBatchFile.batch_id, UploadBatchFile.status)
         )

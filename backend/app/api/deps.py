@@ -16,29 +16,48 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from backend.app.core.config import Settings, get_settings
 from backend.app.db.session import get_session_factory
 from backend.app.repositories.base import PageRequest
+from backend.app.repositories.events import EventRepository
 from backend.app.repositories.fleet import FleetRepository
 from backend.app.repositories.frames import FrameRepository
 from backend.app.repositories.ingestion import IngestionRunRepository, TelemetryFileRepository
 from backend.app.repositories.quality import QualityRepository
+from backend.app.repositories.silver import SilverRepository
 from backend.app.repositories.uploads import UploadRepository
 from backend.app.services.coverage_service import CoverageService
+from backend.app.services.event_service import EventReconstructionService
 from backend.app.services.factory import (
     build_coverage_service,
+    build_event_service,
+    build_historical_service,
     build_metrics_service,
+    build_normalization_service,
+    build_research_access,
+    build_research_service,
     build_upload_service,
 )
+from backend.app.services.history_service import HistoricalContinuityService
 from backend.app.services.metrics_service import MetricsService
+from backend.app.services.normalization_service import NormalizationService
+from backend.app.services.research_access import ResearchDataAccessLayer
+from backend.app.services.research_service import ResearchService
 from backend.app.services.upload_service import UploadService
 
 __all__ = [
     "CoverageServiceDep",
+    "EventRepoDep",
+    "EventServiceDep",
     "FleetRepoDep",
     "FrameRepoDep",
+    "HistoricalServiceDep",
     "MetricsServiceDep",
+    "NormalizationServiceDep",
     "PageDep",
+    "ResearchAccessDep",
+    "ResearchServiceDep",
     "RunRepoDep",
     "SessionDep",
     "SettingsDep",
+    "SilverRepoDep",
     "UploadRepoDep",
     "UploadServiceDep",
     "WriteSessionDep",
@@ -142,6 +161,16 @@ def get_coverage_service(session: SessionDep, settings: SettingsDep) -> Coverage
     return build_coverage_service(session, settings=settings)
 
 
+def get_silver_repo(session: SessionDep) -> SilverRepository:
+    return SilverRepository(session)
+
+
+def get_normalization_service(
+    session: WriteSessionDep, settings: SettingsDep
+) -> NormalizationService:
+    return build_normalization_service(session, settings=settings)
+
+
 FleetRepoDep = Annotated[FleetRepository, Depends(get_fleet_repo)]
 FileRepoDep = Annotated[TelemetryFileRepository, Depends(get_file_repo)]
 RunRepoDep = Annotated[IngestionRunRepository, Depends(get_run_repo)]
@@ -151,3 +180,36 @@ UploadRepoDep = Annotated[UploadRepository, Depends(get_upload_repo)]
 UploadServiceDep = Annotated[UploadService, Depends(get_upload_service)]
 MetricsServiceDep = Annotated[MetricsService, Depends(get_metrics_service)]
 CoverageServiceDep = Annotated[CoverageService, Depends(get_coverage_service)]
+SilverRepoDep = Annotated[SilverRepository, Depends(get_silver_repo)]
+NormalizationServiceDep = Annotated[NormalizationService, Depends(get_normalization_service)]
+
+
+def get_historical_service(session: SessionDep) -> HistoricalContinuityService:
+    return build_historical_service(session)
+
+
+def get_research_access(session: SessionDep) -> ResearchDataAccessLayer:
+    return build_research_access(session)
+
+
+HistoricalServiceDep = Annotated[HistoricalContinuityService, Depends(get_historical_service)]
+ResearchAccessDep = Annotated[ResearchDataAccessLayer, Depends(get_research_access)]
+
+
+def get_event_repo(session: SessionDep) -> EventRepository:
+    return EventRepository(session)
+
+
+def get_event_service(session: WriteSessionDep) -> EventReconstructionService:
+    return build_event_service(session)
+
+
+EventRepoDep = Annotated[EventRepository, Depends(get_event_repo)]
+EventServiceDep = Annotated[EventReconstructionService, Depends(get_event_service)]
+
+
+def get_research_service(session: WriteSessionDep) -> ResearchService:
+    return build_research_service(session)
+
+
+ResearchServiceDep = Annotated[ResearchService, Depends(get_research_service)]

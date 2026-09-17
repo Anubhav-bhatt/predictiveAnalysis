@@ -211,9 +211,7 @@ def analyse_event_time(
 
     # The same localisation applied to *every* row, nulls preserved, so the result
     # stays positionally aligned with the input rows.
-    row_aware = (
-        best_parsed.dt.replace_time_zone(source_timezone).dt.convert_time_zone("UTC")
-    )
+    row_aware = best_parsed.dt.replace_time_zone(source_timezone).dt.convert_time_zone("UTC")
 
     median_s, p95_s, min_s, max_s = _interval_stats(unique_sorted)
 

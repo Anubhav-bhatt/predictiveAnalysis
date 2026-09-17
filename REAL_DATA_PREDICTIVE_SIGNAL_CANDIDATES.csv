@@ -1,0 +1,457 @@
+position,source_name,entity,field_class,predictive_value,rationale,leakage_risk
+0,Charger Id,CHARGER,IDENTIFIER,CONTEXT,"Variability: HIGH_VARIABILITY, Null%: 0.0%, Unique: 2252",NONE
+1,OCPP Id,COMMUNICATION,IDENTIFIER,CONTEXT,"Variability: HIGH_VARIABILITY, Null%: 0.5%, Unique: 2103",NONE
+2,Charging Station,SITE,IDENTIFIER,CONTEXT,"Variability: VARIABLE, Null%: 0.0%, Unique: 686",NONE
+3,Logged At Time,CHARGER,TIMESTAMP,MEDIUM,"Variability: VARIABLE, Null%: 0.0%, Unique: 700",NONE
+4,L1-N Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 2.7%, Unique: 61",NONE
+5,L2-N Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 2.7%, Unique: 67",NONE
+6,L3-N Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 2.7%, Unique: 63",NONE
+7,Neutral Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 2.7%, Unique: 80",NONE
+8,Line 1 Input Current,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 3.5%, Unique: 133",NONE
+9,Line 2 Input Current,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 3.5%, Unique: 89",NONE
+10,Line 3 Input Current,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 3.5%, Unique: 88",NONE
+11,Frequency,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 3.5%, Unique: 4",NONE
+12,Power Factor,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 3.5%, Unique: 44",NONE
+13,Active Power,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 3.5%, Unique: 80",NONE
+14,AC Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 42.4%, Unique: 2",NONE
+15,L1-L2 Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 60.0%, Unique: 68",NONE
+16,L2-L3 Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 60.0%, Unique: 69",NONE
+17,L3-L1 Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 60.0%, Unique: 64",NONE
+18,Reactive Power,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 60.0%, Unique: 100",NONE
+19,Active Energy,CHARGER,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 60.0%, Unique: 270",NONE
+20,Reactive Energy,CHARGER,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 60.0%, Unique: 278",NONE
+21,Apparent Energy,CHARGER,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 60.0%, Unique: 270",NONE
+22,Ground resistance value,ALARM,ALARM_FLAG,HIGH,"Variability: VARIABLE, Null%: 11.5%, Unique: 195",NONE
+23,L1-N Voltage(Meter),CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 99.4%, Unique: 4",NONE
+24,L2-N Voltage(Meter),CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 99.4%, Unique: 5",NONE
+25,L3-N Voltage(Meter),CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 99.4%, Unique: 4",NONE
+26,Grid Status,CHARGER,STATE,MEDIUM,"Variability: NEAR_CONSTANT, Null%: 20.0%, Unique: 2",NONE
+27,Apparent Power,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 99.9%, Unique: 1",NONE
+28,CCU Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+29,LED Strip Card Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+30,DCSI Card Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+31,AC Sense Card CommFail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+32,LED Board Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+33,RFID Reader Comm Fail,COMMUNICATION,IDENTIFIER,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+34,Modem Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+35,Modem Sim Present,COMMUNICATION,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+36,Display Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+37,CMS Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+38,Fan Card Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+39,I/O Card Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+40,Input ACEM Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+41,RTC Clock Drift Warning,ALARM,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+42,RMS Disabled Alarm,ALARM,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+43,LEDCard2 Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+44,Modem Signal Intensity,COMMUNICATION,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 0.0%, Unique: 34",NONE
+45,RSRP,COMMUNICATION,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 9.4%, Unique: 71",NONE
+46,RSRQ,COMMUNICATION,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 9.4%, Unique: 19",NONE
+47,Pilot-Upper TCP Interface,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+48,RMS Enable ModifiedBy,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 5",NONE
+49,Fan Run Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.7%, Unique: 2",NONE
+50,FAN Set Speed,CHARGER,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 61.2%, Unique: 16",NONE
+51,System Fan Speed,CHARGER,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 61.2%, Unique: 13",NONE
+52,Cabinet Temperature,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 0.0%, Unique: 62",NONE
+53,Cooling Temp Sensor 1,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 2.8%, Unique: 45",NONE
+54,Cooling Temp Sensor 2,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 2.8%, Unique: 42",NONE
+55,Fan Card Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+56,Rect Max Temperature,RECTIFIER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 81.1%, Unique: 32",NONE
+57,Fan 1 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+58,Fan 2 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+59,Fan 3 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+60,Fan 4 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+61,Fan 5 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+62,Fan 6 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+63,Fan 7 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+64,Fan 8 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+65,Fan 9 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+66,Fan 10 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+67,Fan 11 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+68,Fan 12 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+69,Fan 13 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+70,Fan 14 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+71,Fan 15 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+72,Fan 16 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+73,Fan 17 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+74,Fan 18 Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+75,Fan 19 Status,CHARGER,STATE,LOW,"Variability: CONSTANT, Null%: 2.8%, Unique: 1",NONE
+76,Fan 20 Status,CHARGER,STATE,LOW,"Variability: CONSTANT, Null%: 2.8%, Unique: 1",NONE
+77,Fan 21 Status,CHARGER,STATE,LOW,"Variability: CONSTANT, Null%: 2.8%, Unique: 1",NONE
+78,Fan 22 Status,CHARGER,STATE,LOW,"Variability: CONSTANT, Null%: 2.8%, Unique: 1",NONE
+79,Fan 23 Status,CHARGER,STATE,MEDIUM,"Variability: NEAR_CONSTANT, Null%: 2.8%, Unique: 2",NONE
+80,DC Section FAN Status,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 2.8%, Unique: 2",NONE
+81,Grid Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+82,Class-C SPD Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+83,NE Voltage High Alarm,ALARM,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+84,Line 1 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+85,Line 2 Fail,CHARGER,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+86,Line 3 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+87,Line 1 Over Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+88,Line 2 Over Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+89,Line 3 Over Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+90,Line 1 Under Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+91,Line 2 Under Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+92,Line 3 Under Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+93,Door Open,ALARM,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+94,Smoke Alarm,ALARM,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+95,Emergency Stop Active,ALARM,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+96,System Over Temperature,CHARGER,STATE,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+97,Input Contactor Fail,CONTACTOR,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+98,System Tilted,CHARGER,STATE,LOW,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+99,Temperature Sensor Disconnected,CHARGER,STATE,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+100,System FAN Fail,CHARGER,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+101,Filter Maintenance Warning,ALARM,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+102,Mains High,CHARGER,STATE,LOW,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+103,Mains Low,CHARGER,STATE,LOW,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+104,Grid Abnormal,CHARGER,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+105,SD Card Not Present,CHARGER,STATE,LOW,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+106,SD Card Fail,CHARGER,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+107,SD Card Crc Fail,CHARGER,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+108,Input RCBO Tripped,ALARM,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+109,Temperature Sensor-1 Fail,CHARGER,STATE,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+110,Temperature Sensor-2 Fail,CHARGER,STATE,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+111,MCCB Tripped,ALARM,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+112,Class-D SPD Fail Alarm,ALARM,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+113,Ground Fault Alarm,ALARM,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+114,HVLV Cut-Off Alarm,ALARM,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+115,Auxillary MCB Trip Alarm,ALARM,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+116,All Rectifier Fail,RECTIFIER,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+117,All Rectifier Communication Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+118,DCEM SN Duplicate,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+119,BackupBatteryLow,BATTERY,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+120,Earth Leakage Sensed Alarm,ALARM,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+121,GMD Comm Fail alarm,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+122,Ring Communication Break,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+123,SIM not inserted Alarm,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+124,Any Rect Fail,RECTIFIER,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+125,Grid Over Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+126,Grid Under Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+127,Any Rect Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 9.2%, Unique: 2",NONE
+128,Connector No,CONNECTOR,IDENTIFIER,CONTEXT,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+129,Connector Type,CONFIGURATION,CONFIGURATION,CONTEXT,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 4",NONE
+130,Connector Status,CONNECTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 8",NONE
+131,OCPP State,COMMUNICATION,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 6",NONE
+132,Pilot Controller State,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 9.1%, Unique: 6",NONE
+133,Plug Status,CONNECTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.7%, Unique: 2",NONE
+134,CCS Main State,CONNECTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 55.2%, Unique: 10",NONE
+135,CCS Sub State,CONNECTOR,STATE,MEDIUM,"Variability: VARIABLE, Null%: 64.2%, Unique: 14",NONE
+136,CCU Main State,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 64.3%, Unique: 9",NONE
+137,CP Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 2.7%, Unique: 71",NONE
+138,Gun Temp Dc+,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 0.7%, Unique: 71",NONE
+139,Gun Temp Dc-,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 0.7%, Unique: 74",NONE
+140,Gun Insertion Cycle Count,COUNTER,COUNTER,MEDIUM,"Variability: HIGH_VARIABILITY, Null%: 12.4%, Unique: 2119",NONE
+141,Gun Voltage,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: HIGH_VARIABILITY, Null%: 0.7%, Unique: 1196",NONE
+142,Charge Selected Mode,CONFIGURATION,CONFIGURATION,CONTEXT,"Variability: LOW_VARIABILITY, Null%: 3.4%, Unique: 5",NONE
+143,Last Charge Session Stop Reason,SESSION,STATE,LEAKAGE_RISK,"Variability: VARIABLE, Null%: 0.0%, Unique: 81",HIGH
+144,No Of Active Rectifiers,RECTIFIER,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 37.3%, Unique: 7",NONE
+145,Set Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 0.7%, Unique: 116",NONE
+146,Set Current,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 0.7%, Unique: 262",NONE
+147,Output Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 0.7%, Unique: 514",NONE
+148,Output Current,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 0.7%, Unique: 369",NONE
+149,Available Max Current,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 3.4%, Unique: 57",NONE
+150,Available Max Power,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 3.4%, Unique: 70",NONE
+151,Group Rect Fail,RECTIFIER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+152,Group Rect Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+153,DC Over Voltage,CHARGER,STATE,HIGH,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+154,Short Circuit,ALARM,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+155,Insulation Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+156,Last Insulation Test Fail,ALARM,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+157,Gun Over Temp Warning,CONNECTOR,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+158,GunOverTempCutoff,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+159,GUNOverTempDC+ Warning,CONNECTOR,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+160,GUNOverTempDC- Warning,CONNECTOR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+161,Gun Ov Temp Derating Set,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+162,PLC Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+163,E Lock Failed,CHARGER,STATE,HIGH,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+164,Energy Meter Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+165,Gun locked by CMS,COMMUNICATION,STATE,MEDIUM,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+166,Fuse Fail Alarm,ALARM,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+167,Auxillary Power Fail,CHARGER,STATE,HIGH,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+168,Gun Temperature Derating Status,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+169,Gun Rect Fail,RECTIFIER,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+170,Gun Rect Comm Fail,COMMUNICATION,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+171,Gun Dc+ Ultra Temp,CONNECTOR,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+172,Gun Dc- Ultra Temp,CONNECTOR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+173,Gun Dc Contactor Fail,CONTACTOR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+174,Gun DC+ Temp Sensor Disconnect,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+175,Gun DC- Temp Sensor Disconnect,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+176,GUN Temperature Sensor Disconnect,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+177,GUN DC+ Temp Sensor Loose,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+178,GUN DC- Temp Sensor Loose,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+179,Gun Not Placed Back Alarm,CONNECTOR,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+180,Voltage Calibration Error,CHARGER,STATE,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+181,Power Section Failed,CHARGER,STATE,HIGH,"Variability: CONSTANT, Null%: 0.0%, Unique: 1",NONE
+182,Ems Output Voltage,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 2.7%, Unique: 584",NONE
+183,Ems Output Current,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 2.7%, Unique: 526",NONE
+184,Ems Output Power,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 0.0%, Unique: 543",NONE
+185,Ems Cumulative Energy,COUNTER,COUNTER,MEDIUM,"Variability: HIGH_VARIABILITY, Null%: 0.0%, Unique: 4246",NONE
+186,AC Contactor Switching Cycle,CONTACTOR,STATE,MEDIUM,"Variability: ALL_NULL, Null%: 100.0%, Unique: 0",NONE
+187,AC Contactor Feedback Status,CONTACTOR,STATE,LOW,"Variability: ALL_NULL, Null%: 100.0%, Unique: 0",NONE
+188,AC Over Voltage,CHARGER,STATE,HIGH,"Variability: ALL_NULL, Null%: 100.0%, Unique: 0",NONE
+189,AC Fail Alarm,ALARM,ALARM_FLAG,MEDIUM,"Variability: ALL_NULL, Null%: 100.0%, Unique: 0",NONE
+190,AC Under Voltage,CHARGER,STATE,HIGH,"Variability: ALL_NULL, Null%: 100.0%, Unique: 0",NONE
+191,AC EnergyMeterCommFail,COMMUNICATION,ALARM_FLAG,MEDIUM,"Variability: ALL_NULL, Null%: 100.0%, Unique: 0",NONE
+192,Session Type,CONFIGURATION,CONFIGURATION,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+193,Session Id,SESSION,IDENTIFIER,MEDIUM,"Variability: HIGH_VARIABILITY, Null%: 0.0%, Unique: 3950",NONE
+194,Session Output Voltage,SESSION,SESSION_ATTRIBUTE,HIGH,"Variability: VARIABLE, Null%: 0.0%, Unique: 452",NONE
+195,Session Output Current,SESSION,SESSION_ATTRIBUTE,HIGH,"Variability: VARIABLE, Null%: 0.0%, Unique: 369",NONE
+196,Session Demand Voltage,SESSION,SESSION_ATTRIBUTE,HIGH,"Variability: VARIABLE, Null%: 0.7%, Unique: 115",NONE
+197,Session Demand Current,SESSION,SESSION_ATTRIBUTE,HIGH,"Variability: VARIABLE, Null%: 0.7%, Unique: 255",NONE
+198,DC + Insulation Resistance,ALARM,ALARM_FLAG,HIGH,"Variability: HIGH_VARIABILITY, Null%: 0.7%, Unique: 1080",NONE
+199,DC - Insulation Resistance,ALARM,ALARM_FLAG,HIGH,"Variability: HIGH_VARIABILITY, Null%: 0.7%, Unique: 1103",NONE
+200,Last Insulation Test Status,ALARM,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.7%, Unique: 2",NONE
+201,Session Start Energy,SESSION,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: HIGH_VARIABILITY, Null%: 0.1%, Unique: 3799",NONE
+202,Session Consumed Energy,SESSION,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: HIGH_VARIABILITY, Null%: 0.1%, Unique: 2449",NONE
+203,Start Soc,SESSION,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 0.7%, Unique: 101",NONE
+204,Stop Soc,SESSION,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 0.7%, Unique: 97",NONE
+205,Begin Time,SESSION,TIMESTAMP,MEDIUM,"Variability: HIGH_VARIABILITY, Null%: 0.7%, Unique: 3752",NONE
+206,Charging Time,CHARGER,TIMESTAMP,MEDIUM,"Variability: HIGH_VARIABILITY, Null%: 0.1%, Unique: 2524",NONE
+207,Charging Start Method,CONFIGURATION,CONFIGURATION,CONTEXT,"Variability: LOW_VARIABILITY, Null%: 1.9%, Unique: 6",NONE
+208,Charging Mode,CONFIGURATION,CONFIGURATION,CONTEXT,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 5",NONE
+209,Last Charge Session Stop Reason,SESSION,STATE,LEAKAGE_RISK,"Variability: VARIABLE, Null%: 0.0%, Unique: 81",HIGH
+210,CCS Secc State,CONNECTOR,STATE,MEDIUM,"Variability: VARIABLE, Null%: 0.7%, Unique: 13",NONE
+211,CCS Secc Error Code,CONNECTOR,STATE,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.7%, Unique: 8",NONE
+212,CCS Ev Error Code,CONNECTOR,STATE,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.7%, Unique: 4",NONE
+213,EV Max Voltage Limit,CONFIGURATION,CONFIGURATION,HIGH,"Variability: VARIABLE, Null%: 0.7%, Unique: 43",NONE
+214,EV Max Current Limit,CONFIGURATION,CONFIGURATION,HIGH,"Variability: VARIABLE, Null%: 0.7%, Unique: 47",NONE
+215,OCPP Tx Send Status,COMMUNICATION,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 9.0%, Unique: 3",NONE
+216,EV Mac ID Info,CHARGER,STATE,MEDIUM,"Variability: VARIABLE, Null%: 67.0%, Unique: 540",NONE
+217,Calculated Insulation Resistance,ALARM,ALARM_FLAG,HIGH,"Variability: VARIABLE, Null%: 59.0%, Unique: 80",NONE
+218,Gun Output Voltage,CONNECTOR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 59.0%, Unique: 132",NONE
+219,SMR Set Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 59.0%, Unique: 54",NONE
+220,SMR Set Current,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 59.0%, Unique: 308",NONE
+221,SMR Available Current,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 59.0%, Unique: 90",NONE
+222,SMR Max Power,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 84.2%, Unique: 7",NONE
+223,GUN CCS Main State at Session stop,SESSION,SESSION_ATTRIBUTE,MEDIUM,"Variability: VARIABLE, Null%: 64.3%, Unique: 12",NONE
+224,GUN CCS Sub State at Session stop,SESSION,SESSION_ATTRIBUTE,MEDIUM,"Variability: VARIABLE, Null%: 64.2%, Unique: 16",NONE
+225,DC Contactor Switching Cycle,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: HIGH_VARIABILITY, Null%: 50.2%, Unique: 1237",NONE
+226,Gun Insert Counter- Charger Socket,SESSION,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 353",NONE
+227,Gun Over Temperature Counter,CONNECTOR,ALARM_FLAG,HIGH,"Variability: VARIABLE, Null%: 49.5%, Unique: 92",NONE
+228,Charging Cycle Count,COUNTER,COUNTER,MEDIUM,"Variability: VARIABLE, Null%: 49.5%, Unique: 535",NONE
+229,Gun Placed in Charger Holder,CONNECTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+230,SLAC Attenuation,CHARGER,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 99.0%, Unique: 14",NONE
+231,Rectifier Number,RECTIFIER,IDENTIFIER,CONTEXT,"Variability: LOW_VARIABILITY, Null%: 41.8%, Unique: 5",NONE
+232,Rectifier Dc Status,RECTIFIER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 41.8%, Unique: 2",NONE
+233,Rectifier Internal Temp,RECTIFIER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 42.7%, Unique: 39",NONE
+234,SMR DcDc Temperature,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 42.7%, Unique: 61",NONE
+235,SMR Pfc Temperature,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 42.7%, Unique: 47",NONE
+236,Rectifier Output Voltage,RECTIFIER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 42.7%, Unique: 166",NONE
+237,Rectifier Output Current,RECTIFIER,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 42.7%, Unique: 98",NONE
+238,Rectifier Available Max Voltage,RECTIFIER,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 42.7%, Unique: 3",NONE
+239,Rectifier Available Max Current,RECTIFIER,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 42.7%, Unique: 3",NONE
+240,Rectifier Available MaxPower,RECTIFIER,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 42.7%, Unique: 9",NONE
+241,SMR Hardware Ver,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 91.2%, Unique: 10",NONE
+242,SMR Soft Ver,SMR,STATE,MEDIUM,"Variability: VARIABLE, Null%: 44.5%, Unique: 44",NONE
+243,Rectifier Output Short,RECTIFIER,STATE,MEDIUM,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+244,Inner Comm Interrupt,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+245,PFC Side Abnormal,SMR,IDENTIFIER,CONTEXT,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+246,Discharge Abnormal,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 41.8%, Unique: 2",NONE
+247,DC Side Is Off,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 41.8%, Unique: 2",NONE
+248,MDL Fault,SMR,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+249,MDL Protect,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 41.8%, Unique: 2",NONE
+250,Fan Fault,ALARM,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+251,Over Temperature,CHARGER,STATE,HIGH,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+252,Output Over Voltage,CHARGER,STATE,HIGH,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+253,Walk In Enabled,CHARGER,STATE,MEDIUM,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+254,CAN Communication Interrupt,COMMUNICATION,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 41.8%, Unique: 1",NONE
+255,Power Limit,CONFIGURATION,CONFIGURATION,HIGH,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+256,MDL Id Repetition,SMR,IDENTIFIER,CONTEXT,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+257,Load Sharing,CHARGER,STATE,MEDIUM,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+258,Input Phase Loss,CHARGER,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 41.8%, Unique: 2",NONE
+259,Input Unbalance,CHARGER,STATE,HIGH,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+260,Input Under Voltage,CHARGER,STATE,HIGH,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+261,Input Over Voltage,CHARGER,STATE,HIGH,"Variability: NEAR_CONSTANT, Null%: 41.8%, Unique: 2",NONE
+262,PFC Side Is Off,SMR,IDENTIFIER,CONTEXT,"Variability: LOW_VARIABILITY, Null%: 41.8%, Unique: 2",NONE
+263,Fuse Burn Out,CHARGER,STATE,LOW,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+264,PFC DCDC Comm Fail,COMMUNICATION,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+265,Bus Unbalanced Voltage,CHARGER,STATE,HIGH,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+266,Bus Over Voltage,CHARGER,STATE,HIGH,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+267,Bus Voltage Abnormal,CHARGER,STATE,HIGH,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+268,Bus Under Voltage,CHARGER,STATE,HIGH,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+269,Fan At Full Speed,CHARGER,CONTINUOUS_TELEMETRY,LOW,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+270,Output Derating Temp,CHARGER,STATE,HIGH,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+271,Output Derating AC,CHARGER,STATE,HIGH,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+272,DCDC Eeprom Faults,ALARM,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+273,PFC Eeprom Faults,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 41.9%, Unique: 1",NONE
+274,Fan 1 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+275,Fan 2 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+276,Fan 3 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+277,Fan 4 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+278,Fan 5 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+279,Fan 6 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+280,Fan 7 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+281,Fan 8 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+282,Fan 9 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+283,Fan 10 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+284,Fan 11 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+285,Fan 12 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+286,Fan 13 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+287,Fan 14 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+288,Fan 15 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+289,Fan 16 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+290,Fan 17 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+291,Fan 18 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+292,Fan 19 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+293,Fan 20 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+294,Fan 21 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+295,Fan 22 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+296,Fan 23 Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 2",NONE
+297,DC Section Fan Fail,CHARGER,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 0.0%, Unique: 3",NONE
+298,Smr No.,SMR,IDENTIFIER,CONTEXT,"Variability: LOW_VARIABILITY, Null%: 47.4%, Unique: 10",NONE
+299,SMR Mapped GUN,SMR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 58.2%, Unique: 3",NONE
+300,SMR GroupId,SMR,IDENTIFIER,CONTEXT,"Variability: VARIABLE, Null%: 0.0%, Unique: 12",NONE
+301,SMR OutputVoltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 177",NONE
+302,SMR OutputCurrent,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 61",NONE
+303,SMR Output Power,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 249",NONE
+304,SMR AvailableMaxCurrent,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 58.2%, Unique: 9",NONE
+305,SMR AvailableMaxPower,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 58.2%, Unique: 7",NONE
+306,SMR RectifierDCstatus,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 58.2%, Unique: 2",NONE
+307,SMR RectifierinternalTemp,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 36",NONE
+308,SMRDCDCTemperature,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 68",NONE
+309,SMRPFCTemperature,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 56",NONE
+310,SMR AvailableMaxVoltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 152",NONE
+311,SMR Rated Maximum Current,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 54",NONE
+312,SMR Rated Maximum Power,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 58.2%, Unique: 5",NONE
+313,SMRHardwareVer,SMR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 58.4%, Unique: 22",NONE
+314,SMRSoftVer,SMR,STATE,MEDIUM,"Variability: VARIABLE, Null%: 47.4%, Unique: 27",NONE
+315,SMRPFCVer,SMR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 47.4%, Unique: 26",NONE
+316,SMR Line1 Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 121",NONE
+317,SMR Line2 Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 119",NONE
+318,SMR Line3 Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 58.2%, Unique: 119",NONE
+319,SMR Rated Minimum Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 58.2%, Unique: 2",NONE
+320,SMR Rated Maximum Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: LOW_VARIABILITY, Null%: 58.2%, Unique: 3",NONE
+321,SMR Fan Speed,SMR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 58.2%, Unique: 46",NONE
+322,SMR Output Short,SMR,STATE,LOW,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+323,SMR Inner Comm Interrupt,COMMUNICATION,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+324,SMR PFC Side Abnormal,SMR,IDENTIFIER,CONTEXT,"Variability: NEAR_CONSTANT, Null%: 47.4%, Unique: 2",NONE
+325,SMR Discharge Abnormal,SMR,IDENTIFIER,CONTEXT,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+326,SMR DC Side is OFF,SMR,IDENTIFIER,CONTEXT,"Variability: LOW_VARIABILITY, Null%: 47.4%, Unique: 2",NONE
+327,SMR MDL Fault,SMR,ALARM_FLAG,HIGH,"Variability: NEAR_CONSTANT, Null%: 47.4%, Unique: 2",NONE
+328,SMR MDL Protect,SMR,STATE,MEDIUM,"Variability: NEAR_CONSTANT, Null%: 47.4%, Unique: 2",NONE
+329,SMR Fan Fault,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+330,SMR Over Temperature,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+331,SMR Output Over Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: NEAR_CONSTANT, Null%: 47.4%, Unique: 2",NONE
+332,SMR WALK-IN Enable,SMR,STATE,LOW,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+333,SMR CAN Communication Interrupt,COMMUNICATION,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+334,SMR Power Limit,CONFIGURATION,CONFIGURATION,HIGH,"Variability: NEAR_CONSTANT, Null%: 47.4%, Unique: 2",NONE
+335,SMR DL ID Repetition,SMR,IDENTIFIER,CONTEXT,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+336,SMR Load Sharing,SMR,STATE,LOW,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+337,SMR Input Phase loss,SMR,STATE,LOW,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+338,SMR Input Unbalance,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+339,SMR Input Under Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: NEAR_CONSTANT, Null%: 47.4%, Unique: 2",NONE
+340,SMR Input Over Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+341,SMR PFC Side is OFF,SMR,IDENTIFIER,CONTEXT,"Variability: LOW_VARIABILITY, Null%: 47.4%, Unique: 2",NONE
+342,SMR Fuse Burn Out,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+343,SMR PFC DCDC Comm Fail,COMMUNICATION,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+344,SMR Bus Unbalanced Voltage,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+345,SMR Bus Over Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+346,SMR Bus Voltage Abnormal,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+347,SMR Bus Under Voltage,SMR,CONTINUOUS_TELEMETRY,HIGH,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+348,SMR Fan At Full Speed,SMR,CONTINUOUS_TELEMETRY,LOW,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+349,SMR Output Derating Temp,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+350,SMR Output Derating AC,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+351,SMR DCDC Eeprom Faults,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+352,SMR PFC Eeprom Faults,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 47.4%, Unique: 1",NONE
+353,SMR Module Fail,SMR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 47.4%, Unique: 2",NONE
+354,SMR Module Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 47.4%, Unique: 3",NONE
+355,IN_PFC-1,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+356,IN_PFC-2,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+357,IN_PFC-3,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+358,IN_PFC-4,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+359,IN_PFC-5,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+360,IN_PFC-6,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+361,IN_PFC-7,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+362,IN_PFC-8,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+363,IN_PFC-9,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+364,IN_PFC-10,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+365,IN_PFC-11,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+366,IN_PFC-12,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+367,Out_PFC-1,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+368,Out_PFC-2,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+369,Out_PFC-3,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+370,Out_PFC-4,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+371,Out_PFC-5,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+372,Out_PFC-6,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+373,Out_PFC-7,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+374,Out_PFC-8,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+375,Out_PFC-9,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+376,Out_PFC-10,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+377,Out_PFC-11,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+378,Out_PFC-12,SMR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+379,Floating SMR1 Fail,SMR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+380,Floating SMR1 Group Fail,SMR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+381,Floating SMR1 Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+382,Floating SMR1 Group Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+383,Floating SMR2 Fail,SMR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+384,Floating SMR2 Group Fail,SMR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+385,Floating SMR2 Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+386,Floating SMR2 Group Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+387,Floating SMR3 Fail,SMR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+388,Floating SMR3 Group Fail,SMR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+389,Floating SMR3 Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+390,Floating SMR3 Group Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+391,Floating SMR4 Fail,SMR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+392,Floating SMR4 Group Fail,SMR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+393,Floating SMR4 Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+394,Floating SMR4 Group Comm Fail,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+395,AC1 Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+396,AC2 Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+397,AC3 Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+398,AC4 Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+399,AC5 Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+400,AC6 Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+401,AC1 Contactor Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 360",NONE
+402,AC2 Contactor Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 361",NONE
+403,AC3 Contactor Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 340",NONE
+404,AC4 Contactor Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 338",NONE
+405,AC5 Contactor Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 265",NONE
+406,AC6 Contactor Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 277",NONE
+407,AC1 Contactor Fail  Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+408,AC2 Contactor Fail  Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+409,AC3 Contactor Fail  Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+410,AC4 Contactor Fail  Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+411,AC5 Contactor Fail  Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+412,AC6 Contactor Fail  Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+413,AC1 Contactor Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+414,AC2 Contactor Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+415,AC3 Contactor Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+416,AC4 Contactor Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+417,AC5 Contactor Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+418,AC6 Contactor Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+419,DC Merger Contactor (C0) Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 181",NONE
+420,DC Merger Contactor (C1) Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 273",NONE
+421,DC Merger Contactor (C2) Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 277",NONE
+422,DC Merger Contactor (C3) Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 259",NONE
+423,DC Merger Contactor (C4) Cycle Count,CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: VARIABLE, Null%: 59.0%, Unique: 186",NONE
+424,External Contactor Cycle Count(Ring),CONTACTOR,CONTINUOUS_TELEMETRY,MEDIUM,"Variability: CONSTANT, Null%: 65.2%, Unique: 1",NONE
+425,Merger Contactor (C0) Fail Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+426,Merger Contactor (C1) Fail Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+427,Merger Contactor (C2) Fail Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+428,Merger Contactor (C3) Fail Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+429,Merger Contactor (C4) Fail Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+430,External Contactor Fail Alarm(Ring),CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+431,Merger Contactor (C0) Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+432,Merger Contactor (C1) Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+433,Merger Contactor (C2) Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+434,Merger Contactor (C3) Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+435,Merger Contactor (C4) Welded Alarm,CONTACTOR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+436,C0 Merger Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+437,C1 Merger Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+438,C2 Merger Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+439,C3 Merger Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+440,C4 Merger Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+441,External Contactor Status,CONTACTOR,STATE,MEDIUM,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 3",NONE
+442,BackUp Battery Voltage,BATTERY,CONTINUOUS_TELEMETRY,HIGH,"Variability: VARIABLE, Null%: 59.0%, Unique: 34",NONE
+443,Run Since Power On,CHARGER,CONTINUOUS_TELEMETRY,HIGH,"Variability: HIGH_VARIABILITY, Null%: 18.8%, Unique: 1541",NONE
+444,Ring Current Operating Mode,CONFIGURATION,CONFIGURATION,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 2",NONE
+445,SMR Fail Count,SMR,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 81.1%, Unique: 2",NONE
+446,SMR Comm Fail Count,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 81.1%, Unique: 4",NONE
+447,GUNA SMR Fail Count,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 99.0%, Unique: 1",NONE
+448,GUNA SMR Comm Fail Count,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 99.0%, Unique: 2",NONE
+449,GUNB SMR Fail Count,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 99.0%, Unique: 1",NONE
+450,GUNB SMR Comm Fail Count,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 99.0%, Unique: 2",NONE
+451,FR1 SMR Fail Count,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 99.0%, Unique: 1",NONE
+452,FR1 SMR Comm Fail Count,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 99.0%, Unique: 2",NONE
+453,FR2 SMR Fail Count,SMR,ALARM_FLAG,MEDIUM,"Variability: CONSTANT, Null%: 99.0%, Unique: 1",NONE
+454,FR2 SMR Comm Fail Count,COMMUNICATION,ALARM_FLAG,HIGH,"Variability: LOW_VARIABILITY, Null%: 99.0%, Unique: 2",NONE
+455,Last Charger Reboot Reason,CHARGER,STATE,HIGH,"Variability: LOW_VARIABILITY, Null%: 0.0%, Unique: 10",NONE

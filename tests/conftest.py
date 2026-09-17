@@ -128,9 +128,7 @@ def quality_repo(session: AsyncSession) -> QualityRepository:
 
 
 @pytest.fixture
-def coverage_service(
-    session: AsyncSession, settings: Settings
-) -> CoverageService:
+def coverage_service(session: AsyncSession, settings: Settings) -> CoverageService:
     return CoverageService(
         fleet_repo=FleetRepository(session),
         file_repo=TelemetryFileRepository(session),

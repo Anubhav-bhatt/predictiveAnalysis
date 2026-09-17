@@ -39,9 +39,7 @@ CANONICAL_CLASSIFICATIONS = (
 class FrameRepository(Repository):
     # -- write path --------------------------------------------------------
 
-    async def delete_for_file(
-        self, telemetry_file_id: UUID, *, reconstruction_version: str
-    ) -> int:
+    async def delete_for_file(self, telemetry_file_id: UUID, *, reconstruction_version: str) -> int:
         """Remove this file's frames for one algorithm version.
 
         A frame can be sourced from several files, so "frames belonging to this
@@ -100,9 +98,7 @@ class FrameRepository(Repository):
                 .values(replay_of_frame_id=None)
             )
             await self.session.execute(
-                sa.delete(TelemetrySourceFrame).where(
-                    TelemetrySourceFrame.id.in_(exclusive_ids)
-                )
+                sa.delete(TelemetrySourceFrame).where(TelemetrySourceFrame.id.in_(exclusive_ids))
             )
         return len(exclusive_ids)
 
@@ -140,9 +136,9 @@ class FrameRepository(Repository):
 
     # -- read path ---------------------------------------------------------
 
-    async def get(self, frame_id: UUID, *, with_relations: bool = True) -> (
-        TelemetrySourceFrame | None
-    ):
+    async def get(
+        self, frame_id: UUID, *, with_relations: bool = True
+    ) -> TelemetrySourceFrame | None:
         stmt = sa.select(TelemetrySourceFrame).where(TelemetrySourceFrame.id == frame_id)
         if with_relations:
             stmt = stmt.options(
@@ -185,14 +181,10 @@ class FrameRepository(Repository):
             )
         if canonical_only:
             stmt = stmt.where(
-                TelemetrySourceFrame.duplicate_classification.in_(
-                    CANONICAL_CLASSIFICATIONS
-                )
+                TelemetrySourceFrame.duplicate_classification.in_(CANONICAL_CLASSIFICATIONS)
             )
         if reconstruction_version is not None:
-            stmt = stmt.where(
-                TelemetrySourceFrame.reconstruction_version == reconstruction_version
-            )
+            stmt = stmt.where(TelemetrySourceFrame.reconstruction_version == reconstruction_version)
         return await paginate(self.session, stmt, request)
 
     async def frames_at(
@@ -214,15 +206,19 @@ class FrameRepository(Repository):
         self, telemetry_file_id: UUID, *, reconstruction_version: str | None = None
     ) -> dict[str, Any]:
         """Reconstruction metrics for one file, aggregated in SQL (section 45)."""
-        joined = sa.select(
-            TelemetrySourceFrame.frame_status,
-            TelemetrySourceFrame.duplicate_classification,
-            TelemetrySourceFrame.event_time,
-            TelemetrySourceFrame.expected_position_count,
-        ).join(
-            TelemetryFrameSource,
-            TelemetryFrameSource.frame_id == TelemetrySourceFrame.id,
-        ).where(TelemetryFrameSource.telemetry_file_id == telemetry_file_id)
+        joined = (
+            sa.select(
+                TelemetrySourceFrame.frame_status,
+                TelemetrySourceFrame.duplicate_classification,
+                TelemetrySourceFrame.event_time,
+                TelemetrySourceFrame.expected_position_count,
+            )
+            .join(
+                TelemetryFrameSource,
+                TelemetryFrameSource.frame_id == TelemetrySourceFrame.id,
+            )
+            .where(TelemetryFrameSource.telemetry_file_id == telemetry_file_id)
+        )
         if reconstruction_version is not None:
             joined = joined.where(
                 TelemetrySourceFrame.reconstruction_version == reconstruction_version
@@ -231,9 +227,7 @@ class FrameRepository(Repository):
         rows = (await self.session.execute(joined)).all()
 
         status_counts = dict.fromkeys((s.value for s in FrameStatus), 0)
-        classification_counts = dict.fromkeys(
-            (c.value for c in DuplicateClassification), 0
-        )
+        classification_counts = dict.fromkeys((c.value for c in DuplicateClassification), 0)
         collision_times: dict[dt.datetime, int] = {}
         expected_positions = 0
 
@@ -244,9 +238,7 @@ class FrameRepository(Repository):
             if classification in CANONICAL_CLASSIFICATIONS:
                 collision_times[event_time] = collision_times.get(event_time, 0) + 1
 
-        canonical = sum(
-            classification_counts[c.value] for c in CANONICAL_CLASSIFICATIONS
-        )
+        canonical = sum(classification_counts[c.value] for c in CANONICAL_CLASSIFICATIONS)
         unassigned = await self.session.execute(
             sa.select(sa.func.count())
             .select_from(TelemetryFrameRow)
@@ -261,31 +253,23 @@ class FrameRepository(Repository):
             "expected_positions_per_frame": expected_positions,
             "complete_frames": status_counts[FrameStatus.COMPLETE.value],
             "partial_frames": status_counts[FrameStatus.PARTIAL.value],
-            "severely_incomplete_frames": status_counts[
-                FrameStatus.SEVERELY_INCOMPLETE.value
-            ],
+            "severely_incomplete_frames": status_counts[FrameStatus.SEVERELY_INCOMPLETE.value],
             "malformed_frames": status_counts[FrameStatus.MALFORMED.value],
             "ambiguous_frames": status_counts[FrameStatus.AMBIGUOUS.value],
             "canonical_frames": canonical,
-            "full_replays": classification_counts[
-                DuplicateClassification.FULL_FRAME_REPLAY.value
-            ],
+            "full_replays": classification_counts[DuplicateClassification.FULL_FRAME_REPLAY.value],
             "partial_replays": classification_counts[
                 DuplicateClassification.PARTIAL_FRAME_REPLAY.value
             ],
             "same_timestamp_distinct_frames": classification_counts[
                 DuplicateClassification.SAME_TIMESTAMP_DISTINCT_FRAME.value
             ],
-            "collision_timestamps": sum(
-                1 for count in collision_times.values() if count > 1
-            ),
+            "collision_timestamps": sum(1 for count in collision_times.values() if count > 1),
             "unique_timestamps": len({row[2] for row in rows}),
             "unassigned_rows": int(unassigned.scalar_one() or 0),
         }
 
-    async def charger_day_summary(
-        self, charger_id: str, business_date: dt.date
-    ) -> dict[str, Any]:
+    async def charger_day_summary(self, charger_id: str, business_date: dt.date) -> dict[str, Any]:
         """Frame metrics for one charger-day (section 39).
 
         Complements Phase 1C coverage; it does not replace or alter it.
@@ -323,9 +307,7 @@ class FrameRepository(Repository):
             "replay_frame_count": replays,
             "partial_frame_count": partial,
             "ambiguous_frame_count": ambiguous,
-            "collision_timestamp_count": sum(
-                1 for count in collision_times.values() if count > 1
-            ),
+            "collision_timestamp_count": sum(1 for count in collision_times.values() if count > 1),
             "frames_total": total,
         }
 
@@ -341,9 +323,7 @@ class FrameRepository(Repository):
             .where(
                 TelemetrySourceFrame.charger_id == charger_id,
                 TelemetrySourceFrame.business_date == business_date,
-                TelemetrySourceFrame.duplicate_classification.in_(
-                    CANONICAL_CLASSIFICATIONS
-                ),
+                TelemetrySourceFrame.duplicate_classification.in_(CANONICAL_CLASSIFICATIONS),
             )
             .group_by(TelemetrySourceFrame.event_time)
             .having(sa.func.count() > 1)
@@ -360,3 +340,25 @@ class FrameRepository(Repository):
             .options(selectinload(TelemetrySourceFrame.sources))
         )
         return list((await self.session.execute(stmt)).scalars().all())
+
+    async def get_canonical_frames_for_file(
+        self, telemetry_file_id: UUID
+    ) -> Sequence[TelemetrySourceFrame]:
+        """Fetch all canonical frames associated with a file, including frame_rows."""
+        stmt = (
+            sa.select(TelemetrySourceFrame)
+            .join(
+                TelemetryFrameSource,
+                TelemetryFrameSource.frame_id == TelemetrySourceFrame.id,
+            )
+            .where(
+                TelemetryFrameSource.telemetry_file_id == telemetry_file_id,
+                TelemetrySourceFrame.duplicate_classification.in_(CANONICAL_CLASSIFICATIONS),
+            )
+            .options(selectinload(TelemetrySourceFrame.frame_rows))
+            .order_by(
+                TelemetrySourceFrame.event_time,
+                TelemetrySourceFrame.frame_sequence,
+            )
+        )
+        return (await self.session.execute(stmt)).scalars().all()

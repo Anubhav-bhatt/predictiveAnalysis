@@ -342,9 +342,7 @@ async def _dispatch(args: argparse.Namespace) -> int:
         if args.command == "reconcile":
             return await reconcile_only(args.date)
         if args.command == "process-uploads":
-            return await process_uploads(
-                args.batch_id, reconstruct=not args.no_reconstruct
-            )
+            return await process_uploads(args.batch_id, reconstruct=not args.no_reconstruct)
     finally:
         await dispose_engine()
     return EXIT_USAGE

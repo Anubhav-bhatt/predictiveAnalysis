@@ -67,9 +67,7 @@ def test_topology_is_not_hard_coded_to_two_by_four() -> None:
 
 
 def test_topology_falls_back_to_observed_when_unconfigured() -> None:
-    outcome = run_reconstruction(
-        normal_frame_rows(), connector_count=None, smr_count=None
-    )
+    outcome = run_reconstruction(normal_frame_rows(), connector_count=None, smr_count=None)
     assert outcome.topology.basis is TopologyBasis.OBSERVED_STABLE
     assert outcome.topology.expected_position_count == 8
 
@@ -148,9 +146,7 @@ def test_same_timestamp_distinct_frames_are_both_kept() -> None:
     (timestamp, connector, smr) would silently destroy.
     """
     first = normal_frame_rows(connector_status="Idle", ocpp_state="Available")
-    second = normal_frame_rows(
-        connector_status="Charge Finished", ocpp_state="Finishing"
-    )
+    second = normal_frame_rows(connector_status="Charge Finished", ocpp_state="Finishing")
     outcome = run_reconstruction(first + second)
 
     assert outcome.metrics.raw_rows == 16
@@ -226,18 +222,14 @@ def test_partial_second_frame_is_not_forced_into_a_complete_frame() -> None:
     assert fragment.observed_position_count == 4
     assert fragment.missing_position_count == 4
     assert fragment.status is FrameStatus.PARTIAL
-    assert fragment.duplicate_classification is (
-        DuplicateClassification.PARTIAL_FRAME_REPLAY
-    )
+    assert fragment.duplicate_classification is (DuplicateClassification.PARTIAL_FRAME_REPLAY)
     assert fragment.replay_of_sequence == 0
     assert fragment.is_canonical is False
 
 
 def test_uneven_occurrences_produce_one_complete_and_one_partial() -> None:
     """Section 10's worked example."""
-    rows = normal_frame_rows() + normal_frame_rows(
-        connectors=("1",), output_current="99.0"
-    )
+    rows = normal_frame_rows() + normal_frame_rows(connectors=("1",), output_current="99.0")
     outcome = run_reconstruction(rows)
 
     statuses = [frame.status for frame in outcome.frames]
@@ -334,9 +326,7 @@ def test_reconstruction_is_deterministic_across_runs() -> None:
     first = run_reconstruction(rows)
     second = run_reconstruction(rows)
 
-    assert [f.frame_sequence for f in first.frames] == [
-        f.frame_sequence for f in second.frames
-    ]
+    assert [f.frame_sequence for f in first.frames] == [f.frame_sequence for f in second.frames]
     assert [f.frame_fingerprint for f in first.frames] == [
         f.frame_fingerprint for f in second.frames
     ]
@@ -352,10 +342,7 @@ def test_fingerprint_ignores_row_order_within_a_frame() -> None:
     shuffled_rows = list(reversed(normal_frame_rows()))
     reversed_outcome = run_reconstruction(shuffled_rows)
 
-    assert (
-        forward.frames[0].frame_fingerprint
-        == reversed_outcome.frames[0].frame_fingerprint
-    )
+    assert forward.frames[0].frame_fingerprint == reversed_outcome.frames[0].frame_fingerprint
 
 
 def test_occurrence_index_follows_source_order() -> None:
@@ -405,14 +392,10 @@ def test_frames_are_ordered_chronologically() -> None:
 
 def test_absurd_occurrence_count_is_ambiguous_not_unbounded() -> None:
     """A corrupt file must not be able to generate unbounded frames."""
-    outcome = run_reconstruction(
-        normal_frame_rows() * 10, max_frames_per_timestamp=4
-    )
+    outcome = run_reconstruction(normal_frame_rows() * 10, max_frames_per_timestamp=4)
     assert len(outcome.frames) == 1
     assert outcome.frames[0].status is FrameStatus.AMBIGUOUS
-    assert "AMBIGUOUS_FRAME_BOUNDARY" in {
-        issue.value for issue in outcome.frames[0].issues
-    }
+    assert "AMBIGUOUS_FRAME_BOUNDARY" in {issue.value for issue in outcome.frames[0].issues}
 
 
 def test_charger_id_is_part_of_frame_identity() -> None:

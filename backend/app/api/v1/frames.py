@@ -63,9 +63,7 @@ async def file_reconstruction(
             status_code=status.HTTP_404_NOT_FOUND, detail="Telemetry file not found"
         )
 
-    summary = await frames.file_summary(
-        parsed, reconstruction_version=reconstruction_version
-    )
+    summary = await frames.file_summary(parsed, reconstruction_version=reconstruction_version)
     payload = ReconstructionSummary(
         telemetry_file_id=parsed,
         original_filename=telemetry_file.original_filename,
@@ -159,9 +157,7 @@ async def frame_detail(frame_id: str, frames: FrameRepoDep) -> Envelope[FrameDet
     parsed = _parse_uuid(frame_id, "frame_id")
     frame = await frames.get(parsed)
     if frame is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Frame not found"
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Frame not found")
 
     detail = dict(frame.detail or {})
     replays = await frames.replay_sources(parsed)
@@ -176,23 +172,17 @@ async def frame_detail(frame_id: str, frames: FrameRepoDep) -> Envelope[FrameDet
         missing_positions=_string_list(detail.get("missing_positions")),
         unexpected_positions=_string_list(detail.get("unexpected_positions")),
         observed_positions=sorted(
-            row.logical_position
-            for row in frame.frame_rows
-            if row.logical_position is not None
+            row.logical_position for row in frame.frame_rows if row.logical_position is not None
         ),
         issues=_string_list(detail.get("issues")),
         sources=[
             FrameSourceRef(
                 telemetry_file_id=source.telemetry_file_id,
                 original_filename=(
-                    source.telemetry_file.original_filename
-                    if source.telemetry_file
-                    else None
+                    source.telemetry_file.original_filename if source.telemetry_file else None
                 ),
                 status=source.telemetry_file.status if source.telemetry_file else None,
-                received_at=(
-                    source.telemetry_file.received_at if source.telemetry_file else None
-                ),
+                received_at=(source.telemetry_file.received_at if source.telemetry_file else None),
                 first_source_row=source.first_source_row,
                 last_source_row=source.last_source_row,
                 row_count=source.row_count,

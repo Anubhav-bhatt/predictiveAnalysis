@@ -74,12 +74,8 @@ class TelemetryFile(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     session_id_count: Mapped[int | None] = mapped_column(sa.Integer, nullable=True)
 
     # --- event time (parsed from content, never from the filename) --------
-    event_time_min: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
-    event_time_max: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
+    event_time_min: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
+    event_time_max: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
     event_time_format: Mapped[str | None] = mapped_column(sa.String(64), nullable=True)
 
     #: Business date derived from telemetry content only.  When a file spans
@@ -122,12 +118,8 @@ class TelemetryFile(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     discovered_at: Mapped[dt.datetime] = mapped_column(
         UtcDateTime(), nullable=False, default=utcnow
     )
-    received_at: Mapped[dt.datetime] = mapped_column(
-        UtcDateTime(), nullable=False, default=utcnow
-    )
-    processed_at: Mapped[dt.datetime | None] = mapped_column(
-        UtcDateTime(), nullable=True
-    )
+    received_at: Mapped[dt.datetime] = mapped_column(UtcDateTime(), nullable=False, default=utcnow)
+    processed_at: Mapped[dt.datetime | None] = mapped_column(UtcDateTime(), nullable=True)
     profiling_duration_ms: Mapped[int | None] = mapped_column(sa.Integer, nullable=True)
 
     schema_version_id: Mapped[uuid.UUID | None] = mapped_column(

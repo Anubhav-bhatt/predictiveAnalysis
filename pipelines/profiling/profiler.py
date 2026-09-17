@@ -321,11 +321,17 @@ def _analyse_duplicates(frame: pl.DataFrame, roles: RoleResolution) -> Duplicate
     exact_duplicates = row_count - distinct_rows
     participating = int(frame.is_duplicated().sum())
 
+    charger_col = roles.canonical(ColumnRole.CHARGER_ID)
     event_col = roles.canonical(ColumnRole.EVENT_TIME)
     connector_col = roles.canonical(ColumnRole.CONNECTOR)
+    rectifier_col = roles.canonical(ColumnRole.RECTIFIER)
     smr_col = roles.canonical(ColumnRole.SMR)
 
-    key_columns = [c for c in (event_col, connector_col, smr_col) if c and c in frame.columns]
+    key_columns = [
+        c
+        for c in (charger_col, event_col, connector_col, rectifier_col, smr_col)
+        if c and c in frame.columns
+    ]
     if not key_columns:
         return DuplicateAnalysis(
             exact_duplicate_rows=exact_duplicates,

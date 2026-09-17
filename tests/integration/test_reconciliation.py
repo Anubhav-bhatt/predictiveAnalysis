@@ -388,9 +388,7 @@ async def test_late_file_is_flagged_from_receipt_time(
     session: AsyncSession, fleet_repo: FleetRepository, coverage_service: CoverageService
 ) -> None:
     await register(fleet_repo, CHARGER)
-    await add_file(
-        session, count=720, received_at=dt.datetime(2026, 8, 14, 9, 0, tzinfo=dt.UTC)
-    )
+    await add_file(session, count=720, received_at=dt.datetime(2026, 8, 14, 9, 0, tzinfo=dt.UTC))
 
     summary = await coverage_service.reconcile(BUSINESS_DATE)
     assert summary.late_charger_count == 1
@@ -432,9 +430,7 @@ async def test_late_arrival_flips_missing_to_late_in_place(
     assert await count_of(session, ChargerDayCoverage) == 1
 
     # The file finally turns up, days late.
-    await add_file(
-        session, count=720, received_at=dt.datetime(2026, 8, 15, 3, 0, tzinfo=dt.UTC)
-    )
+    await add_file(session, count=720, received_at=dt.datetime(2026, 8, 15, 3, 0, tzinfo=dt.UTC))
     second = await coverage_service.reconcile(BUSINESS_DATE)
 
     assert second.missing_charger_count == 0
@@ -601,12 +597,16 @@ async def test_filename_date_mismatch_is_a_warning_not_a_failure(
     assert row.completeness_status is CompletenessStatus.COMPLETE
 
     finding = (
-        await session.execute(
-            sa.select(DataQualityIssue).where(
-                DataQualityIssue.rule_code == QualityIssueType.EVENT_DATE_FILENAME_MISMATCH
+        (
+            await session.execute(
+                sa.select(DataQualityIssue).where(
+                    DataQualityIssue.rule_code == QualityIssueType.EVENT_DATE_FILENAME_MISMATCH
+                )
             )
         )
-    ).scalars().one()
+        .scalars()
+        .one()
+    )
     assert finding.severity.value in {"INFO", "WARNING"}, "must never be fatal"
 
 
@@ -679,9 +679,7 @@ async def test_reconcile_dates_handles_several_days(
 ) -> None:
     await register(fleet_repo, CHARGER)
     await add_file(session, business_date=BUSINESS_DATE, count=720)
-    await add_file(
-        session, business_date=BUSINESS_DATE + dt.timedelta(days=1), count=360
-    )
+    await add_file(session, business_date=BUSINESS_DATE + dt.timedelta(days=1), count=360)
 
     summaries = await coverage_service.reconcile_dates(
         [BUSINESS_DATE + dt.timedelta(days=1), BUSINESS_DATE]

@@ -324,8 +324,7 @@ def _multiple_files(ctx: ChargerDayContext, cfg: DailyQualitySeverities) -> Iter
             severity=ctx.severity_of("multiple_files_same_charger_day", cfg),
             occurrence_count=ev.file_count,
             message=(
-                f"{ev.file_count} files contributed to this charger-day; "
-                f"coverage is their union."
+                f"{ev.file_count} files contributed to this charger-day; coverage is their union."
             ),
             charger_id=ev.charger_id,
             business_date=ev.business_date,

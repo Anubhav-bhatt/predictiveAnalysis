@@ -178,9 +178,7 @@ def build_file_metrics(
     classification_field = {
         DuplicateClassification.FULL_FRAME_REPLAY: "full_frame_replays",
         DuplicateClassification.PARTIAL_FRAME_REPLAY: "partial_frame_replays",
-        DuplicateClassification.SAME_TIMESTAMP_DISTINCT_FRAME: (
-            "same_timestamp_distinct_frames"
-        ),
+        DuplicateClassification.SAME_TIMESTAMP_DISTINCT_FRAME: ("same_timestamp_distinct_frames"),
     }
 
     collision_timestamps: set[dt.datetime] = set()

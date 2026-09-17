@@ -53,9 +53,7 @@ class UploadCounts(_Base):
         """Share of files that have reached a terminal outcome."""
         if self.total_files <= 0:
             return 0.0
-        settled = (
-            self.completed + self.duplicate + self.failed + self.quarantined + self.rejected
-        )
+        settled = self.completed + self.duplicate + self.failed + self.quarantined + self.rejected
         return round(100.0 * min(settled, self.total_files) / self.total_files, 2)
 
 

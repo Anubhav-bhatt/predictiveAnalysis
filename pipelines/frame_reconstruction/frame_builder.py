@@ -52,9 +52,7 @@ class FrameCandidate:
 
     @property
     def rows(self) -> tuple[RawRowRef, ...]:
-        return tuple(
-            sorted(self.rows_by_position.values(), key=lambda row: row.source_row_number)
-        )
+        return tuple(sorted(self.rows_by_position.values(), key=lambda row: row.source_row_number))
 
     @property
     def observed_positions(self) -> frozenset[LogicalPosition]:
@@ -147,9 +145,7 @@ def build_frame_candidates(
 
     for sequence in range(frame_count):
         rows_by_position = {
-            position: rows[sequence]
-            for position, rows in buckets.items()
-            if sequence < len(rows)
+            position: rows[sequence] for position, rows in buckets.items() if sequence < len(rows)
         }
         if not rows_by_position:
             continue

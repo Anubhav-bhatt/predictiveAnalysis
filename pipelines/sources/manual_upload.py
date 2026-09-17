@@ -91,9 +91,7 @@ class ManualUploadTelemetrySource(TelemetrySource):
         self._staging_root = Path(staging_root).resolve()
         self._max_size = max_size_bytes
         self._delete_on_success = delete_on_success
-        self._by_reference = {
-            str(item.staged_path.resolve()): item for item in self._staged
-        }
+        self._by_reference = {str(item.staged_path.resolve()): item for item in self._staged}
 
     # -- discovery ---------------------------------------------------------
 
@@ -161,8 +159,7 @@ class ManualUploadTelemetrySource(TelemetrySource):
                 transferred += len(chunk)
                 if self._max_size is not None and transferred > self._max_size:
                     raise TelemetrySourceError(
-                        f"Staged file exceeds the configured maximum of "
-                        f"{self._max_size} bytes"
+                        f"Staged file exceeds the configured maximum of {self._max_size} bytes"
                     )
                 yield chunk
         finally:
@@ -214,8 +211,7 @@ class ManualUploadTelemetrySource(TelemetrySource):
         """
         if ref.source_type is not self.source_type:
             raise TelemetrySourceError(
-                f"Reference belongs to {ref.source_type.value}, not "
-                f"{self.source_type.value}"
+                f"Reference belongs to {ref.source_type.value}, not {self.source_type.value}"
             )
 
         raw = Path(ref.reference)
@@ -228,9 +224,7 @@ class ManualUploadTelemetrySource(TelemetrySource):
 
         candidate = raw.resolve()
         if not self._is_inside_staging(candidate):
-            raise TelemetrySourceError(
-                "Staged reference escapes the staging root and was refused"
-            )
+            raise TelemetrySourceError("Staged reference escapes the staging root and was refused")
         if not candidate.is_file():
             raise TelemetrySourceError(f"Staged file no longer exists: {ref.display_name}")
         return candidate

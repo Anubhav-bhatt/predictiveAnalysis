@@ -135,9 +135,7 @@ async def _stages_for(
             stage="Profiling", status=state(analysed > 0, warn=had_problems), count=analysed
         ),
         DailyProcessingStage(stage="Schema validation", status=state(analysed > 0), count=analysed),
-        DailyProcessingStage(
-            stage="Quality analysis", status=state(analysed > 0), count=analysed
-        ),
+        DailyProcessingStage(stage="Quality analysis", status=state(analysed > 0), count=analysed),
         DailyProcessingStage(
             stage="Coverage reconciliation",
             status=state(reconciled),
@@ -310,9 +308,7 @@ def _coverage_row(item: object) -> ChargerCoverageRow:
     row = ChargerCoverageRow.model_validate(item)
     charger = getattr(item, "charger", None)
     if charger is not None:
-        row = row.model_copy(
-            update={"site_code": charger.site_code, "ocpp_id": charger.ocpp_id}
-        )
+        row = row.model_copy(update={"site_code": charger.site_code, "ocpp_id": charger.ocpp_id})
     return row
 
 

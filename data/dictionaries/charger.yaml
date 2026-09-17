@@ -1,303 +1,2288 @@
-# Charger-level telemetry and configuration.
-
 version: 1
-
 fields:
-  - source_name: Charger Status
-    canonical_name: charger_status
-    display_name: Charger Status
-    description: Operating state of the charger as reported by its state machine.
-    entity: CHARGER
-    field_class: STATE
-    category: STATE_MACHINE
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - charger_health
-    leakage_risk: MEDIUM
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-    notes: >-
-      Observed values in the analysed sample are recorded as observed_values on
-      the field profile. No authoritative allowed-value set is declared, so
-      UNKNOWN_ENUM_VALUE does not fire for this field yet - the OCPP state set is
-      vendor-extended in practice.
-
-  - source_name: Cabinet Temperature
-    canonical_name: cabinet_temperature
-    display_name: Cabinet Temperature
-    description: Internal cabinet air temperature.
-    entity: CHARGER
-    field_class: CONTINUOUS_TELEMETRY
-    category: THERMAL
-    data_type: FLOAT
-    unit: "°C"
-    nullable: true
-    required: false
-    range_status: UNVERIFIED
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    prediction_domains:
-      - thermal_failure
-      - charger_health
-    leakage_risk: LOW
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-    notes: >-
-      No valid range asserted. The device operating envelope has not been
-      supplied, and inventing -40..100 would create false OUT_OF_RANGE findings.
-
-  - source_name: Ambient Temperature
-    canonical_name: ambient_temperature
-    display_name: Ambient Temperature
-    description: Outside air temperature measured at the charger.
-    entity: CHARGER
-    field_class: CONTINUOUS_TELEMETRY
-    category: THERMAL
-    data_type: FLOAT
-    unit: "°C"
-    nullable: true
-    required: false
-    range_status: UNVERIFIED
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    prediction_domains:
-      - thermal_failure
-    leakage_risk: NONE
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: Grid Voltage R Phase
-    canonical_name: grid_voltage_r_phase
-    display_name: Grid Voltage R Phase
-    description: AC input line voltage, R phase.
-    entity: CHARGER
-    field_class: CONTINUOUS_TELEMETRY
-    category: ELECTRICAL_INPUT
-    data_type: FLOAT
-    unit: V
-    nullable: true
-    required: false
-    valid_min: 0
-    range_status: UNVERIFIED
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    prediction_domains:
-      - charger_health
-    leakage_risk: NONE
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: Grid Voltage Y Phase
-    canonical_name: grid_voltage_y_phase
-    display_name: Grid Voltage Y Phase
-    description: AC input line voltage, Y phase.
-    entity: CHARGER
-    field_class: CONTINUOUS_TELEMETRY
-    category: ELECTRICAL_INPUT
-    data_type: FLOAT
-    unit: V
-    nullable: true
-    required: false
-    valid_min: 0
-    range_status: UNVERIFIED
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    leakage_risk: NONE
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: Grid Voltage B Phase
-    canonical_name: grid_voltage_b_phase
-    display_name: Grid Voltage B Phase
-    description: AC input line voltage, B phase.
-    entity: CHARGER
-    field_class: CONTINUOUS_TELEMETRY
-    category: ELECTRICAL_INPUT
-    data_type: FLOAT
-    unit: V
-    nullable: true
-    required: false
-    valid_min: 0
-    range_status: UNVERIFIED
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    leakage_risk: NONE
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: Grid Frequency
-    canonical_name: grid_frequency
-    display_name: Grid Frequency
-    description: AC supply frequency.
-    entity: CHARGER
-    field_class: CONTINUOUS_TELEMETRY
-    category: ELECTRICAL_INPUT
-    data_type: FLOAT
-    unit: Hz
-    nullable: true
-    required: false
-    valid_min: 0
-    range_status: UNVERIFIED
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    leakage_risk: NONE
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: Meter Reading
-    canonical_name: meter_reading
-    display_name: Meter Reading
-    description: Cumulative energy meter register.
-    entity: CHARGER
-    field_class: COUNTER
-    category: METER
-    data_type: INTEGER
-    unit: Wh
-    nullable: true
-    required: false
-    valid_min: 0
-    range_status: UNVERIFIED
-    normalization_strategy: COUNTER_SNAPSHOT
-    storage_strategy: COUNTER_TELEMETRY
-    aggregation_strategy: MAX
-    ml_candidate: "YES"
-    leakage_risk: LOW
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-    notes: >-
-      Semantic type is INTEGER even though nulls can make a DataFrame infer
-      float. Monotonic register; a decrease indicates a meter reset or rollover.
-
-  - source_name: Contactor Status
-    canonical_name: contactor_status
-    display_name: Contactor Status
-    description: Main output contactor position.
-    entity: CHARGER
-    field_class: STATE
-    category: CONTACTOR
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - contactor_failure
-    leakage_risk: MEDIUM
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: Cooling Fan Speed
-    canonical_name: cooling_fan_speed
-    display_name: Cooling Fan Speed
-    description: Cabinet cooling fan rotational speed.
-    entity: CHARGER
-    field_class: CONTINUOUS_TELEMETRY
-    category: COOLING
-    data_type: INTEGER
-    unit: rpm
-    nullable: true
-    required: false
-    valid_min: 0
-    range_status: UNVERIFIED
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: MEAN
-    ml_candidate: "YES"
-    prediction_domains:
-      - thermal_failure
-      - charger_health
-    leakage_risk: LOW
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-    notes: Unit assumed rpm from the field name; requires vendor confirmation.
-
-  - source_name: Cooling Fan Status
-    canonical_name: cooling_fan_status
-    display_name: Cooling Fan Status
-    description: Cooling fan operating state.
-    entity: CHARGER
-    field_class: STATE
-    category: FAN
-    data_type: ENUM
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: CHARGER_SCALAR
-    storage_strategy: CHARGER_TELEMETRY
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - thermal_failure
-    leakage_risk: LOW
-    availability_semantics: REAL_TIME
-    review_status: ENGINEER_REVIEWED
-
-  - source_name: Firmware Version
-    canonical_name: firmware_version
-    display_name: Firmware Version
-    description: Charger firmware build identifier.
-    entity: CONFIGURATION
-    field_class: CONFIGURATION
-    category: FIRMWARE
-    data_type: STRING
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: CONFIG_SNAPSHOT
-    storage_strategy: CONFIGURATION_SNAPSHOT
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    prediction_domains:
-      - charger_health
-    leakage_risk: NONE
-    availability_semantics: STATIC
-    review_status: ENGINEER_REVIEWED
-    notes: >-
-      Constant within a day but essential for fleet comparison - firmware is a
-      prime explanatory variable when a defect appears across a subset of units.
-
-  - source_name: Hardware Version
-    canonical_name: hardware_version
-    display_name: Hardware Version
-    description: Charger hardware revision identifier.
-    entity: CONFIGURATION
-    field_class: CONFIGURATION
-    category: HARDWARE
-    data_type: STRING
-    unit: null
-    nullable: true
-    required: false
-    range_status: NOT_APPLICABLE
-    normalization_strategy: CONFIG_SNAPSHOT
-    storage_strategy: CONFIGURATION_SNAPSHOT
-    aggregation_strategy: LAST
-    ml_candidate: "YES"
-    leakage_risk: NONE
-    availability_semantics: STATIC
-    review_status: ENGINEER_REVIEWED
+- source_name: Logged At Time
+  canonical_name: logged_at_time
+  display_name: Logged At Time
+  description: Authoritative telemetry specification for Logged At Time (logged_at_time)
+  entity: CHARGER
+  field_class: TIMESTAMP
+  category: SYSTEM
+  data_type: DATETIME
+  unit: seconds
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: L1-N Voltage
+  canonical_name: l1_n_voltage
+  display_name: L1-N Voltage
+  description: Authoritative telemetry specification for L1-N Voltage (l1_n_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: L2-N Voltage
+  canonical_name: l2_n_voltage
+  display_name: L2-N Voltage
+  description: Authoritative telemetry specification for L2-N Voltage (l2_n_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: L3-N Voltage
+  canonical_name: l3_n_voltage
+  display_name: L3-N Voltage
+  description: Authoritative telemetry specification for L3-N Voltage (l3_n_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Neutral Voltage
+  canonical_name: neutral_voltage
+  display_name: Neutral Voltage
+  description: Authoritative telemetry specification for Neutral Voltage (neutral_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 1 Input Current
+  canonical_name: line_1_input_current
+  display_name: Line 1 Input Current
+  description: Authoritative telemetry specification for Line 1 Input Current (line_1_input_current)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 2 Input Current
+  canonical_name: line_2_input_current
+  display_name: Line 2 Input Current
+  description: Authoritative telemetry specification for Line 2 Input Current (line_2_input_current)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 3 Input Current
+  canonical_name: line_3_input_current
+  display_name: Line 3 Input Current
+  description: Authoritative telemetry specification for Line 3 Input Current (line_3_input_current)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Frequency
+  canonical_name: frequency
+  display_name: Frequency
+  description: Authoritative telemetry specification for Frequency (frequency)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: Hz
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Power Factor
+  canonical_name: power_factor
+  display_name: Power Factor
+  description: Authoritative telemetry specification for Power Factor (power_factor)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Active Power
+  canonical_name: active_power
+  display_name: Active Power
+  description: Authoritative telemetry specification for Active Power (active_power)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: L1-L2 Voltage
+  canonical_name: l1_l2_voltage
+  display_name: L1-L2 Voltage
+  description: Authoritative telemetry specification for L1-L2 Voltage (l1_l2_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: L2-L3 Voltage
+  canonical_name: l2_l3_voltage
+  display_name: L2-L3 Voltage
+  description: Authoritative telemetry specification for L2-L3 Voltage (l2_l3_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: L3-L1 Voltage
+  canonical_name: l3_l1_voltage
+  display_name: L3-L1 Voltage
+  description: Authoritative telemetry specification for L3-L1 Voltage (l3_l1_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Reactive Power
+  canonical_name: reactive_power
+  display_name: Reactive Power
+  description: Authoritative telemetry specification for Reactive Power (reactive_power)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Active Energy
+  canonical_name: active_energy
+  display_name: Active Energy
+  description: Authoritative telemetry specification for Active Energy (active_energy)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: SYSTEM
+  data_type: FLOAT
+  unit: kWh
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Reactive Energy
+  canonical_name: reactive_energy
+  display_name: Reactive Energy
+  description: Authoritative telemetry specification for Reactive Energy (reactive_energy)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: SYSTEM
+  data_type: FLOAT
+  unit: kWh
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Apparent Energy
+  canonical_name: apparent_energy
+  display_name: Apparent Energy
+  description: Authoritative telemetry specification for Apparent Energy (apparent_energy)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: SYSTEM
+  data_type: FLOAT
+  unit: kWh
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: L1-N Voltage(Meter)
+  canonical_name: l1_n_voltage_meter
+  display_name: L1-N Voltage(Meter)
+  description: Authoritative telemetry specification for L1-N Voltage(Meter) (l1_n_voltage_meter)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: L2-N Voltage(Meter)
+  canonical_name: l2_n_voltage_meter
+  display_name: L2-N Voltage(Meter)
+  description: Authoritative telemetry specification for L2-N Voltage(Meter) (l2_n_voltage_meter)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: L3-N Voltage(Meter)
+  canonical_name: l3_n_voltage_meter
+  display_name: L3-N Voltage(Meter)
+  description: Authoritative telemetry specification for L3-N Voltage(Meter) (l3_n_voltage_meter)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_INPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Grid Status
+  canonical_name: grid_status
+  display_name: Grid Status
+  description: Authoritative telemetry specification for Grid Status (grid_status)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Apparent Power
+  canonical_name: apparent_power
+  display_name: Apparent Power
+  description: Authoritative telemetry specification for Apparent Power (apparent_power)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Pilot-Upper TCP Interface
+  canonical_name: pilot_upper_tcp_interface
+  display_name: Pilot-Upper TCP Interface
+  description: Authoritative telemetry specification for Pilot-Upper TCP Interface
+    (pilot_upper_tcp_interface)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: RMS Enable ModifiedBy
+  canonical_name: rms_enable_modified_by
+  display_name: RMS Enable ModifiedBy
+  description: Authoritative telemetry specification for RMS Enable ModifiedBy (rms_enable_modified_by)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan Run Status
+  canonical_name: fan_run_status
+  display_name: Fan Run Status
+  description: Authoritative telemetry specification for Fan Run Status (fan_run_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: FAN Set Speed
+  canonical_name: fan_set_speed
+  display_name: FAN Set Speed
+  description: Authoritative telemetry specification for FAN Set Speed (fan_set_speed)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: FAN
+  data_type: FLOAT
+  unit: rpm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: System Fan Speed
+  canonical_name: system_fan_speed
+  display_name: System Fan Speed
+  description: Authoritative telemetry specification for System Fan Speed (system_fan_speed)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: FAN
+  data_type: FLOAT
+  unit: rpm
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Cabinet Temperature
+  canonical_name: cabinet_temperature
+  display_name: Cabinet Temperature
+  description: Authoritative telemetry specification for Cabinet Temperature (cabinet_temperature)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Cooling Temp Sensor 1
+  canonical_name: cooling_temp_sensor_1
+  display_name: Cooling Temp Sensor 1
+  description: Authoritative telemetry specification for Cooling Temp Sensor 1 (cooling_temp_sensor_1)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Cooling Temp Sensor 2
+  canonical_name: cooling_temp_sensor_2
+  display_name: Cooling Temp Sensor 2
+  description: Authoritative telemetry specification for Cooling Temp Sensor 2 (cooling_temp_sensor_2)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: THERMAL
+  data_type: FLOAT
+  unit: "\xB0C"
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan Card Status
+  canonical_name: fan_card_status
+  display_name: Fan Card Status
+  description: Authoritative telemetry specification for Fan Card Status (fan_card_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 1 Status
+  canonical_name: fan_1_status
+  display_name: Fan 1 Status
+  description: Authoritative telemetry specification for Fan 1 Status (fan_1_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 2 Status
+  canonical_name: fan_2_status
+  display_name: Fan 2 Status
+  description: Authoritative telemetry specification for Fan 2 Status (fan_2_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 3 Status
+  canonical_name: fan_3_status
+  display_name: Fan 3 Status
+  description: Authoritative telemetry specification for Fan 3 Status (fan_3_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 4 Status
+  canonical_name: fan_4_status
+  display_name: Fan 4 Status
+  description: Authoritative telemetry specification for Fan 4 Status (fan_4_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 5 Status
+  canonical_name: fan_5_status
+  display_name: Fan 5 Status
+  description: Authoritative telemetry specification for Fan 5 Status (fan_5_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 6 Status
+  canonical_name: fan_6_status
+  display_name: Fan 6 Status
+  description: Authoritative telemetry specification for Fan 6 Status (fan_6_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 7 Status
+  canonical_name: fan_7_status
+  display_name: Fan 7 Status
+  description: Authoritative telemetry specification for Fan 7 Status (fan_7_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 8 Status
+  canonical_name: fan_8_status
+  display_name: Fan 8 Status
+  description: Authoritative telemetry specification for Fan 8 Status (fan_8_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 9 Status
+  canonical_name: fan_9_status
+  display_name: Fan 9 Status
+  description: Authoritative telemetry specification for Fan 9 Status (fan_9_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 10 Status
+  canonical_name: fan_10_status
+  display_name: Fan 10 Status
+  description: Authoritative telemetry specification for Fan 10 Status (fan_10_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 11 Status
+  canonical_name: fan_11_status
+  display_name: Fan 11 Status
+  description: Authoritative telemetry specification for Fan 11 Status (fan_11_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 12 Status
+  canonical_name: fan_12_status
+  display_name: Fan 12 Status
+  description: Authoritative telemetry specification for Fan 12 Status (fan_12_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 13 Status
+  canonical_name: fan_13_status
+  display_name: Fan 13 Status
+  description: Authoritative telemetry specification for Fan 13 Status (fan_13_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 14 Status
+  canonical_name: fan_14_status
+  display_name: Fan 14 Status
+  description: Authoritative telemetry specification for Fan 14 Status (fan_14_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 15 Status
+  canonical_name: fan_15_status
+  display_name: Fan 15 Status
+  description: Authoritative telemetry specification for Fan 15 Status (fan_15_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 16 Status
+  canonical_name: fan_16_status
+  display_name: Fan 16 Status
+  description: Authoritative telemetry specification for Fan 16 Status (fan_16_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 17 Status
+  canonical_name: fan_17_status
+  display_name: Fan 17 Status
+  description: Authoritative telemetry specification for Fan 17 Status (fan_17_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 18 Status
+  canonical_name: fan_18_status
+  display_name: Fan 18 Status
+  description: Authoritative telemetry specification for Fan 18 Status (fan_18_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 19 Status
+  canonical_name: fan_19_status
+  display_name: Fan 19 Status
+  description: Authoritative telemetry specification for Fan 19 Status (fan_19_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 20 Status
+  canonical_name: fan_20_status
+  display_name: Fan 20 Status
+  description: Authoritative telemetry specification for Fan 20 Status (fan_20_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 21 Status
+  canonical_name: fan_21_status
+  display_name: Fan 21 Status
+  description: Authoritative telemetry specification for Fan 21 Status (fan_21_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 22 Status
+  canonical_name: fan_22_status
+  display_name: Fan 22 Status
+  description: Authoritative telemetry specification for Fan 22 Status (fan_22_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan 23 Status
+  canonical_name: fan_23_status
+  display_name: Fan 23 Status
+  description: Authoritative telemetry specification for Fan 23 Status (fan_23_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC Section FAN Status
+  canonical_name: dc_section_fan_status
+  display_name: DC Section FAN Status
+  description: Authoritative telemetry specification for DC Section FAN Status (dc_section_fan_status)
+  entity: CHARGER
+  field_class: STATE
+  category: FAN
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 1 Over Voltage
+  canonical_name: line_1_over_voltage
+  display_name: Line 1 Over Voltage
+  description: Authoritative telemetry specification for Line 1 Over Voltage (line_1_over_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 2 Over Voltage
+  canonical_name: line_2_over_voltage
+  display_name: Line 2 Over Voltage
+  description: Authoritative telemetry specification for Line 2 Over Voltage (line_2_over_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 3 Over Voltage
+  canonical_name: line_3_over_voltage
+  display_name: Line 3 Over Voltage
+  description: Authoritative telemetry specification for Line 3 Over Voltage (line_3_over_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 1 Under Voltage
+  canonical_name: line_1_under_voltage
+  display_name: Line 1 Under Voltage
+  description: Authoritative telemetry specification for Line 1 Under Voltage (line_1_under_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 2 Under Voltage
+  canonical_name: line_2_under_voltage
+  display_name: Line 2 Under Voltage
+  description: Authoritative telemetry specification for Line 2 Under Voltage (line_2_under_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Line 3 Under Voltage
+  canonical_name: line_3_under_voltage
+  display_name: Line 3 Under Voltage
+  description: Authoritative telemetry specification for Line 3 Under Voltage (line_3_under_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: System Over Temperature
+  canonical_name: system_over_temperature
+  display_name: System Over Temperature
+  description: Authoritative telemetry specification for System Over Temperature (system_over_temperature)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: System Tilted
+  canonical_name: system_tilted
+  display_name: System Tilted
+  description: Authoritative telemetry specification for System Tilted (system_tilted)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Temperature Sensor Disconnected
+  canonical_name: temperature_sensor_disconnected
+  display_name: Temperature Sensor Disconnected
+  description: Authoritative telemetry specification for Temperature Sensor Disconnected
+    (temperature_sensor_disconnected)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Mains High
+  canonical_name: mains_high
+  display_name: Mains High
+  description: Authoritative telemetry specification for Mains High (mains_high)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Mains Low
+  canonical_name: mains_low
+  display_name: Mains Low
+  description: Authoritative telemetry specification for Mains Low (mains_low)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SD Card Not Present
+  canonical_name: sd_card_not_present
+  display_name: SD Card Not Present
+  description: Authoritative telemetry specification for SD Card Not Present (sd_card_not_present)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Temperature Sensor-1 Fail
+  canonical_name: temperature_sensor_1_fail
+  display_name: Temperature Sensor-1 Fail
+  description: Authoritative telemetry specification for Temperature Sensor-1 Fail
+    (temperature_sensor_1_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Temperature Sensor-2 Fail
+  canonical_name: temperature_sensor_2_fail
+  display_name: Temperature Sensor-2 Fail
+  description: Authoritative telemetry specification for Temperature Sensor-2 Fail
+    (temperature_sensor_2_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DCEM SN Duplicate
+  canonical_name: dcem_sn_duplicate
+  display_name: DCEM SN Duplicate
+  description: Authoritative telemetry specification for DCEM SN Duplicate (dcem_sn_duplicate)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Grid Over Voltage
+  canonical_name: grid_over_voltage
+  display_name: Grid Over Voltage
+  description: Authoritative telemetry specification for Grid Over Voltage (grid_over_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Grid Under Voltage
+  canonical_name: grid_under_voltage
+  display_name: Grid Under Voltage
+  description: Authoritative telemetry specification for Grid Under Voltage (grid_under_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: OCPP State
+  canonical_name: ocpp_state
+  display_name: OCPP State
+  description: Authoritative telemetry specification for OCPP State (ocpp_state)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Pilot Controller State
+  canonical_name: pilot_controller_state
+  display_name: Pilot Controller State
+  description: Authoritative telemetry specification for Pilot Controller State (pilot_controller_state)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: CCU Main State
+  canonical_name: ccu_main_state
+  display_name: CCU Main State
+  description: Authoritative telemetry specification for CCU Main State (ccu_main_state)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: CP Voltage
+  canonical_name: cp_voltage
+  display_name: CP Voltage
+  description: Authoritative telemetry specification for CP Voltage (cp_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Set Voltage
+  canonical_name: set_voltage
+  display_name: Set Voltage
+  description: Authoritative telemetry specification for Set Voltage (set_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Set Current
+  canonical_name: set_current
+  display_name: Set Current
+  description: Authoritative telemetry specification for Set Current (set_current)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Output Voltage
+  canonical_name: output_voltage
+  display_name: Output Voltage
+  description: Authoritative telemetry specification for Output Voltage (output_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Output Current
+  canonical_name: output_current
+  display_name: Output Current
+  description: Authoritative telemetry specification for Output Current (output_current)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Available Max Current
+  canonical_name: available_max_current
+  display_name: Available Max Current
+  description: Authoritative telemetry specification for Available Max Current (available_max_current)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Available Max Power
+  canonical_name: available_max_power
+  display_name: Available Max Power
+  description: Authoritative telemetry specification for Available Max Power (available_max_power)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC Over Voltage
+  canonical_name: dc_over_voltage
+  display_name: DC Over Voltage
+  description: Authoritative telemetry specification for DC Over Voltage (dc_over_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: E Lock Failed
+  canonical_name: e_lock_failed
+  display_name: E Lock Failed
+  description: Authoritative telemetry specification for E Lock Failed (e_lock_failed)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Auxillary Power Fail
+  canonical_name: auxillary_power_fail
+  display_name: Auxillary Power Fail
+  description: Authoritative telemetry specification for Auxillary Power Fail (auxillary_power_fail)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Voltage Calibration Error
+  canonical_name: voltage_calibration_error
+  display_name: Voltage Calibration Error
+  description: Authoritative telemetry specification for Voltage Calibration Error
+    (voltage_calibration_error)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Power Section Failed
+  canonical_name: power_section_failed
+  display_name: Power Section Failed
+  description: Authoritative telemetry specification for Power Section Failed (power_section_failed)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Ems Output Voltage
+  canonical_name: ems_output_voltage
+  display_name: Ems Output Voltage
+  description: Authoritative telemetry specification for Ems Output Voltage (ems_output_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Ems Output Current
+  canonical_name: ems_output_current
+  display_name: Ems Output Current
+  description: Authoritative telemetry specification for Ems Output Current (ems_output_current)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: A
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Ems Output Power
+  canonical_name: ems_output_power
+  display_name: Ems Output Power
+  description: Authoritative telemetry specification for Ems Output Power (ems_output_power)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC Over Voltage
+  canonical_name: ac_over_voltage
+  display_name: AC Over Voltage
+  description: Authoritative telemetry specification for AC Over Voltage (ac_over_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: AC Under Voltage
+  canonical_name: ac_under_voltage
+  display_name: AC Under Voltage
+  description: Authoritative telemetry specification for AC Under Voltage (ac_under_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Charging Time
+  canonical_name: charging_time
+  display_name: Charging Time
+  description: Authoritative telemetry specification for Charging Time (charging_time)
+  entity: SESSION
+  field_class: SESSION_ATTRIBUTE
+  category: SESSION
+  data_type: FLOAT
+  unit: seconds
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: OCPP Tx Send Status
+  canonical_name: ocpp_tx_send_status
+  display_name: OCPP Tx Send Status
+  description: Authoritative telemetry specification for OCPP Tx Send Status (ocpp_tx_send_status)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: EV Mac ID Info
+  canonical_name: ev_mac_id_info
+  display_name: EV Mac ID Info
+  description: Authoritative telemetry specification for EV Mac ID Info (ev_mac_id_info)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: SLAC Attenuation
+  canonical_name: slac_attenuation
+  display_name: SLAC Attenuation
+  description: Authoritative telemetry specification for SLAC Attenuation (slac_attenuation)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: SYSTEM
+  data_type: FLOAT
+  unit: null
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Discharge Abnormal
+  canonical_name: discharge_abnormal
+  display_name: Discharge Abnormal
+  description: Authoritative telemetry specification for Discharge Abnormal (discharge_abnormal)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: DC Side Is Off
+  canonical_name: dc_side_is_off
+  display_name: DC Side Is Off
+  description: Authoritative telemetry specification for DC Side Is Off (dc_side_is_off)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: MDL Protect
+  canonical_name: mdl_protect
+  display_name: MDL Protect
+  description: Authoritative telemetry specification for MDL Protect (mdl_protect)
+  entity: SMR
+  field_class: STATE
+  category: SMR
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Over Temperature
+  canonical_name: over_temperature
+  display_name: Over Temperature
+  description: Authoritative telemetry specification for Over Temperature (over_temperature)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Output Over Voltage
+  canonical_name: output_over_voltage
+  display_name: Output Over Voltage
+  description: Authoritative telemetry specification for Output Over Voltage (output_over_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Walk In Enabled
+  canonical_name: walk_in_enabled
+  display_name: Walk In Enabled
+  description: Authoritative telemetry specification for Walk In Enabled (walk_in_enabled)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: MDL Id Repetition
+  canonical_name: mdl_id_repetition
+  display_name: MDL Id Repetition
+  description: Authoritative telemetry specification for MDL Id Repetition (mdl_id_repetition)
+  entity: SMR
+  field_class: IDENTIFIER
+  category: SMR
+  data_type: IDENTIFIER
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Load Sharing
+  canonical_name: load_sharing
+  display_name: Load Sharing
+  description: Authoritative telemetry specification for Load Sharing (load_sharing)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Input Phase Loss
+  canonical_name: input_phase_loss
+  display_name: Input Phase Loss
+  description: Authoritative telemetry specification for Input Phase Loss (input_phase_loss)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Input Unbalance
+  canonical_name: input_unbalance
+  display_name: Input Unbalance
+  description: Authoritative telemetry specification for Input Unbalance (input_unbalance)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Input Under Voltage
+  canonical_name: input_under_voltage
+  display_name: Input Under Voltage
+  description: Authoritative telemetry specification for Input Under Voltage (input_under_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Input Over Voltage
+  canonical_name: input_over_voltage
+  display_name: Input Over Voltage
+  description: Authoritative telemetry specification for Input Over Voltage (input_over_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fuse Burn Out
+  canonical_name: fuse_burn_out
+  display_name: Fuse Burn Out
+  description: Authoritative telemetry specification for Fuse Burn Out (fuse_burn_out)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Bus Unbalanced Voltage
+  canonical_name: bus_unbalanced_voltage
+  display_name: Bus Unbalanced Voltage
+  description: Authoritative telemetry specification for Bus Unbalanced Voltage (bus_unbalanced_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Bus Over Voltage
+  canonical_name: bus_over_voltage
+  display_name: Bus Over Voltage
+  description: Authoritative telemetry specification for Bus Over Voltage (bus_over_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Bus Voltage Abnormal
+  canonical_name: bus_voltage_abnormal
+  display_name: Bus Voltage Abnormal
+  description: Authoritative telemetry specification for Bus Voltage Abnormal (bus_voltage_abnormal)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Bus Under Voltage
+  canonical_name: bus_under_voltage
+  display_name: Bus Under Voltage
+  description: Authoritative telemetry specification for Bus Under Voltage (bus_under_voltage)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Fan At Full Speed
+  canonical_name: fan_at_full_speed
+  display_name: Fan At Full Speed
+  description: Authoritative telemetry specification for Fan At Full Speed (fan_at_full_speed)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'NO'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Output Derating Temp
+  canonical_name: output_derating_temp
+  display_name: Output Derating Temp
+  description: Authoritative telemetry specification for Output Derating Temp (output_derating_temp)
+  entity: CHARGER
+  field_class: ALARM_FLAG
+  category: ALARM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Output Derating AC
+  canonical_name: output_derating_ac
+  display_name: Output Derating AC
+  description: Authoritative telemetry specification for Output Derating AC (output_derating_ac)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: BackUp Battery Voltage
+  canonical_name: back_up_battery_voltage
+  display_name: BackUp Battery Voltage
+  description: Authoritative telemetry specification for BackUp Battery Voltage (back_up_battery_voltage)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: V
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Run Since Power On
+  canonical_name: run_since_power_on
+  display_name: Run Since Power On
+  description: Authoritative telemetry specification for Run Since Power On (run_since_power_on)
+  entity: CHARGER
+  field_class: CONTINUOUS_TELEMETRY
+  category: ELECTRICAL_OUTPUT
+  data_type: FLOAT
+  unit: kW
+  nullable: true
+  required: false
+  range_status: UNVERIFIED
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: MEAN
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED
+- source_name: Last Charger Reboot Reason
+  canonical_name: last_charger_reboot_reason
+  display_name: Last Charger Reboot Reason
+  description: Authoritative telemetry specification for Last Charger Reboot Reason
+    (last_charger_reboot_reason)
+  entity: CHARGER
+  field_class: STATE
+  category: SYSTEM
+  data_type: ENUM
+  unit: null
+  nullable: true
+  required: false
+  range_status: NOT_APPLICABLE
+  normalization_strategy: RAW_RETAIN
+  storage_strategy: CHARGER_TELEMETRY
+  aggregation_strategy: LAST
+  ml_candidate: 'YES'
+  leakage_risk: LOW
+  availability_semantics: REAL_TIME
+  review_status: ENGINEER_REVIEWED

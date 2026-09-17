@@ -246,9 +246,7 @@ class ReconstructedFrame:
     def completeness_percentage(self) -> float:
         if self.expected_position_count <= 0:
             return 0.0
-        return round(
-            100.0 * self.observed_position_count / self.expected_position_count, 3
-        )
+        return round(100.0 * self.observed_position_count / self.expected_position_count, 3)
 
     @property
     def source_order_min(self) -> int:

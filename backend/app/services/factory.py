@@ -14,16 +14,24 @@ from pathlib import Path
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.app.core.config import Settings, get_settings
+from backend.app.repositories.events import EventRepository
 from backend.app.repositories.fleet import FleetRepository
 from backend.app.repositories.frames import FrameRepository
 from backend.app.repositories.ingestion import IngestionRunRepository, TelemetryFileRepository
 from backend.app.repositories.quality import QualityRepository
+from backend.app.repositories.research import ResearchRepository
 from backend.app.repositories.schema import SchemaRepository
+from backend.app.repositories.silver import SilverRepository
 from backend.app.repositories.uploads import UploadRepository
 from backend.app.services.coverage_service import CoverageService
+from backend.app.services.event_service import EventReconstructionService
 from backend.app.services.frame_service import FrameReconstructionService
+from backend.app.services.history_service import HistoricalContinuityService
 from backend.app.services.ingestion_service import IngestionService
 from backend.app.services.metrics_service import MetricsService
+from backend.app.services.normalization_service import NormalizationService
+from backend.app.services.research_access import ResearchDataAccessLayer
+from backend.app.services.research_service import ResearchService
 from backend.app.services.upload_service import UploadService
 from pipelines.persistence.storage import LocalFilesystemRawStorage, RawObjectStorage
 from pipelines.quality.rules import build_default_registry
@@ -32,10 +40,15 @@ from pipelines.validation.dictionary import DictionaryRegistry
 
 __all__ = [
     "build_coverage_service",
+    "build_event_service",
     "build_filesystem_source",
     "build_frame_service",
+    "build_historical_service",
     "build_ingestion_service",
     "build_metrics_service",
+    "build_normalization_service",
+    "build_research_access",
+    "build_research_service",
     "build_storage",
     "build_upload_service",
     "get_dictionary",
@@ -145,4 +158,66 @@ def build_metrics_service(
         run_repo=IngestionRunRepository(session),
         quality_repo=QualityRepository(session),
         settings=config,
+    )
+
+
+def build_normalization_service(
+    session: AsyncSession,
+    *,
+    settings: Settings | None = None,
+    storage: RawObjectStorage | None = None,
+) -> NormalizationService:
+    config = settings or get_settings()
+    return NormalizationService(
+        silver_repo=SilverRepository(session),
+        frame_repo=FrameRepository(session),
+        file_repo=TelemetryFileRepository(session),
+        quality_repo=QualityRepository(session),
+        storage=storage or build_storage(config),
+        dictionary=get_dictionary(),
+        settings=config,
+    )
+
+
+def build_historical_service(
+    session: AsyncSession,
+) -> HistoricalContinuityService:
+    return HistoricalContinuityService(
+        session=session,
+        silver_repo=SilverRepository(session),
+    )
+
+
+def build_event_service(
+    session: AsyncSession,
+    *,
+    version: str = "v1",
+) -> EventReconstructionService:
+    history_svc = build_historical_service(session)
+    return EventReconstructionService(
+        session=session,
+        history_service=history_svc,
+        version=version,
+    )
+
+
+def build_research_access(
+    session: AsyncSession,
+) -> ResearchDataAccessLayer:
+    history_svc = build_historical_service(session)
+    event_repo = EventRepository(session)
+    return ResearchDataAccessLayer(history_svc, event_repo=event_repo)
+
+
+def build_research_service(
+    session: AsyncSession,
+) -> ResearchService:
+    history_svc = build_historical_service(session)
+    event_repo = EventRepository(session)
+    research_repo = ResearchRepository(session)
+    return ResearchService(
+        session=session,
+        history_service=history_svc,
+        event_repo=event_repo,
+        research_repo=research_repo,
     )

@@ -150,9 +150,7 @@ class CanonicalSerializer:
             return "FALSE"
         return text
 
-    def canonical_row(
-        self, field_names: Sequence[str], values: Sequence[object]
-    ) -> str:
+    def canonical_row(self, field_names: Sequence[str], values: Sequence[object]) -> str:
         """Canonical text for one raw row.
 
         Field names are included alongside values so that a schema change which
@@ -165,12 +163,8 @@ class CanonicalSerializer:
             parts.append(f"{name}={self.canonical_value(name, value)}")
         return _VALUE_SEP.join(parts)
 
-    def row_fingerprint(
-        self, field_names: Sequence[str], values: Sequence[object]
-    ) -> str:
-        return hashlib.sha256(
-            self.canonical_row(field_names, values).encode("utf-8")
-        ).hexdigest()
+    def row_fingerprint(self, field_names: Sequence[str], values: Sequence[object]) -> str:
+        return hashlib.sha256(self.canonical_row(field_names, values).encode("utf-8")).hexdigest()
 
     @staticmethod
     def frame_fingerprint(position_fingerprints: Mapping[str, str]) -> str:
